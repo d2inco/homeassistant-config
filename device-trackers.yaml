@@ -1,0 +1,10 @@
+
+
+- platform: mqtt
+  devices:
+    davids_bt_cell: 'homeaway/state'
+  payload_home: 'home'
+  payload_not_home: 'away'
+  source_type: bluetooth
+  consider_home: 240
+

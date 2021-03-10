@@ -1,0 +1,75 @@
+
+
+  - platform: mqtt
+    name: "Office Temp"
+    state_topic: "room/office/temperature1"
+    unique_id: "room/office/temperature1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "deg F"
+  - platform: mqtt
+    name: "HVAC Temp"
+    state_topic: "room/hvac_room/temperature1"
+    unique_id: "room/hvac_room/temperature1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "deg F"
+
+  - platform: mqtt
+    name: "Family Rm Temp"
+    state_topic: "room/family_room/temperature1"
+    unique_id: "room/family_room/temperature1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "deg F"
+  - platform: mqtt
+    name: "Dining Rm Temp"
+    state_topic: "room/dining_room/temperature1"
+    unique_id: "room/dining_room/temperature1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "deg F"
+  - platform: mqtt
+    name: "Bonus Room Temp"
+    state_topic: "room/bonus_room/temperature1"
+    unique_id: "room/bonus_room/temperature1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "deg F"
+  - platform: mqtt
+    name: "Bedroom 3 Temp"
+    state_topic: "room/bedroom3/temperature1"
+    unique_id: "room/bedroom3/temperature1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "deg F"
+  - platform: mqtt
+    name: "Office Humidity"
+    state_topic: "room/office/humidity1"
+    unique_id: "room/office/humidity1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "% RH"
+  - platform: mqtt
+    name: "HVAC Humidity"
+    state_topic: "room/hvac_room/humidity1"
+    unique_id: "room/hvac_room/humidity1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "% RH"
+  - platform: mqtt
+    name: "Family Rm Humidity"
+    state_topic: "room/family_room/humidity1"
+    unique_id: "room/family_room/humidity1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "% RH"
+  - platform: mqtt
+    name: "Dining Rm Humidity"
+    state_topic: "room/dining_room/humidity1"
+    unique_id: "room/dining_room/humidity1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "% RH"
+  - platform: mqtt
+    name: "Bonus Room Humidity"
+    state_topic: "room/bonus_room/humidity1"
+    unique_id: "room/bonus_room/humidity1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "% RH"
+  - platform: mqtt
+    name: "Bedroom 3 Humidity"
+    state_topic: "room/bedroom3/humidity1"
+    unique_id: "room/bedroom3/humidity1"
+    value_template: "{{ value }}"
+    unit_of_measurement: "% RH"

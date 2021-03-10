@@ -1,0 +1,751 @@
+- id: '1612214008069'
+  alias: Notify, In-App - David - Leaves Home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.david
+    zone: zone.home
+    event: leave
+  condition: []
+  action:
+  - service: persistent_notification.create
+    data:
+      message: David has left home
+      title: David location change
+  - service: notify.notify
+    data:
+      message: notify.notify - David has left home
+  mode: single
+- id: '1612383370390'
+  alias: Lights - Track - PM - Family Room motion w/ TV off
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 004463f7dc98142da83bf46edb4a580c
+    entity_id: binary_sensor.fam_rm_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: sun
+    after: sunset
+    after_offset: -00:30
+  - condition: state
+    entity_id: switch.family_room_hub_watch_tivo
+    state: 'off'
+  - condition: state
+    entity_id: switch.family_room_hub_watch_chromecast
+    state: 'off'
+  - condition: state
+    entity_id: light.track_light
+    state: 'off'
+  action:
+  - type: turn_on
+    device_id: 62a9f350725fb1cc5f640c6273c6492f
+    entity_id: light.track_light
+    domain: light
+    brightness_pct: 90
+  - wait_for_trigger:
+    - type: no_motion
+      platform: device
+      device_id: 004463f7dc98142da83bf46edb4a580c
+      entity_id: binary_sensor.fam_rm_motion
+      domain: binary_sensor
+    timeout: 00:01:00:00
+  - type: turn_off
+    device_id: 62a9f350725fb1cc5f640c6273c6492f
+    entity_id: light.track_light
+    domain: light
+  mode: restart
+- id: '1612472693289'
+  alias: Notify, In-App - David - Arrives Home
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.david
+    zone: zone.home
+    event: enter
+  condition: []
+  action:
+  - service: persistent_notification.create
+    data:
+      message: David has arrived home
+      title: David location change
+  - service: notify.notify
+    data:
+      message: notify.notify - David has arrived home
+  mode: single
+- id: '1611662110335'
+  alias: Notify, Voice - HASS - Startup
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: script.announce_everywhere
+    data:
+      message: Home Assistant has restarted
+  mode: single
+- id: '1612722099278'
+  alias: 'zy-Housekeeping: TTS Cache - Clear - Weekly'
+  description: ''
+  trigger:
+  - platform: time
+    at: 03:15:00
+  condition:
+  - condition: time
+    weekday:
+    - mon
+  action:
+  - service: tts.clear_cache
+    data: {}
+  - service: notify.persistent_notification
+    data:
+      message: TTS Cache has been cleared
+      title: TTS Cache Clear
+  mode: single
+- id: '1612743069476'
+  alias: Lights - Kitchen-Breakfast - Dusk - On/Off when motion (w/ script)
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.kitchen_breakfast_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: sun
+    after: sunset
+    after_offset: -00:30:00
+  - condition: sun
+    before: sunset
+    before_offset: 00:04:00
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.breakfast_rm_light
+      state: 'off'
+    - condition: state
+      entity_id: light.kitchen_light
+      state: 'off'
+  action:
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 95
+  - wait_for_trigger:
+    - type: no_motion
+      platform: device
+      device_id: 6b4f5f9ebb171d1de001849586ff28a7
+      entity_id: binary_sensor.kitchen_motion
+      domain: binary_sensor
+    timeout: 00:10:00
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 0
+  mode: restart
+- id: '1612793794186'
+  alias: '00 - test dusk- before sunrise+30 to sunset +4 '
+  description: ''
+  trigger:
+  - platform: time_pattern
+    seconds: '00'
+  condition:
+  - condition: sun
+    before_offset: 00:20:00
+    before: sunset
+    after: sunset
+    after_offset: -00:20:00
+  action:
+  - type: turn_off
+    device_id: 13ade04b2bd14f3bae908a70734f03f1
+    entity_id: light.studio_light
+    domain: light
+  mode: single
+- id: '1613318826292'
+  alias: 00 - test proximity and person-state
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: person.david
+    attribute: longitude
+    from: home
+  - platform: state
+    entity_id: person.david
+    to: home
+  - platform: state
+    entity_id: proximity.david_proximity_home
+  - platform: state
+    entity_id: proximity.david_proximity_home
+    attribute: dir_of_travel
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: person or proximity change
+      message: "David state: {{ states('person.david') }}. \nLoc: {{ state_attr(\"\
+        person.david\",\"latitude\") }}, {{ state_attr(\"person.david\",\"longitude\"\
+        ) }} (acc: {{ state_attr(\"person.david\",\"gps_accuracy\") }})\nDirection\
+        \ of travel: {{ state_attr('proximity.david_proximity_home','dir_of_travel')\
+        \ }}.\nDistance: {{ states('proximity.david_proximity_home') }}\n"
+  mode: single
+- id: '1613396619724'
+  alias: 'zy-Housekeeping: Re-enable Light Automations after 1 hour'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_automations_enabled
+    to: 'off'
+    for: 01:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    entity_id: input_boolean.light_automations_enabled
+  - service: notify.persistent_notification
+    data:
+      title: Light Automations Re-enabled
+      message: Light Automations Re-enabled.
+  - service: script.announce_everywhere
+    data:
+      message: Light automations have been re-enabled.
+  mode: single
+- id: '1613409762770'
+  alias: Notify, Voice - 3D Printer - Starting
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.octoprint_printing
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sensor.davids_cell_do_not_disturb_sensor
+    state: 'off'
+  action:
+  - service: script.announce_everywhere
+    data:
+      message: '"Your 3D Printing Job has started"'
+  mode: single
+- id: '1613409884927'
+  alias: Notify, Voice - 3D Printer - Completed
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.octoprint_printing
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: sensor.davids_cell_do_not_disturb_sensor
+    state: 'off'
+  action:
+  - service: script.announce_everywhere
+    data:
+      message: '"Your 3D Printing Job is now completed"'
+  mode: single
+- id: '1613432394530'
+  alias: Lights - Studio-Office - AM - On when Fam/Studio/Office motion
+  description: Turn on basement lights if there is motion in basement, or in family
+    room.
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 004463f7dc98142da83bf46edb4a580c
+    entity_id: binary_sensor.fam_rm_motion
+    domain: binary_sensor
+  - type: motion
+    platform: device
+    device_id: bcd0dc9033fbd84484ed1f97a555cf76
+    entity_id: binary_sensor.studio_motion
+    domain: binary_sensor
+  - type: motion
+    platform: device
+    device_id: 1161a13882e67bbee316a28d7ace2ca6
+    entity_id: binary_sensor.office_motion
+    domain: binary_sensor
+  - type: motion
+    platform: device
+    device_id: 62f3b3209217ca23870264f8713efbe4
+    entity_id: binary_sensor.ezm_2_tbd_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: time
+    after: 04:30:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: sun
+    before: sunrise
+    before_offset: 00:05:00
+  action:
+  - scene: scene.basement_light_low
+  - wait_for_trigger:
+    - platform: state
+      entity_id: group.floor_0_motion
+      to: 'off'
+      for: 00:50:00
+    timeout: 00:05:00
+  - scene: scene.basement_light_off
+  mode: restart
+- id: '1613433599208'
+  alias: Lights - Floor 1 & 2 - AM - Off when basement motion
+  description: Turn off Upstairs and Main floor lights if there is office motion.
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 1161a13882e67bbee316a28d7ace2ca6
+    entity_id: binary_sensor.office_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: time
+    after: 04:30:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: sun
+    before: sunrise
+    before_offset: 00:05:00
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.mbr_light
+      state: 'on'
+    - condition: state
+      entity_id: light.stairs_light
+      state: 'on'
+    - condition: state
+      entity_id: light.family_rm_light
+      state: 'on'
+    - condition: state
+      entity_id: light.track_light
+      state: 'on'
+    - condition: state
+      entity_id: light.breakfast_rm_light
+      state: 'on'
+    - condition: state
+      entity_id: light.kitchen_light
+      state: 'on'
+    - condition: state
+      entity_id: light.dining_rm_light
+      state: 'on'
+  action:
+  - scene: scene.1st_floor_light_off
+  - scene: scene.2nd_floor_light_off
+  mode: restart
+- id: '1614087791921'
+  alias: zz-Bed Occ - copy previous status 1 to status 2
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.bedocc_status_1
+  condition: []
+  action:
+  - service: input_text.set_value
+    data:
+      value: '{{ trigger.from_state.state }}'
+    entity_id: input_text.bedocc_status_2
+  mode: single
+- id: '1614100390000'
+  alias: zz-Bed Occ - copy previous status 2 to status 3
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_text.bedocc_status_2
+  condition: []
+  action:
+  - service: input_text.set_value
+    data:
+      value: '{{ trigger.from_state.state }}'
+    entity_id: input_text.bedocc_status_3
+  mode: single
+- id: '1614100603791'
+  alias: zz-Bed Occ - copy previous status 3 to status 4
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_text.bedocc_status_3
+  condition: []
+  action:
+  - service: input_text.set_value
+    data:
+      value: '{{ trigger.from_state.state }}'
+    entity_id: input_text.bedocc_status_4
+  mode: single
+- id: '1614216935760'
+  alias: Lights - Kitchen-Breakfast - AM - On when upstairs motion (wake up)
+  description: Turn on the main floor when there is motion Upstairs, or on main floor,
+    and say "Good Morning"
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 0b2b40ee3db2b0715e441b4fff1aa87b
+    entity_id: binary_sensor.upstairs_motion
+    domain: binary_sensor
+  - type: motion
+    platform: device
+    device_id: 004463f7dc98142da83bf46edb4a580c
+    entity_id: binary_sensor.fam_rm_motion
+    domain: binary_sensor
+  - platform: state
+    entity_id: group.kitchen_breakfast_motion
+    to: 'on'
+  - type: motion
+    platform: device
+    device_id: bcd0dc9033fbd84484ed1f97a555cf76
+    entity_id: binary_sensor.studio_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: time
+    after: 04:30:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: sun
+    before: sunrise
+    before_offset: 00:30:00
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.breakfast_rm_light
+      state: 'off'
+    - condition: state
+      entity_id: light.kitchen_light
+      state: 'off'
+  - condition: state
+    entity_id: group.floor_0_1_motion
+    state: 'off'
+    for: 01:00:00
+  action:
+  - service: tts.google_translate_say
+    data:
+      entity_id: media_player.family_room_home
+      message: Good morning, David!
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 90
+  - wait_for_trigger:
+    - platform: state
+      entity_id: group.floor_1_2_motion
+      to: 'off'
+      for: 00:04:00
+    timeout: 00:20:00
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 0
+  mode: restart
+- id: '1614498792999'
+  alias: Tag MBR Tag is scanned
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 8eb27b56-a90a-48f4-b5bd-ff71fc5c3d3e
+  condition: []
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.mbr_light
+  mode: single
+- id: '1614689741833'
+  alias: 'Notify: Leave desk every so often'
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 1161a13882e67bbee316a28d7ace2ca6
+    entity_id: binary_sensor.office_motion
+    domain: binary_sensor
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  condition:
+  - condition: state
+    entity_id: binary_sensor.studio_motion
+    state: 'off'
+    for: 02:00:00
+  action:
+  - repeat:
+      count: '3'
+      sequence:
+      - type: turn_on
+        device_id: 13ade04b2bd14f3bae908a70734f03f1
+        entity_id: light.studio_light
+        domain: light
+        brightness_pct: 100
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 800
+      - type: turn_off
+        device_id: 13ade04b2bd14f3bae908a70734f03f1
+        entity_id: light.studio_light
+        domain: light
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 0
+          milliseconds: 800
+  mode: single
+- id: '1614891094234'
+  alias: 'zy-Housekeeping: Mute pwned password notification'
+  description: ''
+  trigger:
+  - platform: event
+    event_type: call_service
+    event_data:
+      domain: persistent_notification
+      service: create
+  condition:
+  - condition: template
+    value_template: '{{ ''supervisor_issue_pwned'' in trigger.event.data.service_data.notification_id
+      }}
+
+      '
+  - condition: time
+    after: 02:00
+    before: '23:59'
+  action:
+  - service: persistent_notification.dismiss
+    data:
+      notification_id: '{{ trigger.event.data.service_data.notification_id }}
+
+        '
+  mode: single
+- id: '1614898567897'
+  alias: Lights - Kitchen-Breakfast - Evening - On/Off when motion (with script)
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.kitchen_breakfast_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: sun
+    after: sunset
+    after_offset: 00:04:00
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.breakfast_rm_light
+      state: 'off'
+    - condition: state
+      entity_id: light.kitchen_light
+      state: 'off'
+  action:
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.family_rm_tv_on
+          state: 'off'
+        - condition: state
+          entity_id: light.family_rm_light
+          state: 'on'
+        - condition: state
+          entity_id: light.track_light
+          state: 'on'
+      sequence:
+      - service: script.lights_to_level_kitchen_breakfast
+        data:
+          to_brightness: 90
+      - service: notify.persistent_notification
+        data:
+          title: Lights to 90
+          message: "Option 1 - Lights to 90\n  TV Group: {{ states('group.family_rm_tv_on')}}"
+    - conditions:
+      - condition: state
+        entity_id: group.family_rm_tv_on
+        state: 'on'
+      sequence:
+      - service: script.lights_to_level_kitchen_breakfast
+        data:
+          to_brightness: 20
+      - service: notify.persistent_notification
+        data:
+          title: Option 2 - Tv is On
+          message: TV is on, Lights to Low
+    default: []
+  - wait_for_trigger:
+    - platform: state
+      entity_id: group.kitchen_breakfast_motion
+      to: 'off'
+    timeout: 00:06:00
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 0
+  mode: restart
+- id: '1614995278494'
+  alias: 00 Harmony Family Room Hub changes state test1
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: remote.family_room_hub
+  - platform: state
+    entity_id: switch.family_room_hub_watch_tivo
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: Fam Hub State change (t1)
+      message: "Name: {{ trigger.to_state.name }},\nState: {{ trigger.from_state.state\
+        \ }} to {{ trigger.to_state.state }}, \nEntityID: {{ trigger.entity_id }}"
+  mode: parallel
+  max: 10
+- id: '1615040428904'
+  alias: 00 Harmony Family Room Hub changes state to/from Unavailable
+  description: Next step is to add in a "for" on the trigger
+  trigger:
+  - platform: state
+    entity_id: remote.family_room_hub
+    to: unavailable
+  - platform: state
+    entity_id: remote.family_room_hub
+    from: unavailable
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: Fam Hub is {{ trigger.to_state.state }}
+      message: "Name: {{ trigger.to_state.name }},\nState: {{ trigger.from_state.state\
+        \ }} to {{ trigger.to_state.state }}, \nEntityID: {{ trigger.entity_id }}\
+        \ - attempting resync.  \nPlease reload the integration."
+  - service: harmony.sync
+    data:
+      entity_id: remote.family_room_hub
+  mode: parallel
+  max: 10
+- id: '1615149047434'
+  alias: 00 Harmony Family Room Hub changes state to/from Unavailable (REST CALL)
+  description: Next step is to add in a "for" on the trigger
+  trigger:
+  - platform: state
+    entity_id: remote.family_room_hub
+    to: unavailable
+  - platform: state
+    entity_id: remote.family_room_hub
+    from: unavailable
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: Fam Hub is Unavailable
+      message: "Name: {{ trigger.to_state.name }},\nState: {{ trigger.from_state.state\
+        \ }} to {{ trigger.to_state.state }}, \nEntityID: {{ trigger.entity_id }}\
+        \ - attempting resync.  \nPlease reload the integration."
+  - service: harmony.sync
+    data:
+      entity_id: remote.family_room_hub
+  mode: parallel
+  max: 10
+- id: '1615410820791'
+  alias: 'zy-Housekeeping: Un-Ack Front Perimeter Ack after 1 Hour'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.front_perim_open_ack
+    to: 'off'
+    for: 01:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.front_perim_open_ack
+  - service: notify.persistent_notification
+    data:
+      title: Front Perimeter Open-ACK Unacked
+      message: Front Perimeter Open-ACK Unacked
+  mode: single
+- id: '1615410882193'
+  alias: 'zy-Housekeeping: Un-Ack Back Perimeter Ack after 1 Hour'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.back_perim_open_ack
+    to: 'off'
+    for: 01:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.back_perim_open_ack
+  - service: notify.persistent_notification
+    data:
+      title: Back Perimeter Open-ACK Unacked
+      message: Back Perimeter Open-ACK Unacked
+  mode: single
+- id: '1615411482145'
+  alias: 00 Perimeter Entry open too long
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.any_perimeter_open
+    to: 'on'
+    for: 00:05:00
+  condition: []
+  action:
+  - repeat:
+      until:
+      - condition: state
+        entity_id: group.any_perimeter_open
+        state: 'off'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.back_perim_open_ack
+            state: 'off'
+          - condition: state
+            entity_id: input_boolean.front_perim_open_ack
+            state: 'off'
+          sequence:
+          - service: script.announce_everywhere
+            data:
+              message: Attention. The following doors has been open for too long.
+                {% if is_state('binary_sensor.front_entry_sensor','on') %}Front Entry,
+                {% endif %} {% if is_state('binary_sensor.garage_door_sensor','on')
+                %}Garage Door, {% endif %} {% if is_state('binary_sensor.garage_entry_sensor','on')
+                %}Garage Entry, {% endif %} {% if is_state('binary_sensor.sliding_door_sensor','on')
+                %}Sliding Door, {% endif %} {% if is_state('binary_sensor.office_window_sensor','on')
+                %}Office Window, {% endif %} .  Please close, or acknowledge in Home
+                Assistant.
+        default: []
+      - wait_for_trigger:
+        - platform: state
+          entity_id: group.any_perimeter_open
+          to: 'off'
+        timeout: 00:02:00
+  - service: script.announce_everywhere
+    data:
+      message: All doors are now closed.
+  - service: notify.persistent_notification
+    data:
+      title: Perimeter is secure
+      message: All openings have been secured.
+  mode: queued
+  max: 2

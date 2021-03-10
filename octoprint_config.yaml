@@ -1,0 +1,8 @@
+
+  host: 192.168.200.81
+  port: 80
+  api_key: !secret octoprint_api_key
+  name: Octoprint
+  bed: true
+  number_of_tools: 1
+

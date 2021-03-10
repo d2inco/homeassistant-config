@@ -1,0 +1,23 @@
+sensor.octoprint_actual_tool0_temp:
+  friendly_name: Actual Extruder Temp
+sensor.octoprint_target_tool0_temp:
+  friendly_name: Target Extruder Temp
+sensor.octoprint_actual_bed_temp:
+  friendly_name: Actual Bed Temp
+sensor.octoprint_target_bed_temp:
+  friendly_name: Target Bed Temp
+binary_sensor.octoprint_printing:
+  friendly_name: Printing
+binary_sensor.octoprint_printing_error:
+  friendly_name: Printing Error
+sensor.octoprint_current_state:
+  friendly_name: Current State
+sensor.octoprint_job_percentage:
+  friendly_name: Job Percentage
+sensor.octoprint_time_elapsed:
+  friendly_name: Time Elaspsed Secs
+sensor.octoprint_time_remaining:
+  friendly_name: Time Remaining Secs
+binary_sensor.ezm_1_foyer_motion:
+  friendly_name: EZM-1 Foyer Motion
+

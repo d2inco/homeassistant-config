@@ -1,0 +1,8 @@
+
+- platform: mqtt
+  name: "Home/Away"
+  state_topic: "homeaway/state"
+  unique_id: "homeaway/state"
+  payload_on: "home"
+  payload_off: "away"
+  device_class: "presence"

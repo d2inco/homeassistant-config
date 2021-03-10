@@ -348,3 +348,30 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# Remaining files
+.HA_VERSION
+.google.token
+.storage/
+.vscode/
+insteon_devices.json
+secrets
+secrets.yaml
+tts/
+www/community/button-card
+www/community/lovelace-template-entity-row
+www/community/mini-graph-card
+www/community/weather-card
+zwcfg_0xed7b545d.xml
+zwscene.xml
+find-text.sh
+harmony*conf
+nexia*conf
+options.xml
+*jic*
+home-assistant*.db
+
+custom_components/
+google_calendars.yaml
+imeage/
+esphome/*/

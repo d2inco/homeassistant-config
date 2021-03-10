@@ -1,0 +1,340 @@
+- id: '1611617681037'
+  name: 1st Floor Light Off
+  entities:
+    light.dining_rm_light:
+      ramp_rate: '29'
+      on_level: '229'
+      last_brightness: 214
+      friendly_name: Dining Room Light
+      supported_features: 1
+      state: 'off'
+    light.track_light:
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '229'
+      last_brightness: 217
+      friendly_name: Track Light
+      supported_features: 1
+      state: 'off'
+    light.kitchen_light:
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '229'
+      last_brightness: 219
+      friendly_name: Kitchen Light
+      supported_features: 1
+      state: 'off'
+    light.breakfast_rm_light:
+      ramp_rate: '31'
+      on_level: '229'
+      last_brightness: 229
+      friendly_name: Breakfast Room Light
+      supported_features: 1
+      state: 'off'
+    light.family_rm_light:
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '229'
+      last_brightness: 219
+      friendly_name: Family Room Light
+      supported_features: 1
+      state: 'off'
+    switch.counter_light:
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '255'
+      friendly_name: Counter Light
+      state: 'off'
+    light.kitchen_2nd_switch:
+      ramp_rate: '31'
+      on_level: '178'
+      last_brightness: 178
+      friendly_name: Kitchen 2nd Switch
+      supported_features: 1
+      state: 'off'
+  icon: mdi:lightbulb-outline
+- id: '1611617873783'
+  name: 1st Floor Light On
+  entities:
+    light.dining_rm_light:
+      brightness: 214
+      last_brightness: 214
+      ramp_rate: '29'
+      on_level: '229'
+      friendly_name: Dining Rm Light
+      supported_features: 1
+      state: 'on'
+    light.kitchen_light:
+      brightness: 219
+      last_brightness: 219
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: Kitchen Light
+      supported_features: 1
+      state: 'on'
+    light.kitchen_2nd_switch:
+      brightness: 178
+      last_brightness: 178
+      ramp_rate: '31'
+      on_level: '178'
+      friendly_name: Kitchen 2nd Switch
+      supported_features: 1
+      state: 'on'
+    light.breakfast_rm_light:
+      brightness: 229
+      last_brightness: 229
+      ramp_rate: '31'
+      on_level: '229'
+      friendly_name: Breakfast Rm Light
+      supported_features: 1
+      state: 'on'
+    light.family_rm_light:
+      brightness: 219
+      last_brightness: 219
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: Family Rm Light
+      supported_features: 1
+      state: 'on'
+    light.track_light:
+      brightness: 217
+      last_brightness: 217
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: Track Light
+      supported_features: 1
+      state: 'on'
+  icon: mdi:lightbulb
+- id: '1611618078958'
+  name: 2nd Floor Light On
+  entities:
+    light.br3_light:
+      brightness: 181
+      last_brightness: 181
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: BR3 Light
+      supported_features: 1
+      state: 'on'
+    light.stairs_light:
+      brightness: 191
+      last_brightness: 191
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Stairs Light
+      supported_features: 1
+      state: 'on'
+    light.stairs_2nd_switch:
+      brightness: 230
+      last_brightness: 230
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Stairs 2nd Switch
+      supported_features: 1
+      state: 'on'
+    light.loft_light:
+      brightness: 230
+      last_brightness: 230
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Loft Light
+      supported_features: 1
+      state: 'on'
+    light.mbr_light:
+      brightness: 143
+      last_brightness: 143
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: MBR Light
+      supported_features: 1
+      state: 'on'
+  icon: mdi:lightbulb
+- id: '1611618219992'
+  name: 2nd Floor Light Off
+  entities:
+    light.br3_light:
+      last_brightness: 181
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: BR3 Light
+      supported_features: 1
+      state: 'off'
+    light.mbr_light:
+      last_brightness: 143
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: MBR Light
+      supported_features: 1
+      state: 'off'
+    light.stairs_light:
+      last_brightness: 191
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Stairs Light
+      supported_features: 1
+      state: 'off'
+    light.stairs_2nd_switch:
+      last_brightness: 230
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Stairs 2nd Switch
+      supported_features: 1
+      state: 'off'
+  icon: mdi:lightbulb-outline
+- id: '1611618374788'
+  name: Basement Light Off
+  entities:
+    light.studio_light:
+      last_brightness: 255
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Studio Light
+      supported_features: 1
+      state: 'off'
+    light.office_light:
+      last_brightness: 219
+      ramp_rate: '28'
+      on_level: '135'
+      friendly_name: Office Light
+      supported_features: 1
+      state: 'off'
+  icon: mdi:lightbulb-outline
+- id: '1611618461425'
+  name: Basement Light On
+  entities:
+    light.studio_light:
+      brightness: 232
+      last_brightness: 232
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Studio Light
+      supported_features: 1
+      state: 'on'
+    light.office_light:
+      brightness: 224
+      last_brightness: 224
+      ramp_rate: '28'
+      on_level: '135'
+      friendly_name: Office Light
+      supported_features: 1
+      state: 'on'
+  icon: mdi:lightbulb
+- id: '1612727523239'
+  name: Kitchen-Breakfast Light Off
+  entities:
+    light.kitchen_2nd_switch:
+      last_brightness: 26
+      ramp_rate: '31'
+      on_level: '178'
+      friendly_name: Kitchen 2nd Switch
+      supported_features: 1
+      state: 'off'
+    light.kitchen_light:
+      last_brightness: 28
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: Kitchen Light
+      supported_features: 1
+      state: 'off'
+    light.breakfast_rm_light:
+      last_brightness: 3
+      ramp_rate: '31'
+      on_level: '229'
+      friendly_name: Breakfast Room Light
+      supported_features: 1
+      state: 'off'
+    switch.counter_light:
+      device_communication_errors: '1'
+      ramp_rate: '28'
+      on_level: '255'
+      friendly_name: Counter Light
+      state: 'off'
+- id: '1612727717377'
+  name: Kitchen-Breakfast Light Full
+  entities:
+    light.kitchen_2nd_switch:
+      brightness: 224
+      last_brightness: 224
+      ramp_rate: '31'
+      on_level: '178'
+      friendly_name: Kitchen 2nd Switch
+      supported_features: 1
+      state: 'on'
+    light.kitchen_light:
+      brightness: 230
+      last_brightness: 230
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: Kitchen Light
+      supported_features: 1
+      state: 'on'
+    light.breakfast_rm_light:
+      brightness: 219
+      last_brightness: 219
+      ramp_rate: '31'
+      on_level: '229'
+      friendly_name: Breakfast Room Light
+      supported_features: 1
+      state: 'on'
+    switch.counter_light:
+      device_communication_errors: '1'
+      ramp_rate: '28'
+      on_level: '255'
+      friendly_name: Counter Light
+      state: 'off'
+- id: '1612727741021'
+  name: Kitchen-Breakfast Light Low
+  entities:
+    light.kitchen_2nd_switch:
+      brightness: 26
+      last_brightness: 26
+      ramp_rate: '31'
+      on_level: '178'
+      friendly_name: Kitchen 2nd Switch
+      supported_features: 1
+      state: 'on'
+    light.kitchen_light:
+      brightness: 18
+      last_brightness: 18
+      device_communication_errors: '0'
+      ramp_rate: '28'
+      on_level: '229'
+      friendly_name: Kitchen Light
+      supported_features: 1
+      state: 'on'
+    light.breakfast_rm_light:
+      brightness: 43
+      last_brightness: 43
+      ramp_rate: '31'
+      on_level: '229'
+      friendly_name: Breakfast Room Light
+      supported_features: 1
+      state: 'on'
+    switch.counter_light:
+      device_communication_errors: '1'
+      ramp_rate: '28'
+      on_level: '255'
+      friendly_name: Counter Light
+      state: 'off'
+- id: '1613432607882'
+  name: Basement Light Low
+  entities:
+    light.studio_light:
+      brightness: 64
+      last_brightness: 64
+      ramp_rate: '31'
+      on_level: '255'
+      friendly_name: Studio Light
+      supported_features: 1
+      state: 'on'
+    light.office_light:
+      brightness: 64
+      last_brightness: 64
+      ramp_rate: '28'
+      on_level: '135'
+      friendly_name: Office Light
+      supported_features: 1
+      state: 'on'
+  icon: mdi:lightbulb-outline

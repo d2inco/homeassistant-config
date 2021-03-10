@@ -1,0 +1,91 @@
+
+######################################################################
+# Motion Detection Groupings:
+#     From Large areas to Small areas
+
+Open Area Motion:
+  name: Motion in any open area
+  entities: 
+    - binary_sensor.office_motion
+    - binary_sensor.studio_motion
+    - binary_sensor.dining_rm_motion
+    - binary_sensor.kitchen_motion
+    - binary_sensor.fam_rm_motion
+    - binary_sensor.upstairs_motion
+    - binary_sensor.ezm_1_foyer_motion
+    - binary_sensor.ezm_2_tbd_motion
+
+Floor 1-2 motion:
+  name: First or Second Floor Motion
+  entities: 
+    - binary_sensor.upstairs_motion
+    - binary_sensor.dining_rm_motion
+    - binary_sensor.kitchen_motion
+    - binary_sensor.fam_rm_motion
+    - binary_sensor.ezm_1_foyer_motion
+    - binary_sensor.ezm_2_tbd_motion
+
+Floor 0-1 Motion:
+  name: Basement or First Floor Motion
+  entities: 
+    - binary_sensor.office_motion
+    - binary_sensor.studio_motion
+    - binary_sensor.dining_rm_motion
+    - binary_sensor.kitchen_motion
+    - binary_sensor.fam_rm_motion
+    - binary_sensor.ezm_1_foyer_motion
+    - binary_sensor.ezm_2_tbd_motion
+
+# By Floor
+Floor 2 Motion:
+  name: Second Floor Motion
+  entities: 
+    - binary_sensor.upstairs_motion
+
+Floor 1 Motion:
+  name: Main Floor Motion
+  entities:
+    - binary_sensor.dining_rm_motion
+    - binary_sensor.kitchen_motion
+    - binary_sensor.fam_rm_motion
+    - binary_sensor.ezm_1_foyer_motion
+    - binary_sensor.ezm_2_tbd_motion
+
+Floor 0 Motion:
+  name: Basement Motion
+  entities:
+    - binary_sensor.office_motion
+    - binary_sensor.studio_motion
+
+# Areas within the floor
+Kitchen Breakfast Motion:
+  name: Kitchen Breakfast Motion
+  entities:
+    - binary_sensor.kitchen_motion
+    - binary_sensor.ezm_2_tbd_motion
+    - binary_sensor.ezm_1_foyer_motion
+
+######################################################################
+Family Rm TV On:
+  name: Family Room TV is on
+  entities:
+    - switch.family_room_hub_watch_tivo
+    - switch.family_room_hub_watch_chromecast
+    - switch.family_room_hub_watch_htpc
+
+######################################################################
+Exterior Perimeter Open:
+  name: Exterior Door or Window Open
+  entities:
+    - binary_sensor.front_entry_sensor
+    - binary_sensor.garage_door_sensor
+    - binary_sensor.sliding_door_sensor
+    - binary_sensor.office_window_sensor
+    
+Any Perimeter Open:
+  name: Any Door or Window Open
+  entities:
+    - group.exterior_perimeter_open
+    - binary_sensor.garage_entry_sensor
+
+######################################################################

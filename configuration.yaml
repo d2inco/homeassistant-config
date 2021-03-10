@@ -1,0 +1,116 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+discovery:
+
+######################################################################
+
+homeassistant:
+  customize: !include customize.yaml
+  packages: !include_dir_merge_named packages
+
+mqtt:
+  discovery: true
+  discovery_prefix: homeassistant
+
+######################################################################
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+######################################################################
+sensor:
+  - platform: time_date
+    display_options:
+      - "date_time"
+      #      - "time"
+      #      - "date"
+
+######################################################################
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+sensor mqtt: !include sensors-mqtt.yaml
+
+binary_sensor mqtt-binary: !include sensors-mqtt-binary.yaml
+
+device_tracker: !include device-trackers.yaml
+
+input_number: !include input_numbers.yaml
+
+input_boolean: !include input_booleans.yaml
+
+google_assistant:
+  project_id: !secret google_assistant_project_id
+  service_account: !secret google_assistant_service_account
+  report_state: true
+  exposed_domains:
+    - switch
+    - light
+    - script
+  entity_config:
+    switch.family_room:
+      name: Family Room
+
+########################################
+# Google Calendar subscribe:
+
+google:
+  client_id: !secret google_calendar_client_id
+  client_secret: !secret google_calendar_client_secret
+
+sensor dates-n-times: !include sensors-dates-and-times.yaml
+
+########################################
+
+octoprint: !include octoprint_config.yaml
+sensor octoprint:
+  - platform: template
+    sensors:
+      octoprint_time_elapsed_hhmmss:
+        friendly_name: "Time Elapsed"
+        value_template: "{{ states('sensor.octoprint_time_elapsed') | int | timestamp_custom('%H:%M:%S', 0) }}"
+      octoprint_time_remaining_hhmmss:
+        friendly_name: "Time Remaining"
+        value_template: "{{ states('sensor.octoprint_time_remaining') | int | timestamp_custom('%H:%M:%S', 0) }}"
+
+
+########################################
+
+proximity:
+  david_proximity_home:
+    devices:
+      - device_tracker.davids_cell
+    tolerance: 30
+    unit_of_measurement: mi
+
+########################################
+
+notify:
+  - platform: html5
+    name: push_notification
+    vapid_pub_key: !secret google_firebase_vapid_pub_key
+    vapid_prv_key: !secret google_firebase_vapid_prv_key
+    vapid_email: !secret google_firebase_vapid_email
+
+########################################
+
+frontend:
+  themes:
+    green-on-good:
+      state-icon-active-color: green
+      state-icon-color: red
+    green-off-good:
+      state-icon-active-color: red
+      state-icon-color: green
+    yellow-off-good:
+      state-icon-active-color: green
+      state-icon-color: yellow
+    yellow-on-good:
+      state-icon-active-color: yellow
+      state-icon-color: green
+

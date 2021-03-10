@@ -1,0 +1,13 @@
+  - platform: template
+    sensors:
+      sun_next_rising:
+        friendly_name: "Next Sunrise"
+        value_template: >
+          {% set next_is = (as_timestamp(strptime(state_attr("sun.sun", "next_rising"), "")) | timestamp_local) %}
+          {% print next_is[11:16] %}
+      sun_next_setting:
+        friendly_name: "Next Sunset"
+        value_template: >
+          {% set next_is = (as_timestamp(strptime(state_attr("sun.sun", "next_setting"), "")) | timestamp_local) %}
+          {% print next_is[11:16] %}
+

@@ -1,0 +1,86 @@
+bedtime_lights:
+  alias: Bedtime Lights Script
+  sequence:
+  - type: turn_off
+    device_id: 556889b08abd0f339a25841c9a098f8a
+    entity_id: switch.neo_blue_1_current_value
+    domain: switch
+  - type: turn_on
+    device_id: 2c9b8e6d9142854d19aa37d4b75b14fa
+    entity_id: light.kitchen_light
+    domain: light
+    brightness_pct: 25
+  - type: turn_on
+    device_id: b83943abdd7e16bae8848e72a44de128
+    entity_id: light.stairs_light
+    domain: light
+    brightness_pct: 50
+  - type: turn_on
+    device_id: 2876947463a17fcde130a8fac4ea5bfa
+    entity_id: light.mbr_light
+    domain: light
+    brightness_pct: 30
+  - wait_for_trigger:
+    - platform: state
+      entity_id: group.open_area_motion
+      to: 'off'
+      for: '90'
+    timeout: 00:08:00
+  - scene: scene.basement_light_off
+  - scene: scene.1st_floor_light_off
+  - type: turn_off
+    device_id: b83943abdd7e16bae8848e72a44de128
+    entity_id: light.stairs_light
+    domain: light
+  mode: single
+  icon: mdi:lightbulb-outline
+announce_everywhere:
+  alias: Announce Everywhere
+  mode: single
+  icon: mdi:volume-high
+  sequence:
+  - service: tts.google_translate_say
+    data_template:
+      entity_id: media_player.family_room_home
+      message: '{{ message }}
+
+        '
+  - service: tts.google_translate_say
+    data_template:
+      entity_id: media_player.office_home
+      message: "{{ message }} \n"
+  - service: tts.google_translate_say
+    data_template:
+      entity_id: media_player.bedroom_home
+      message: '{{ message }}
+
+        '
+lights_to_level_kitchen_breakfast:
+  alias: 'Lights-To-Level: Kitchen-Breakfast'
+  sequence:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: "{% if ( to_brightness > 0  ) %}\ntrue\n{% else %}\nfalse\
+          \ \n{% endif %}"
+      sequence:
+      - service: light.turn_on
+        data: {}
+        target:
+          entity_id:
+          - light.breakfast_rm_light
+          - light.kitchen_light
+        data_template:
+          brightness_pct: '{{ to_brightness }}'
+    default:
+    - service: light.turn_off
+      target:
+        entity_id:
+        - light.breakfast_rm_light
+        - light.kitchen_light
+  mode: single
+  icon: mdi:lightbulb-outline
+  fields:
+    to_brightness:
+      description: Brightness to set lights to
+      example: '50'
