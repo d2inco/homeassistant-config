@@ -1,0 +1,130 @@
+
+calendar_package:
+  sensor:
+    - platform: template
+      sensors:
+        cal_david_pers_warning:
+          friendly_name: "David Pers Event Warning"
+          value_template: >
+            {% set how_soon = as_timestamp(state_attr('calendar.david_pers','start_time')) - as_timestamp( strptime(states('sensor.date_time'), "%Y-%m-%d, %H:%M" ) ) %}
+            {% if (how_soon >= 0) and (how_soon <= 180)  %}
+              on
+            {% else %}
+              off
+            {% endif %}
+        cal_david_pers_event:
+          friendly_name: "David Pers Event"
+          value_template: '{{ state_attr("calendar.david_pers", "message") }}'
+        cal_david_pers_start_time:
+          friendly_name: "David Pers Event Start Time"
+          value_template: '{{ state_attr("calendar.david_pers", "start_time") }}'
+        cal_david_pers_end_time:
+          friendly_name: "David Pers Event End Time"
+          value_template: '{{ state_attr("calendar.david_pers", "end_time") }}'
+        cal_david_pers_location:
+          friendly_name: "David Pers Event Location"
+          value_template: '{{ state_attr("calendar.david_pers", "location") }}'
+        cal_work_warning:
+          friendly_name: "David Work Event Warning"
+          value_template: >
+            {% set how_soon = as_timestamp(state_attr('calendar.david_work','start_time')) - as_timestamp( strptime(states('sensor.date_time'), "%Y-%m-%d, %H:%M" ) ) %}
+            {% if (how_soon >= 0) and (how_soon <= 180)  %}
+              on
+            {% else %}
+              off
+            {% endif %}
+        cal_work_event:
+          friendly_name: "David Work Event"
+          value_template: '{{ state_attr("calendar.david_work", "message") }}'
+        cal_work_start_time:
+          friendly_name: "David Work Event Start Time"
+          value_template: '{{ state_attr("calendar.david_work", "start_time") }}'
+        cal_work_end_time:
+          friendly_name: "David Work Event End Time"
+          value_template: '{{ state_attr("calendar.david_work", "end_time") }}'
+        cal_work_location:
+          friendly_name: "David Work Event Location"
+          value_template: '{{ state_attr("calendar.david_work", "location") }}'
+
+
+
+  automation:
+    - id: '1612478619230'
+      alias: Notify, Voice - Calendar event (Pers) - Now
+      description: ''
+      trigger:
+      - platform: state
+        entity_id: calendar.david_pers
+        to: 'on'
+      condition:
+      - condition: state
+        entity_id: sensor.davids_cell_do_not_disturb_sensor
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.announcements_enabled
+        state: 'on'
+      action:
+      - service: script.announce_everywhere
+        data:
+          message: You have a personal appointment starting now.
+      mode: single
+    - id: '1612479205418'
+      alias: Notify, Voice - Calendar event (Work) - Now
+      description: ''
+      trigger:
+      - platform: state
+        entity_id: calendar.david_work
+        to: 'on'
+      condition:
+      - condition: state
+        entity_id: sensor.davids_cell_do_not_disturb_sensor
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.announcements_enabled
+        state: 'on'
+      action:
+      - service: script.announce_everywhere
+        data:
+          message: You have a work meeting starting now.
+      mode: single
+    - id: '1612490592639'
+      alias: Notify, Voice - Calendar event (Pers) - Soon
+      description: ''
+      trigger:
+      - platform: state
+        entity_id: sensor.cal_david_pers_warning
+        to: 'on'
+      condition:
+      - condition: state
+        entity_id: sensor.davids_cell_do_not_disturb_sensor
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.announcements_enabled
+        state: 'on'
+      action:
+      - service: script.announce_everywhere
+        data:
+          message: '"You have a personal appointment starting soon, titled {{ state_attr("calendar.david_pers",
+            "message") }}"'
+      mode: single
+    - id: '1612491807646'
+      alias: Notify, Voice - Calendar event (Work) - Soon
+      description: ''
+      trigger:
+      - platform: state
+        entity_id: sensor.cal_work_warning
+        to: 'on'
+      condition:
+      - condition: state
+        entity_id: sensor.davids_cell_do_not_disturb_sensor
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.announcements_enabled
+        state: 'on'
+      action:
+      - service: script.announce_everywhere
+        data:
+          message: '"You have a work meeting starting soon, titled {{ state_attr("calendar.david_work",
+            "message") }}"'
+      mode: single
+

@@ -1,0 +1,91 @@
+
+harmony_remote_package:
+  binary_sensor:
+    - platform: template
+      sensors:
+        harmony_bedroom_off:
+          friendly_name: 'Is Off'
+          value_template: >
+            {% if state_attr("remote.bedroom_hub", "current_activity") == "PowerOff" %}
+              True
+            {% else %}
+              False
+            {% endif %}
+        harmony_family_room_off:
+          friendly_name: 'Is Off'
+          value_template: >
+            {% if state_attr("remote.family_room_hub", "current_activity") == "PowerOff" %}
+              True
+            {% else %}
+              False
+            {% endif %}
+        family_room_hub_problem:
+          friendly_name: 'Fam Rm Hub Problem?'
+          value_template: >
+            {% if (not is_state('remote.family_room_hub', 'unavailable'))
+              and (not is_state('switch.family_room_hub_watch_tivo', 'unavailable'))
+              and (not is_state('switch.family_room_hub_watch_chromecast', 'unavailable'))
+              and (not is_state('switch.family_room_hub_listen_to_sonos', 'unavailable'))
+            %} False {% else %} True {% endif %}
+          device_class: problem
+
+    #    harmony_family_room_tivo:
+    #      friendly_name: 'Is Watching TiVo'
+    #      value_template: >
+    #        {% if state_attr("remote.family_room_hub", "current_activity") == "Watch TiVo" %}
+    #          on
+    #        {% else %}
+    #          off
+    #        {% endif %}
+    #    harmony_family_room_chromecast:
+    #      friendly_name: 'Is Watching Chromecast'
+    #      value_template: >
+    #        {% if state_attr("remote.family_room_hub", "current_activity") == "Watch Chromecast" %}
+    #          true
+    #        {% else %}
+    #          false
+    #        {% endif %}
+    #    harmony_family_room_sonos:
+    #      friendly_name: 'Is Listening to Sonos'
+    #      value_template: >
+    #        {% if state_attr("remote.family_room_hub", "current_activity") == "Listen to Sonos" %}
+    #          on
+    #        {% else %}
+    #          off
+    #        {% endif %}
+    #    harmony_bedroom_tivo:
+    #      friendly_name: 'Is Watching TiVo'
+    #      value_template: >
+    #        {% if state_attr("remote.bedroom_hub", "current_activity") == "Watch TiVo" %}
+    #          on
+    #        {% else %}
+    #          off
+    #        {% endif %}
+    #    harmony_bedroom_chromecast:
+    #      friendly_name: 'Is Watching Chromecast'
+    #      value_template: >
+    #        {% if state_attr("remote.bedroom_hub", "current_activity") == "Watch Chromecast" %}
+    #          true
+    #        {% else %}
+    #          false
+    #        {% endif %}
+
+
+  sensor:
+    - platform: template
+      sensors:
+        harmony_family_room_status:
+          value_template: '{{ state_attr("remote.family_room_hub", "current_activity") }}'
+          friendly_name: 'Fam Rm Remote Status'
+        harmony_bedroom_status:
+          value_template: '{{ state_attr("remote.bedroom_hub", "current_activity") }}'
+          friendly_name: 'Bedroom Remote Status'
+
+
+  rest_command:
+      reload_harmony_family_room_hub:
+        url: http://homeassistant:8123/api/config/config_entries/entry/725748721e32bd05cbc65350be237eff/reload
+        method: POST
+        headers:
+          authorization: !secret ha_api_token
+

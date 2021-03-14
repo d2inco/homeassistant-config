@@ -1,0 +1,178 @@
+# Configuration for the Bed Occupancy Sensor
+
+bed_occupancy_package:
+
+  sensor:
+  - platform: mqtt
+    unique_id: "bedocc_status_1"
+    name: "Bed-Occ Status 1"
+    state_topic: "iot/bed/status"
+    value_template: "{{ value }}"
+#  - platform: template
+#    sensors:
+#      bed_occupied_string:
+#        friendly_name_template: |
+#          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
+#            Bed is occupied is_state("binary_sensor.bed_occupied","on")
+#          {% else %}
+#            Bed is empty
+#          {% endif %}
+#        value_template: >
+#          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
+#            on
+#          {% else %}
+#            off
+#          {% endif %}
+#        icon_template: >-
+#          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
+#            mdi:bed
+#          {% else %}
+#            mdi:bed-empty 
+#          {% endif %}
+#      bed_occupied_string_not_temporary:
+#        friendly_name_template: |
+#          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
+#            Bed is occupied
+#          {% else %}
+#            Bed is empty
+#          {% endif %}
+#        value_template: '{{ is_state("binary_sensor.bed_occupied","on") }}'
+#        icon_template: >-
+#          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
+#            mdi:bed
+#          {% else %}
+#            mdi:bed-empty 
+#          {% endif %}
+
+
+  input_text:
+    bedocc_status_2:
+      name: "Bed-Occ Status 2"
+      initial: ""
+    bedocc_status_3:
+      name: "Bed_Occ Status 3"
+      initial: ""
+    bedocc_status_4:
+      name: "Bed-Occ Status 4"
+      initial: ""
+
+
+  binary_sensor:
+    - platform: template
+      sensors:
+        bed_occupied:
+          friendly_name: Bed Occupied
+          device_class: occupancy
+          value_template: >-
+            {{ states('sensor.bedroom_bedocc') | float >= 30.0 }}
+          icon_template: >-
+            {% if ( states('sensor.bedroom_bedocc') | float >= 30.0 ) %}
+              mdi:bed
+            {% else %}
+              mdi:bed-empty 
+            {% endif %}
+
+  input_number:
+    bed_occ_calib_factor:
+      name: Bed Occ Calib Factor
+      mode: box
+      initial: 1000
+      min: -4000
+      max: 4100
+      step: 100
+      icon: mdi:close-network
+
+
+  automation:
+    - id: '1613965500686'
+      alias: Bed-Occ Calib Factor UI to MQTT
+      description: ''
+      trigger:
+      - platform: state
+        entity_id: input_number.bed_occ_calib_factor
+      condition:
+      - condition: or
+        conditions:
+          - condition: numeric_state
+            entity_id: input_number.bed_occ_calib_factor
+            above: +0.5
+          - condition: numeric_state
+            entity_id: input_number.bed_occ_calib_factor
+            below: -0.5
+      action:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 4
+          milliseconds: 0
+      - service: mqtt.publish
+        data:
+          topic: room/bedroom/bed/calibrate
+          payload: '{{ states(''input_number.bed_occ_calib_factor'') | int }}'
+          retain: true
+      mode: restart
+    - id: '1613966235424'
+      alias: Bed-Occ Calib Factor MQTT To UI
+      description: ''
+      trigger:
+      - platform: mqtt
+        topic: room/bedroom/bed/calibrate
+      condition: []
+      action:
+      - service: input_number.set_value
+        data:
+          value: '{{ trigger.payload | int }}'
+        entity_id: input_number.bed_occ_calib_factor
+      mode: single
+    - id: '1613998324160'
+      alias: Bed-Occ Auto Reset When Minimal or Negative
+      description: ''
+      trigger:
+      - type: motion
+        platform: device
+        device_id: 004463f7dc98142da83bf46edb4a580c
+        entity_id: binary_sensor.fam_rm_motion
+        domain: binary_sensor
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 30
+          milliseconds: 0
+      - type: motion
+        platform: device
+        device_id: 0b2b40ee3db2b0715e441b4fff1aa87b
+        entity_id: binary_sensor.upstairs_motion
+        domain: binary_sensor
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 30
+          milliseconds: 0
+      condition:
+      - condition: or
+        conditions:
+          - condition: numeric_state
+            entity_id: sensor.bedroom_bedocc
+            below: -0.5
+          - condition: numeric_state
+            entity_id: sensor.bedroom_bedocc
+            above: +0.5
+            below: +10.0
+      - condition: time
+        after: '06:00:00'
+        before: '20:00:00'
+      action:
+      - service: mqtt.publish
+        data:
+          topic: room/bedroom/bed/reset
+          payload: '1'
+      - service: notify.persistent_notification
+        data:
+          title: Bed OCC Reset
+          message: "Bed Occ RESET has been issued from {{ trigger.from_state.state }} - {{ sensor.bedroom_bedocc }} - {{ states('sensor.bedroom_bedocc') | float }}"
+      - delay:
+          hours: 0
+          minutes: 2
+          seconds: 0
+          milliseconds: 0
+      mode: single

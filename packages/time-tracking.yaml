@@ -1,0 +1,64 @@
+time_tracking:
+  sensor:
+    - platform: history_stats
+      name: Bedroom TV On-Time past 24 Hours
+      entity_id: binary_sensor.bedroom_tv_on
+      state: "on"
+      type: time
+      end: "{{ now() }}"
+      duration:
+        hours: 24
+    - platform: history_stats
+      name: Bedroom TV On-Time Today
+      entity_id: binary_sensor.bedroom_tv_on
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      duration: 24:00:00
+
+    - platform: history_stats
+      name: Family Room TV On-Time past 24 Hours
+      entity_id: binary_sensor.family_room_tv_on
+      state: "on"
+      type: time
+      end: "{{ now() }}"
+      duration:
+        hours: 24
+    - platform: history_stats
+      name: Family Room TV On-Time Today
+      entity_id: binary_sensor.family_room_tv_on
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      duration: 24:00:00
+
+    - platform: history_stats
+      name: Any TV On-Time past 24 Hours
+      entity_id: binary_sensor.any_tv_on
+      state: "on"
+      type: time
+      end: "{{ now() }}"
+      duration:
+        hours: 24
+    - platform: history_stats
+      name: Any TV On-Time Today
+      entity_id: binary_sensor.any_tv_on
+      state: "on"
+      type: time
+      start: "{{ now().replace(hour=0, minute=0, second=0) }}"
+      duration: 24:00:00
+
+    - platform: history_stats
+      name: Laundry Motion History Stats
+      entity_id: binary_sensor.laundry_motion
+      state: "on"
+      type: time
+      end: "{{ now() }}"
+      duration: 24:00:00
+    - platform: history_stats
+      name: Laundry Vibration History Stats
+      entity_id: binary_sensor.laundry_vibration
+      state: "on"
+      type: time
+      end: "{{ now() }}"
+      duration: 24:00:00

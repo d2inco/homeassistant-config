@@ -1,0 +1,40 @@
+tv_tracking:
+  sensor:
+    - platform: template
+      sensors:
+        # This is used for display purposes for when the MBR TV was turned on/off; it does NOT persist, since it is a sensor.
+        bedroom_tv_changed:
+          friendly_name: MBR TV state-change
+          value_template: >
+            {{ state_attr('input_datetime.bedroom_tv_last_changed','timestamp') | timestamp_custom("%a %H:%M") }}
+
+  input_datetime:
+    # These are used to persist change-times that sensors don't keep between reboots:
+    bedroom_tv_last_changed:
+      name: Last MBR TV State Change
+      has_date: true
+      has_time: true
+      # Don't set 'inital', as it will reset to this on each startup.
+      # initial: 2021-01-01 00:00:00
+
+
+  automation:
+    - id: '1614280580785'
+      alias: 'Persist the Last MBR TV State Change'
+      description: ''
+      trigger:
+      - platform: state
+        entity_id: binary_sensor.bedroom_tv_on
+        from: 'on'
+        to: 'off'
+      - platform: state
+        entity_id: binary_sensor.bedroom_tv_on
+        from: 'off'
+        to: 'on'
+      condition: []
+      action:
+      - service: input_datetime.set_datetime
+        data:
+          datetime: '{{ now().strftime(''%Y-%m-%d %H:%M:%S'') }}'
+        entity_id: input_datetime.bedroom_tv_last_changed
+      mode: restart

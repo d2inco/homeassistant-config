@@ -1,0 +1,53 @@
+##	
+##	
+##	sony_amp:
+##	  input_number:
+##	    sonyvolume:
+##	      name: Sony Volume
+##	      initial: 0
+##	      min: 0
+##	      max: 100
+##	      step: 1
+##	      icon: mdi:brightness-5
+##	      unit_of_measurement: "%"
+##	
+##	
+##	  media_player:
+##	    - platform: dlna_dmr
+##	      url: !secret sonyamp_url
+##	      name: Sony Amp DLNA
+##	        # icon: mdi:speaker-multiple
+##	
+##	  sensor sony:
+##	    - platform: template
+##	      sensors:
+##	        sony_volume:
+##	          value_template: >
+##	            {{ state_attr('media_player.sony_amp_dlna', 'volume_level') }}
+##	          friendly_name: "Sony Amp Volume"
+##	          icon_template: mdi:volume-medium
+##	
+##	  automation:
+##	    - id: sony-volume-via-ui
+##	      alias: zz-SonyAmp Helper to Media Player
+##	      description: Dont think i'll end up needing this one.
+##	      trigger:
+##	      - platform: state
+##	        entity_id: input_number.sonyvolume
+##	      action:
+##	      - service: media_player.volume_set
+##	        entity_id: media_player.sony_amp_dlna
+##	        data:
+##	          volume_level: '{{ states(''input_number.sonyvolume'') | float / 100 }}'
+##	      mode: single
+##	    - id: sony-volume-via-device
+##	      alias: zz-SonyAmp Volume Updated on Device
+##	      trigger:
+##	      - platform: state
+##	        entity_id: sensor.sony_volume
+##	      action:
+##	      - service: input_number.set_value
+##	        data:
+##	          entity_id: input_number.sonyvolume
+##	          value: '{{ states(''sensor.sony_volume'') | float * 100 | round | int }}'
+##	      mode: single

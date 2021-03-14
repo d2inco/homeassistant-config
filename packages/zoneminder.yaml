@@ -1,0 +1,14 @@
+
+zoneminder_package:
+
+  zoneminder:
+    - host: sec3.dsba.net
+      path: /zm/
+      path_zms: /cgi-bin-zm/zms
+      ssl: false
+      verify_ssl: false
+      username: !secret zm_username
+      password: !secret zm_password
+
+  camera:
+    - platform: zoneminder
