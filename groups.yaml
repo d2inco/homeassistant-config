@@ -13,7 +13,7 @@ Open Area Motion:
     - binary_sensor.fam_rm_motion
     - binary_sensor.upstairs_motion
     - binary_sensor.ezm_1_foyer_motion
-    - binary_sensor.ezm_2_tbd_motion
+    - binary_sensor.ezm_2_breakfast_room_motion
 
 Floor 1-2 motion:
   name: First or Second Floor Motion
@@ -23,7 +23,7 @@ Floor 1-2 motion:
     - binary_sensor.kitchen_motion
     - binary_sensor.fam_rm_motion
     - binary_sensor.ezm_1_foyer_motion
-    - binary_sensor.ezm_2_tbd_motion
+    - binary_sensor.ezm_2_breakfast_room_motion
 
 Floor 0-1 Motion:
   name: Basement or First Floor Motion
@@ -34,7 +34,7 @@ Floor 0-1 Motion:
     - binary_sensor.kitchen_motion
     - binary_sensor.fam_rm_motion
     - binary_sensor.ezm_1_foyer_motion
-    - binary_sensor.ezm_2_tbd_motion
+    - binary_sensor.ezm_2_breakfast_room_motion
 
 # By Floor
 Floor 2 Motion:
@@ -49,7 +49,7 @@ Floor 1 Motion:
     - binary_sensor.kitchen_motion
     - binary_sensor.fam_rm_motion
     - binary_sensor.ezm_1_foyer_motion
-    - binary_sensor.ezm_2_tbd_motion
+    - binary_sensor.ezm_2_breakfast_room_motion
 
 Floor 0 Motion:
   name: Basement Motion
@@ -62,7 +62,7 @@ Kitchen Breakfast Motion:
   name: Kitchen Breakfast Motion
   entities:
     - binary_sensor.kitchen_motion
-    - binary_sensor.ezm_2_tbd_motion
+    - binary_sensor.ezm_2_breakfast_room_motion
     - binary_sensor.ezm_1_foyer_motion
 
 ######################################################################
