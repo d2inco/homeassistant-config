@@ -46,6 +46,14 @@ flags:
             {% else %}
               False
             {% endif %}
+        zte_axon_battery_below_threshold:
+          friendly_name: ZTE Phone Battery Below Threshold
+          value_template: >
+            {% if states('sensor.zte_axon_battery_level') | int < 55 %}
+              True
+            {% else %}
+              False
+            {% endif %}
 
 
 

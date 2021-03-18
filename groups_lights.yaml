@@ -1,0 +1,58 @@
+######################################################################
+#  Light Groups
+######################################################################
+
+- platform: group
+  name: All Lights Group
+  entities:
+    - light.br3_light
+    - light.breakfast_rm_light
+    - light.dining_rm_light
+    - light.family_rm_light
+    - light.family_room_led
+    - light.foyer_light
+    - light.front_light
+    - light.kitchen_2nd_switch
+    - light.kitchen_light
+    - light.loft_light
+    - light.mbr_light
+    - light.office_light
+    - light.stairs_2nd_switch
+    - light.stairs_light
+    - light.studio_light
+    - light.track_light
+    - light.wled_master
+
+
+- platform: group
+  name: Basement Lights Group
+  entities:
+    - light.office_light
+    - light.studio_light
+
+- platform: group
+  name: Floor 1 Lights Group
+  entities:
+    - light.breakfast_rm_light
+    - light.dining_rm_light
+    - light.family_rm_light
+    - light.family_room_led
+    - light.foyer_light
+    - light.kitchen_2nd_switch
+    - light.kitchen_light
+    - light.track_light
+    - light.wled_master
+
+- platform: group
+  name: Floor 2 Lights Group
+  entities:
+    - light.br3_light
+    - light.loft_light
+    - light.mbr_light
+    - light.stairs_2nd_switch
+    - light.stairs_light
+
+- platform: group
+  name: Outside Lights Group
+  entities:
+    - light.front_light

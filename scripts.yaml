@@ -2,9 +2,9 @@ bedtime_lights:
   alias: Bedtime Lights Script
   sequence:
   - type: turn_off
-    device_id: 556889b08abd0f339a25841c9a098f8a
-    entity_id: switch.neo_blue_1_current_value
-    domain: switch
+    device_id: 17ee280aec38bda355534848e7f0d377
+    entity_id: light.wled_master
+    domain: light
   - type: turn_on
     device_id: 2c9b8e6d9142854d19aa37d4b75b14fa
     entity_id: light.kitchen_light

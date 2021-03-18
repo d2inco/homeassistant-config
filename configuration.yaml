@@ -34,6 +34,8 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+light light_groups: !include groups_lights.yaml
+
 sensor mqtt: !include sensors-mqtt.yaml
 
 binary_sensor mqtt-binary: !include sensors-mqtt-binary.yaml
