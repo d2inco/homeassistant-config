@@ -1,19 +1,19 @@
 google_assistant_relay:
   rest_command:
     assistant_broadcast:
-      url: http://192.168.200.76:3000/assistant
+      url: http://192.168.200.77:3000/assistant
       method: POST
       content_type: 'application/json'
       payload: '{"command":"{{ command }}", "user":"!secret google_assistant_username", "broadcast":true}'
       
     assistant_converse:
-      url: http://192.168.200.76:3000/assistant
+      url: http://192.168.200.77:3000/assistant
       method: POST
       content_type: 'application/json'
       payload: '{"command":"{{ command }}", "user":"!secret google_assistant_username", "converse":true}'
 
     assistant_relay:
-      url: http://192.168.200.76:3000/assistant
+      url: http://192.168.200.77:3000/assistant
       method: POST
       content_type: 'application/json'
       payload: '{"command":"{{ command }}", "user":"!secret google_assistant_username"}'
