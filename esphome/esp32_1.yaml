@@ -1,0 +1,108 @@
+esphome:
+  name: esp32_1
+  platform: ESP32
+  board: esp32doit-devkit-v1
+
+wifi:
+#  fast_connect: true
+  networks:
+  - ssid: !secret hac_wifi_ssid
+    password: !secret hac_wifi_pass
+  - ssid: !secret ha_wifi_ssid
+    password: !secret ha_wifi_pass
+
+  # Where to upload to
+  use_address: 192.168.202.111
+
+  domain: .dsba.net
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "ESP-3-LEDs Fallback Hotspot"
+    password: !secret esp_ap_password
+
+captive_portal:
+
+web_server:
+  port: 80
+  auth:
+    username: !secret esp_web_username
+    password: !secret esp_web_password
+
+# Enable logging
+logger:
+  level: DEBUG
+# level: VERY_VERBOSE
+#    logs:
+#     mqtt.component: INFO
+#     mqtt.client: INFO
+
+      
+
+# Enable Home Assistant API
+# api:
+#   password: "!secret esp_api_password"
+
+ota:
+  password: "!secret esp_ota_password"
+
+
+mqtt:
+  broker: !secret mqtt_host
+  username: !secret esp_mqtt_user
+  password: !secret esp_mqtt_pass
+  discovery: True
+  discovery_retain: False
+  topic_prefix: iot/esp32_1
+  # let these use defaults for availability:  
+  # birth_message:
+  #   topic: iot/laun_pir_vib/birth
+  #   payload: "Birth Message"
+  # will_message:
+  #   topic: iot/laun_pir_vib/last_will
+  #   payload: "Last Will Message"
+  shutdown_message:
+    topic: iot/esp32_1/shutdown
+    payload: "Shutting down"
+  log_topic: iot-log/log/esp32_1
+
+  reboot_timeout: 8min
+  
+  
+esp32_ble_tracker:
+
+binary_sensor:
+  - platform: ble_presence
+    #  mac_address: B0:2A:43:FE:2F:61
+    service_uuid: '1CB62288-F508-4BE1-AA98-5C33CCE854EC'
+    name: "Davids Pixel Via BLE - Binary"
+#	  - platform: ble_presence
+#	    service_uuid: '0100'
+#	    name: "Davids Pixel Via BLE - Binary - 100"
+#	  - platform: ble_presence
+#	    service_uuid: '0064'
+#	    name: "Davids Pixel Via BLE - Binary - x64"
+#	  - platform: ble_presence
+#	    service_uuid: '00010064'
+#	    name: "Davids Pixel Via BLE - Binary - Maj Min"
+
+sensor:
+  - platform: ble_rssi
+    #  mac_address: B0:2A:43:FE:2F:61
+    service_uuid: '1CB62288-F508-4BE1-AA98-5C33CCE854EC'
+    name: "Davids Pixel Via BLE - RSSI"
+    
+#	text_sensor:
+#	  - platform: ble_scanner
+#	    name: "BLE Devices Scanner"
+    
+  
+
+interval:
+  - interval: 300sec
+    then:
+      - logger.log: "ESP32-1 is connected"
+      - mqtt.publish:
+          topic: iot/esp32_1/test
+          payload: "this is payload"
+  

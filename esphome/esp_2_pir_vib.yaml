@@ -1,0 +1,117 @@
+esphome:
+  name: laun_pir_vib
+  platform: ESP8266
+  board: d1_mini
+  comment: PIR and Vibration sensor for Laundry area
+
+wifi:
+  # fast_connect: true for Hidden Networks
+  fast_connect: true
+  networks:
+#  - ssid: !secret hac_wifi_ssid
+#    password: !secret hac_wifi_pass
+  - ssid: !secret ha_wifi_ssid
+    password: !secret ha_wifi_pass
+
+  # Where to upload to
+  use_address: 192.168.202.102
+
+  domain: .dsba.net
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "LaunPIRVib Fallback Hotspot"
+    password: !secret esp_ap_password
+
+captive_portal:
+
+web_server:
+  port: 80
+  auth:
+    username: !secret esp_web_username
+    password: !secret esp_web_password
+    
+
+# Enable logging
+# VERY_VERBOSE, VERBOSE, DEBUG, INFO, WARN, ERROR, NONE
+logger:
+  level: DEBUG
+  logs:
+    mqtt.component: INFO
+    mqtt.client: INFO
+
+# Enable Home Assistant API
+# api:
+#   password: !secret esp_api_password
+
+ota:
+  password: !secret esp_ota_password
+
+
+#define PIR_PIN D4
+#define VIB_PIN D8
+
+
+mqtt:
+  broker: !secret mqtt_host
+  username: !secret esp_mqtt_user
+  password: !secret esp_mqtt_pass
+  discovery: True
+  discovery_retain: True
+  topic_prefix: iot/laun_pir_vib
+  # let these use defaults for availability:  
+  # birth_message:
+  #   topic: iot/laun_pir_vib/birth
+  #   payload: "Birth Message"
+  # will_message:
+  #   topic: iot/laun_pir_vib/last_will
+  #   payload: "Last Will Message"
+  shutdown_message:
+    topic: iot/laun_pir_vib/shutdown
+    payload: "Shutting down"
+  log_topic: iot-log/log/laun_pir_vib
+
+  reboot_timeout: 8min
+  
+# time:
+#   - platform: homeassistant
+#     on_time:
+#       - minutes: /15
+#         seconds: 00
+#         then:
+#           # - logger.log: "Time Log"
+#           - mqtt.publish:
+#               topic: iot/laun_pir_vib/hb
+#               payload: "heartbeat"  
+            
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: D4
+      # mode: INPUT_PULLUP
+    name: Laundry Motion
+    device_class: motion
+    filters:
+      - delayed_on:  1100ms
+      - delayed_off: 1100ms
+  - platform: gpio
+    pin: D8
+    name: Laundry Vibration
+    device_class: vibration
+    filters:
+      - delayed_on:   80ms
+      # - delayed_off: 3000ms
+      - delayed_off: 600ms
+
+switch:
+  - platform: restart
+    name: Laundry Sensor Restart
+
+#interval:
+#  - interval: 30sec
+#    then:
+#      - logger.log "MQTT is connected"
+#      - mqtt.publish:
+#        topic: iot/esp1/test
+#        payload: "this is payload"
+  

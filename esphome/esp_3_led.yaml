@@ -1,0 +1,243 @@
+esphome:
+  name: esp_3_led
+  platform: ESP8266
+  board: d1_mini
+  comment: Home Assistant-managed LED light control
+
+wifi:
+#  fast_connect: true
+  networks:
+  - ssid: !secret hac_wifi_ssid
+    password: !secret hac_wifi_pass
+  - ssid: !secret ha_wifi_ssid
+    password: !secret ha_wifi_pass
+
+  # Where to upload to
+  use_address: 192.168.202.103
+
+  domain: .dsba.net
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "ESP-3-LEDs Fallback Hotspot"
+    password: !secret esp_ap_password
+
+captive_portal:
+
+web_server:
+  port: 80
+  auth:
+    username: !secret esp_web_username
+    password: !secret esp_web_password
+
+
+# Enable logging
+# VERY_VERBOSE, VERBOSE, DEBUG, INFO, WARN, ERROR, NONE
+logger:
+  level: DEBUG
+#   logs:
+#     mqtt.component: INFO
+#     mqtt.client: INFO
+
+# Enable Home Assistant API
+# api:
+#   password: !secret esp_api_password
+
+ota:
+  password: !secret esp_ota_password
+
+mqtt:
+  broker: !secret mqtt_host
+  username: !secret esp_mqtt_user
+  password: !secret esp_mqtt_pass
+  discovery: True
+  # for now:
+  discovery_retain: False
+  topic_prefix: iot/leds
+  # let these use defaults for availability:
+  # birth_message:
+  #   topic: iot/esp_3_led/birth
+  #   payload: "Birth Message"
+  # will_message:
+  #   topic: iot/esp_3_led/last_will
+  #   payload: "Last Will Message"
+  shutdown_message:
+    topic: iot/esp_3_led/shutdown
+    payload: "Shutting down"
+  log_topic: iot-log/log/esp_3_led
+  reboot_timeout: 8min
+
+light:
+  - platform: neopixelbus
+    type: grb
+    # DMA method only supports GPIO3
+    # pin: GPIO3
+    # UART1 only supports GPIO2
+    method: ESP8266_UART1
+    pin: GPIO2
+    num_leds: 121
+    name: "Family Room LED"
+    id: family_room_led
+    variant: ws2812x
+    default_transition_length: 3s
+    effects:
+      - random:
+          name: Random-1
+          transition_length: 5s
+          update_interval: 7s
+      - strobe:
+          name: Strobe - Defaults
+      - strobe:
+          name: Strobe - with settings
+          colors:
+             - state: True
+               brightness: 100%
+               red: 100%
+               green: 90%
+               blue: 0%
+               duration: 500ms
+             - state: False
+               duration: 250ms
+             - state: True
+               brightness: 100%
+               red: 0%
+               green: 100%
+               blue: 0%
+               duration: 500ms
+      - addressable_random_twinkle:
+          progress_interval: 250ms
+      - addressable_fireworks:
+      - addressable_flicker:
+      - addressable_rainbow:
+          name: Rainbow Slow
+          speed: 5
+          width: 50
+      - addressable_rainbow:
+          name: Rainbow Fast
+          speed: 20
+          width: 50
+      - addressable_color_wipe:
+      - addressable_scan:
+          name: Scan Effect With Custom Values
+          move_interval: 100ms
+          scan_width: 6
+
+switch:
+  - platform: restart
+    name: "ESP 3 LED Restart"
+  - platform: template
+    name: "Fam LED Pattern 1"
+    turn_on_action:
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 2
+          range_to: 20
+          red: 100%
+          green: 0%
+          blue: 0%
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 21
+          range_to: 30
+          red: 0%
+          green: 80%
+          blue: 0%
+    turn_off_action:
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 2
+          range_to: 30
+          red: 0
+          blue: 0
+          green: 0
+  - platform: template
+    name: "Fam LED Pattern 2"
+    turn_on_action:
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 31
+          range_to: 60
+          red: 100%
+          green: 0%
+          blue: 100%
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 61
+          range_to: 80
+          red: 0%
+          green: 80%
+          blue: 100%
+    turn_off_action:
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 31
+          range_to: 80
+          red: 0
+          blue: 0
+          green: 0
+  - platform: template
+    name: "Fam LED Pattern 3"
+    turn_on_action:
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 81
+          range_to: 100
+          red: 100%
+          green: 0%
+          blue: 0%
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 101
+          range_to: 120
+          red: 0%
+          green: 0%
+          blue: 100%
+    turn_off_action:
+      - light.addressable_set:
+          id: family_room_led
+          range_from: 81
+          range_to: 120
+          red: 0
+          blue: 0
+          green: 0
+
+
+
+
+# time:
+#  - platform: homeassistant
+#    on_time:
+#      - minutes: /15
+#        seconds: 00
+#        then:
+#          # - logger.log: "Time Log"
+#          - mqtt.publish:
+#              topic: iot/esp_3_led/test
+#              payload: "heartbeat"
+
+# sun:
+#   latitude: 39.530914
+#   longitude: -104.9505676
+#
+# sensor:
+#   - platform: sun
+#     name: Sun Elevation
+#     type: elevation
+#     filters:
+#       - throttle: 120s
+#   - platform: sun
+#     name: Sun Azimuth
+#     type: azimuth
+#     filters:
+#       - throttle: 120s
+
+
+
+#interval:
+#  - interval: 30sec
+#    then:
+#      - logger.log "MQTT is connected"
+#      - mqtt.publish:
+#        topic: iot/esp1/test
+#        payload: "this is payload"
+
