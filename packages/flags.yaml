@@ -1,5 +1,23 @@
 
 flags:
+  input_number:
+    batt_threshold_display_cell:
+      name: Threshold of Cell Battery to Display
+      mode: box
+      min: 40
+      max: 100
+    batt_threshold_display_tablet:
+      name: Threshold of Tablet Battery to Display
+      mode: box
+      min: 40
+      max: 100
+    batt_threshold_display_zte:
+      name: Threshold of ZTE Battery to Display
+      mode: box
+      min: 40
+      max: 100
+
+
   binary_sensor:
     - platform: template
       sensors:
@@ -33,7 +51,7 @@ flags:
         tablet_battery_below_threshold:
           friendly_name: Tablet Battery Below Threshold
           value_template: >
-            {% if states('sensor.davids_tablet_battery_level') | int < 75 %}
+            {% if states('sensor.davids_tablet_battery_level') | int < states('input_number.batt_threshold_display_tablet') | int %}
               True
             {% else %}
               False
@@ -41,7 +59,7 @@ flags:
         davids_cell_battery_below_threshold:
           friendly_name: Cell Battery Below Threshold
           value_template: >
-            {% if states('sensor.davids_cell_battery_level') | int < 75 %}
+            {% if states('sensor.davids_cell_battery_level') | int < states('input_number.batt_threshold_display_cell') | int %}
               True
             {% else %}
               False
@@ -49,13 +67,8 @@ flags:
         zte_axon_battery_below_threshold:
           friendly_name: ZTE Phone Battery Below Threshold
           value_template: >
-            {% if states('sensor.zte_axon_battery_level') | int < 55 %}
+            {% if states('sensor.zte_axon_battery_level') | int < states('input_number.batt_threshold_display_zte') | int %}
               True
             {% else %}
               False
             {% endif %}
-
-
-
-
-        
