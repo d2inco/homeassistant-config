@@ -151,13 +151,13 @@ bed_occupancy_package:
       condition:
       - condition: or
         conditions:
-          - condition: numeric_state
-            entity_id: sensor.bedroom_bedocc
-            below: -0.5
-          - condition: numeric_state
-            entity_id: sensor.bedroom_bedocc
-            above: +0.5
-            below: +10.0
+        - condition: numeric_state
+          entity_id: sensor.bedroom_bedocc
+          below: -0.5
+        - condition: numeric_state
+          entity_id: sensor.bedroom_bedocc
+          above: +0.5
+          below: +10.0
       - condition: time
         after: '06:00:00'
         before: '20:00:00'
