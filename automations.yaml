@@ -490,9 +490,12 @@
     entity_id: binary_sensor.studio_motion
     state: 'off'
     for: 02:00:00
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
   action:
   - repeat:
-      count: '3'
+      count: '4'
       sequence:
       - type: turn_on
         device_id: 13ade04b2bd14f3bae908a70734f03f1
