@@ -674,25 +674,29 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: input_boolean.front_perim_open_ack
+    entity_id: input_boolean.perimeter_front_open_ack
     to: 'on'
     for: 01:00:00
   condition: []
   action:
   - service: input_boolean.turn_off
     target:
-      entity_id: input_boolean.front_perim_open_ack
+      entity_id: input_boolean.perimeter_front_open_ack
   - service: notify.persistent_notification
     data:
-      title: Front Perimeter Open-ACK Unacked
-      message: Front Perimeter Open-ACK Unacked
+      title: Front Perimeter Open-ACK now Unacked
+      message: Front Perimeter Open-ACK now Unacked
   mode: single
 - id: '1615410882193'
-  alias: 'zy-Housekeeping: Un-Ack Back Perimeter Ack after 1 Hour'
+  alias: 'zy-Housekeeping: Un-Ack Back Perimeter Ack after 3 Hour'
   description: ''
   trigger:
   - platform: state
-    entity_id: input_boolean.back_perim_open_ack
+    entity_id: input_boolean.perimeter_back_open_ack
+    to: 'on'
+    for: 03:00:00
+  - platform: state
+    entity_id: group.perimeter_back_open
     to: 'off'
     for: 01:00:00
   condition: []
@@ -700,21 +704,27 @@
   - service: input_boolean.turn_off
     target:
       entity_id:
-      - input_boolean.back_perim_open_ack
+      - input_boolean.perimeter_back_open_ack
   - service: notify.persistent_notification
     data:
-      title: Back Perimeter Open-ACK Unacked
-      message: Back Perimeter Open-ACK Unacked
+      title: Back Perimeter Open-ACK now Unacked
+      message: Back Perimeter Open-ACK now Unacked
   mode: single
 - id: '1615411482145'
-  alias: 00 Perimeter Entry open too long
+  alias: xx-Perimeter Entry open too long
   description: ''
   trigger:
   - platform: state
-    entity_id: group.any_perimeter_open
+    entity_id: group.any_door_or_window_open
     to: 'on'
     for: 00:05:00
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.perimeter_back_open_ack
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.perimeter_back_open_ack
+    state: 'off'
   action:
   - repeat:
       until:
@@ -725,15 +735,15 @@
       - choose:
         - conditions:
           - condition: state
-            entity_id: input_boolean.back_perim_open_ack
+            entity_id: input_boolean.perimeter_back_open_ack
             state: 'off'
           - condition: state
-            entity_id: input_boolean.front_perim_open_ack
+            entity_id: input_boolean.perimeter_front_open_ack
             state: 'off'
           sequence:
           - service: script.announce_everywhere
             data:
-              message: Attention. The following doors has been open for too long.
+              message: Attention. The following doors have been open for too long.
                 {% if is_state('binary_sensor.front_entry_sensor','on') %}Front Entry,
                 {% endif %} {% if is_state('binary_sensor.garage_door_sensor','on')
                 %}Garage Door, {% endif %} {% if is_state('binary_sensor.garage_entry_sensor','on')
@@ -746,10 +756,31 @@
         - platform: state
           entity_id: group.any_perimeter_open
           to: 'off'
-        timeout: 00:02:00
+        timeout: 00:00:30
   - service: script.announce_everywhere
     data:
       message: All doors are now closed.
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: group.any_door_or_window_open
+        state: 'on'
+      sequence:
+      - service: script.announce_everywhere
+        data:
+          message: Open Perimeter has been acknowledged.
+      - service: notify.persistent_notification
+        data:
+          title: Open Perimeter is ACK'd
+          message: The open perimeter has been acknowledged.
+    default:
+    - service: notify.persistent_notification
+      data:
+        title: Perimeter is secure
+        message: All openings have been secured.
+    - service: script.announce_everywhere
+      data:
+        message: All doors are now closed.
   - service: notify.persistent_notification
     data:
       title: Perimeter is secure
@@ -772,4 +803,199 @@
       - light.floor_2_lights_group
     data:
       transition: 2
+  mode: single
+- id: '1616881920814'
+  alias: xx-Perimeter Back open too long (v2)
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.perimeter_back_open
+    to: 'on'
+    for: 00:04:00
+  condition:
+  - condition: state
+    entity_id: input_boolean.perimeter_back_open_ack
+    state: 'off'
+  action:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: group.perimeter_back_open
+        state: 'on'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.perimeter_back_open_ack
+            state: 'off'
+          sequence:
+          - service: notify.persistent_notification
+            data:
+              title: Something out back is open
+              message: Back perimeter is open
+          - service: script.announce_everywhere
+            data:
+              message: "Attention. The following doors has been open for too long.\n\
+                \                  {% if is_state('binary_sensor.front_entry_sensor','on')\n\
+                \                  %}Front Entry, {% endif %} {% if\n            \
+                \      is_state('binary_sensor.garage_door_sensor','on') %}Garage\n\
+                \                  Door, {% endif %} {% if\n                  is_state('binary_sensor.garage_entry_sensor','on')\n\
+                \                  %}Garage Entry, {% endif %} {% if\n           \
+                \       is_state('binary_sensor.sliding_door_sensor','on')\n     \
+                \             %}Sliding Door, {% endif %} {% if\n                \
+                \  is_state('binary_sensor.office_window_sensor','on')\n         \
+                \         %}Office Window, {% endif %} .  Please close, or\n     \
+                \             acknowledge in Home Assistant."
+        default: []
+      - wait_for_trigger:
+        - platform: state
+          entity_id: group.perimeter_back_open
+          to: 'off'
+        timeout: 00:03:00
+  - service: notify.persistent_notification
+    data:
+      title: Back Perimeter is secure
+      message: Back doors and windows are now closed.
+  - service: script.announce_everywhere
+    data:
+      message: Back doors and windows have been secured.
+  mode: queued
+  max: 2
+- id: '1616881920816'
+  alias: xx-Perimeter Front open too long (v2)
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.perimeter_front_open
+    to: 'on'
+    for: 00:04:00
+  condition:
+  - condition: state
+    entity_id: input_boolean.perimeter_front_open_ack
+    state: 'off'
+  action:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: group.perimeter_front_open
+        state: 'on'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.perimeter_front_open_ack
+            state: 'off'
+          sequence:
+          - service: notify.persistent_notification
+            data:
+              title: Something out front is open
+              message: Front perimeter is open
+          - service: script.announce_everywhere
+            data:
+              message: "Attention. The following doors have been open for too long.\n\
+                \                  {% if is_state('binary_sensor.front_entry_sensor','on')\n\
+                \                  %}Front Entry, {% endif %} {% if\n            \
+                \      is_state('binary_sensor.garage_door_sensor','on') %}Garage\n\
+                \                  Door, {% endif %} {% if\n                  is_state('binary_sensor.garage_entry_sensor','on')\n\
+                \                  %}Garage Entry, {% endif %} {% if\n           \
+                \       is_state('binary_sensor.sliding_door_sensor','on')\n     \
+                \             %}Sliding Door, {% endif %} {% if\n                \
+                \  is_state('binary_sensor.office_window_sensor','on')\n         \
+                \         %}Office Window, {% endif %} .  Please close, or\n     \
+                \             acknowledge in Home Assistant."
+        default: []
+      - wait_for_trigger:
+        - platform: state
+          entity_id: group.perimeter_front_open
+          to: 'off'
+        timeout: 00:03:00
+  - service: notify.persistent_notification
+    data:
+      title: Front Perimeter is secure
+      message: Front doors and windows are now closed.
+  - service: script.announce_everywhere
+    data:
+      message: Front doors and windows have been secured.
+  mode: queued
+  max: 2
+- id: '1617474345038'
+  alias: 00 Airflow Opened long enough to turn off Recirc mode
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.airflow_door_or_window_open
+    to: 'on'
+    for: 00:05:00
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: Open Door - Turning off Air Circulate
+      message: Open Door or Window, so turning off Air Circulation
+  - service: script.announce_everywhere
+    data:
+      message: Open window or door.  Turning off air circulation to conserve energy.
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: auto
+    target:
+      entity_id: climate.david_s_thermostat_nativezone
+  - wait_for_trigger:
+    - platform: state
+      entity_id: group.airflow_door_or_window_open
+      to: 'off'
+    continue_on_timeout: false
+  - service: notify.persistent_notification
+    data:
+      title: Door Closed - activating Air Circulate
+      message: Door or Window now closed, so turning ON Air Circulation
+  - service: script.announce_everywhere
+    data:
+      message: Doors and windows closed.  Re-activating air circulation.
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: circulate
+    target:
+      entity_id: climate.david_s_thermostat_nativezone
+  mode: single
+- id: '1617576693129'
+  alias: 00 Airflow Opened long enough to turn Heating/Cooling OFF
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.airflow_door_or_window_open
+    to: 'on'
+    for: 00:05:00
+  condition: []
+  action:
+  - service: notify.persistent_notification
+    data:
+      title: Open Door - Turning off Heating and Cooling
+      message: Open Door or Window, so turning off Heating and Cooling
+  - service: script.announce_everywhere
+    data:
+      message: Open window or door.  Turning off heating and cooling system.  Again,
+        the A C is off.
+  - service: climate.set_hvac_mode
+    target:
+      entity_id: climate.david_s_thermostat_nativezone
+    data:
+      hvac_mode: 'off'
+  - wait_for_trigger:
+    - platform: state
+      entity_id: group.airflow_door_or_window_open
+      to: 'off'
+    continue_on_timeout: false
+  - service: notify.persistent_notification
+    data:
+      title: Door Closed - turning HVAC on
+      message: Door or Window now closed, so turning HVAC to Auto mode.
+  - service: script.announce_everywhere
+    data:
+      message: Doors and windows closed.  Turning HVAC to Auto mode.
+  - service: climate.set_hvac_mode
+    target:
+      entity_id: climate.david_s_thermostat_nativezone
+    data:
+      hvac_mode: auto
   mode: single
