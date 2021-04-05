@@ -196,7 +196,8 @@
         ) }} (acc: {{ state_attr(\"person.david\",\"gps_accuracy\") }})\nDirection\
         \ of travel: {{ state_attr('proximity.david_proximity_home','dir_of_travel')\
         \ }}.\nDistance: {{ states('proximity.david_proximity_home') }}\n"
-  mode: single
+  mode: queued
+  max: 10
 - id: '1613396619724'
   alias: 'zy-Housekeeping: Re-enable Light Automations after 1 hour'
   description: ''
@@ -582,10 +583,6 @@
       - service: script.lights_to_level_kitchen_breakfast
         data:
           to_brightness: 90
-      - service: notify.persistent_notification
-        data:
-          title: Lights to 90
-          message: "Option 1 - Lights to 90\n  TV Group: {{ states('group.family_rm_tv_on')}}"
     - conditions:
       - condition: state
         entity_id: group.family_rm_tv_on
@@ -680,6 +677,10 @@
     entity_id: input_boolean.perimeter_front_open_ack
     to: 'on'
     for: 01:00:00
+  - platform: state
+    entity_id: group.perimeter_front_open
+    to: 'off'
+    attribute: entity_id
   condition: []
   action:
   - service: input_boolean.turn_off
@@ -701,7 +702,6 @@
   - platform: state
     entity_id: group.perimeter_back_open
     to: 'off'
-    for: 01:00:00
   condition: []
   action:
   - service: input_boolean.turn_off
