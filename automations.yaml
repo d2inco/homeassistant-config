@@ -85,6 +85,11 @@
     event: start
   condition: []
   action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 6
+      milliseconds: 0
   - service: script.announce_everywhere
     data:
       message: Home Assistant has restarted
