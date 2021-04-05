@@ -807,6 +807,79 @@
     data:
       transition: 2
   mode: single
+- id: '1616130801284'
+  alias: 'zy-Housekeeping: Re-enable Announcements after 1 hour'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.announcements_enabled
+    to: 'off'
+    for: 01:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id: input_boolean.announcements_enabled
+  - service: notify.persistent_notification
+    data:
+      title: Announcements Re-enabled
+      message: Announcements Re-enabled.
+  - service: script.announce_everywhere
+    data:
+      message: Announcements have been re-enabled.
+  mode: single
+- id: '1616670823625'
+  alias: Lights - Bedroom - AM
+  description: Turn on MBR Lights low when first get out of bed.
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.bed_occupied
+    from: 'on'
+    to: 'off'
+    for: 00:00:02
+  condition:
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+    after: 01:00:00
+  - condition: sun
+    before: sunrise
+    before_offset: +00:15:00
+  action:
+  - service: notify.notify
+    data:
+      message: Out of bed, MBR Lights turned on low
+      title: Out of bed
+  - service: persistent_notification.create
+    data:
+      title: David is out of bed
+      message: Out of bed, turning on lights low for a bit.
+  - type: turn_on
+    device_id: 2876947463a17fcde130a8fac4ea5bfa
+    entity_id: light.mbr_light
+    domain: light
+    brightness_pct: 15
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.upstairs_motion
+      to: 'on'
+    - platform: state
+      entity_id: binary_sensor.bed_occupied
+      from: 'off'
+      to: 'on'
+    timeout: 00:15:00
+  - type: turn_off
+    device_id: 2876947463a17fcde130a8fac4ea5bfa
+    entity_id: light.mbr_light
+    domain: light
+  mode: single
 - id: '1616881920814'
   alias: xx-Perimeter Back open too long (v2)
   description: ''
