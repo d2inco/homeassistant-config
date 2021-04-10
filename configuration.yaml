@@ -54,8 +54,29 @@ google_assistant:
     - light
     - script
   entity_config:
-    switch.family_room:
+    # These first ones are name-changes:
+    light.family_rm_light:
       name: Family Room
+    input_boolean.perimeter_back_open_ack:
+      name: Acknowledge Back
+    input_boolean.perimeter_front_open_ack:
+      name:
+        Acknowledge Front
+        # These are not exposed:
+    switch.wled_fam_sync_send:
+      expose: false
+    switch.wled_fam_sync_receive:
+      expose: false
+    light.wled_fam: # (segment 0)
+      expose: false
+    light.wled_fam_segment_1:
+      expose: false
+    light.wled_fam_segment_2:
+      expose: false
+    switch.wled_kitchen_sync_send:
+      expose: false
+    switch.wled_kitchen_sync_receive:
+      expose: false
 
 ########################################
 # Google Calendar subscribe:
