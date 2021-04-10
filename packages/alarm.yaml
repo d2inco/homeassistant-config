@@ -1,0 +1,22 @@
+
+
+alarm_package:
+  alarm_control_panel:
+    - platform: manual
+      name: Home Alarm
+      code: !secret alarm_panel_code
+      code_arm_required: false
+      disarm_after_trigger: false
+      arming_time: 8
+      delay_time: 10
+      trigger_time: 4
+      disarmed:
+        trigger_time: 7
+      armed_home:
+        arming_time: 6
+        delay_time: 8
+
+#  automation
+#    - id: '1616671954000'
+#      alias: "Announce Arming/Armed/Disarmed"
+      
