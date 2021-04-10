@@ -27,7 +27,7 @@ bed_occupancy_package:
 #          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
 #            mdi:bed
 #          {% else %}
-#            mdi:bed-empty 
+#            mdi:bed-empty
 #          {% endif %}
 #      bed_occupied_string_not_temporary:
 #        friendly_name_template: |
@@ -41,7 +41,7 @@ bed_occupancy_package:
 #          {% if ( states('binary_sensor.bed_occupied') == 'on' ) %}
 #            mdi:bed
 #          {% else %}
-#            mdi:bed-empty 
+#            mdi:bed-empty
 #          {% endif %}
 
 
@@ -69,7 +69,7 @@ bed_occupancy_package:
             {% if ( states('sensor.bedroom_bedocc') | float >= 30.0 ) %}
               mdi:bed
             {% else %}
-              mdi:bed-empty 
+              mdi:bed-empty
             {% endif %}
 
   input_number:
