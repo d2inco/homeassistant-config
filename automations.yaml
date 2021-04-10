@@ -276,7 +276,7 @@
   - type: motion
     platform: device
     device_id: 62f3b3209217ca23870264f8713efbe4
-    entity_id: binary_sensor.ezm_2_tbd_motion
+    entity_id: binary_sensor.ezm_2_breakfast_room_motion
     domain: binary_sensor
   condition:
   - condition: state
@@ -292,14 +292,14 @@
     - fri
   - condition: sun
     before: sunrise
-    before_offset: 00:05:00
+    before_offset: 00:01:00
   action:
   - scene: scene.basement_light_low
   - wait_for_trigger:
     - platform: state
       entity_id: group.floor_0_motion
       to: 'off'
-      for: 00:50:00
+      for: 00:02:00
     timeout: 00:05:00
   - scene: scene.basement_light_off
   mode: restart
@@ -394,9 +394,8 @@
     entity_id: input_text.bedocc_status_4
   mode: single
 - id: '1614216935760'
-  alias: Lights - Kitchen-Breakfast - AM - On when upstairs motion (wake up)
-  description: Turn on the main floor when there is motion Upstairs, or on main floor,
-    and say "Good Morning"
+  alias: Notify, Voice - Say "Good morning" when upstairs motion (wake up)
+  description: ''
   trigger:
   - type: motion
     platform: device
@@ -417,50 +416,30 @@
     entity_id: binary_sensor.studio_motion
     domain: binary_sensor
   condition:
-  - condition: state
-    entity_id: input_boolean.light_automations_enabled
-    state: 'on'
   - condition: time
-    after: 04:30:00
+    after: 04:00:00
     weekday:
     - mon
     - tue
     - wed
     - thu
     - fri
+    - sat
+    - sun
   - condition: sun
+    before_offset: 01:30:00
     before: sunrise
-    before_offset: 00:30:00
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: light.breakfast_rm_light
-      state: 'off'
-    - condition: state
-      entity_id: light.kitchen_light
-      state: 'off'
   - condition: state
     entity_id: group.floor_1_motion
     state: 'off'
-    for: 01:00:00
+    for: 02:00:00
   action:
   - service: tts.google_translate_say
     data:
       entity_id: media_player.family_room_home
       message: Good morning, David!
-  - service: script.lights_to_level_kitchen_breakfast
-    data:
-      to_brightness: 90
-  - wait_for_trigger:
-    - platform: state
-      entity_id: group.floor_1_2_motion
-      to: 'off'
-      for: 00:04:00
-    timeout: 00:20:00
-  - service: script.lights_to_level_kitchen_breakfast
-    data:
-      to_brightness: 0
-  mode: restart
+  mode: single
+  max: 2
 - id: '1614498792999'
   alias: Tag MBR Tag is scanned
   description: ''
@@ -475,7 +454,7 @@
       entity_id: light.mbr_light
   mode: single
 - id: '1614689741833'
-  alias: 'Notify: Leave desk every so often'
+  alias: Notify, Lights - Leave desk every so often
   description: ''
   trigger:
   - type: motion
