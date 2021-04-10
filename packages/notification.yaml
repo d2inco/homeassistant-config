@@ -13,10 +13,62 @@ notify:
       base_url: http://192.168.200.77:8123
       service_name: google_translate_say
 
+  # message: required
+  # title:   optional
+  # target:  optional (platform dependent)
+  # data:    optional (platform dependent)
+
   notify:
+    - name: announce_office
+      platform: tts
+      tts_service: tts.google_tts
+      media_player: media_player.office_home
+    - name: announce_family_room
+      platform: tts
+      tts_service: tts.google_tts
+      media_player: media_player.family_room_home
+    - name: announce_bedroom
+      platform: tts
+      tts_service: tts.google_tts
+      media_player: media_player.bedroom_home
+
+    - name: announce_whole_house
+      platform: group
+      services:
+        - service: announce_office
+        - service: announce_family_room
+        - service: announce_bedroom
+
+    - name: david_cell_app
+      platform: group
+      services:
+        - service: mobile_app_davids_cell
+
+    - name: everywhere
+      platform: group
+      services:
+        - service: announce_office
+        - service: announce_family_room
+        - service: announce_bedroom
+        - service: mobile_app_davids_cell
+        - service: persistent_notification
+
     - name: push_notification
       platform: html5
       vapid_pub_key: !secret google_firebase_vapid_pub_key
       vapid_prv_key: !secret google_firebase_vapid_prv_key
       vapid_email: !secret google_firebase_vapid_email
 
+  script:
+    critial_everywhere:
+      sequence:
+        - service: notify.david_cell_app
+          data_template:
+            message: "{{ message }}"
+            data:
+              ttl: 0
+              priority: high
+              channel: critical
+        - service: notify.announce_whole_house
+          data_template:
+            message: "{{ message }}"
