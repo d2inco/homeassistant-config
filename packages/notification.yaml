@@ -1,0 +1,15 @@
+notify:
+
+  ######################################################################
+  # Text to speech
+  tts:
+    # New method for "tts.google_tts"
+    - platform: google_translate
+      base_url: http://192.168.200.77:8123
+      service_name: google_tts
+
+    # Previous iteration for "tts.google_translate_say" (until i can deprecate/remove)
+    - platform: google_translate
+      base_url: http://192.168.200.77:8123
+      service_name: google_translate_say
+
