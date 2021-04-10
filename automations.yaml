@@ -907,46 +907,6 @@
       message: Front doors and windows have been secured.
   mode: queued
   max: 2
-- id: '1617474345038'
-  alias: 00 Airflow Opened long enough to turn off Recirc mode
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: group.airflow_door_or_window_open
-    to: 'on'
-    for: 00:05:00
-  condition: []
-  action:
-  - service: notify.persistent_notification
-    data:
-      title: Open Door - Turning off Air Circulate
-      message: Open Door or Window, so turning off Air Circulation
-  - service: script.announce_everywhere
-    data:
-      message: Open window or door.  Turning off air circulation to conserve energy.
-  - service: climate.set_fan_mode
-    data:
-      fan_mode: auto
-    target:
-      entity_id: climate.david_s_thermostat_nativezone
-  - wait_for_trigger:
-    - platform: state
-      entity_id: group.airflow_door_or_window_open
-      to: 'off'
-    continue_on_timeout: false
-  - service: notify.persistent_notification
-    data:
-      title: Door Closed - activating Air Circulate
-      message: Door or Window now closed, so turning ON Air Circulation
-  - service: script.announce_everywhere
-    data:
-      message: Doors and windows closed.  Re-activating air circulation.
-  - service: climate.set_fan_mode
-    data:
-      fan_mode: circulate
-    target:
-      entity_id: climate.david_s_thermostat_nativezone
-  mode: single
 - id: '1617576693129'
   alias: 00 Airflow Opened long enough to turn Heating/Cooling OFF
   description: ''
