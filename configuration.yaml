@@ -5,9 +5,9 @@ discovery:
 
 ######################################################################
 homeassistant:
-  external_url: https://ha.dsba.net
+  external_url: !secret external_hass_url
   # TTS announcements break when 'internal' is DNS address, since the Google-Home's internal address
-  internal_url: http://hapc.dsba.net:8123
+  internal_url: !secret internal_hass_url
 
   customize: !include customize.yaml
   packages: !include_dir_merge_named packages
