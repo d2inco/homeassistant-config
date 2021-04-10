@@ -46,19 +46,20 @@ announce_everywhere:
   - service: tts.google_translate_say
     data_template:
       entity_id: media_player.family_room_home
-      message: '{{ message }}
-
-        '
+      message: '{{ message }}'
   - service: tts.google_translate_say
     data_template:
       entity_id: media_player.office_home
-      message: "{{ message }} \n"
+      message: '{{ message }}'
   - service: tts.google_translate_say
     data_template:
       entity_id: media_player.bedroom_home
-      message: '{{ message }}
-
-        '
+      message: '{{ message }}'
+  description: Make a voice-announcement on all Google Home devices
+  fields:
+    message:
+      description: Text to say out loud
+      example: Dinner is ready
 lights_to_level_kitchen_breakfast:
   alias: 'Lights-To-Level: Kitchen-Breakfast'
   sequence:
