@@ -1046,8 +1046,8 @@
   description: ''
   trigger:
   - platform: state
-      entity_id: group.airflow_door_or_window_open
-      to: 'off'
+    entity_id: group.airflow_door_or_window_open
+    to: 'off'
     for: 00:02:00
   condition:
   - condition: state
