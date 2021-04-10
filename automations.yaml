@@ -915,7 +915,14 @@
     entity_id: group.airflow_door_or_window_open
     to: 'on'
     for: 00:05:00
-  condition: []
+  condition:
+  - condition: state
+    entity_id: climate.david_s_thermostat_nativezone
+    state: Circulate
+    attribute: fan_mode
+  - condition: state
+    entity_id: climate.david_s_thermostat_nativezone
+    state: auto
   action:
   - service: notify.persistent_notification
     data:
