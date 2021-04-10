@@ -11,6 +11,11 @@ flags:
       mode: box
       min: 40
       max: 100
+    batt_threshold_display_kindle_fire_hd8:
+      name: Threshold of Kindle Fire HD8 Battery to Display
+      mode: box
+      min: 40
+      max: 100
     batt_threshold_display_zte:
       name: Threshold of ZTE Battery to Display
       mode: box
@@ -60,6 +65,14 @@ flags:
           friendly_name: Cell Battery Below Threshold
           value_template: >
             {% if states('sensor.davids_cell_battery_level') | int < states('input_number.batt_threshold_display_cell') | int %}
+              True
+            {% else %}
+              False
+            {% endif %}
+        kindle_fire_hd8_battery_below_threshold:
+          friendly_name: Kindle Fire HD8 Battery Below Threshold
+          value_template: >
+            {% if (states('sensor.kindle_fire_hd8_battery_level') | int < states('input_number.batt_threshold_display_kindle_fire_hd8') | int) and not is_state('sensor.kindle_fire_hd8_battery_level','unknown') %}
               True
             {% else %}
               False
