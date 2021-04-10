@@ -45,10 +45,9 @@ lights_to_level_kitchen_breakfast:
     - conditions:
       - condition: template
         value_template: "{% if ( to_brightness > 0  ) %}\ntrue\n{% else %}\nfalse\
-          \ \n{% endif %}"
+          \ \n{% endif %}\n"
       sequence:
       - service: light.turn_on
-        data: {}
         target:
           entity_id:
           - light.breakfast_rm_light
