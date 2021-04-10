@@ -7,4 +7,5 @@ influxdb_stuff:
     username: !secret influx_username
     password: !secret influx_password
     max_retries: 3
-    default_measurement: state
+    # default_measurement: state
+    override_measurement: state
