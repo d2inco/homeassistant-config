@@ -661,8 +661,10 @@
   - platform: state
     entity_id: group.perimeter_front_open
     to: 'off'
-    attribute: entity_id
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.perimeter_front_open_ack
+    state: 'on'
   action:
   - service: input_boolean.turn_off
     target:
@@ -683,7 +685,10 @@
   - platform: state
     entity_id: group.perimeter_back_open
     to: 'off'
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.perimeter_back_open_ack
+    state: 'on'
   action:
   - service: input_boolean.turn_off
     target:
