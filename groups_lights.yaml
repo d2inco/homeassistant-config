@@ -21,7 +21,8 @@
     - light.stairs_light
     - light.studio_light
     - light.track_light
-    - light.wled_master
+    - light.wled_fam_master
+    - light.wled_kitchen
 
 
 - platform: group
@@ -41,7 +42,8 @@
     - light.kitchen_2nd_switch
     - light.kitchen_light
     - light.track_light
-    - light.wled_master
+    - light.wled_fam_master
+    - light.wled_kitchen
 
 - platform: group
   name: Floor 2 Lights Group
