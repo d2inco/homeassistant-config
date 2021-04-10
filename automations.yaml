@@ -85,11 +85,13 @@
     event: start
   condition: []
   action:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 6
-      milliseconds: 0
+  - wait_for_trigger:
+    - platform: device
+      device_id: 9173ddf2d5129948c45618e4db554d94
+      domain: media_player
+      entity_id: media_player.family_room_home
+      type: idle
+    timeout: 00:01:00
   - service: script.announce_everywhere
     data:
       message: Home Assistant has restarted
