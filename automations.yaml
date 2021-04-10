@@ -971,8 +971,71 @@
     target:
       entity_id: climate.david_s_thermostat_nativezone
   mode: single
+- id: '1617755747066'
+  alias: Lights - Kitchen-Breakfast - AM - On when motion
+  description: Turn on the main floor when there is motion Upstairs, or on main floor,
+    or Studio
+  trigger:
+  - type: motion
+    platform: device
+    device_id: 0b2b40ee3db2b0715e441b4fff1aa87b
+    entity_id: binary_sensor.upstairs_motion
+    domain: binary_sensor
+  - type: motion
+    platform: device
+    device_id: 004463f7dc98142da83bf46edb4a580c
+    entity_id: binary_sensor.fam_rm_motion
+    domain: binary_sensor
+  - platform: state
+    entity_id: group.kitchen_breakfast_motion
+    to: 'on'
+  - type: motion
+    platform: device
+    device_id: bcd0dc9033fbd84484ed1f97a555cf76
+    entity_id: binary_sensor.studio_motion
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: time
+    after: 04:30:00
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  - condition: sun
+    before: sunrise
+    before_offset: 00:01:00
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: light.breakfast_rm_light
+      state: 'off'
+    - condition: state
+      entity_id: light.kitchen_light
+      state: 'off'
+  - condition: state
+    entity_id: group.floor_1_motion
+    state: 'off'
+    for: 01:00:00
+  action:
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 90
   - wait_for_trigger:
     - platform: state
+      entity_id: group.floor_1_2_motion
+      to: 'off'
+      for: 00:04:00
+    timeout: 00:20:00
+  - service: script.lights_to_level_kitchen_breakfast
+    data:
+      to_brightness: 0
+  mode: queued
+  max: 2
 - id: '1618009658525'
   alias: 00 Airflow Closed - Heating/Cooling ON
   description: ''
