@@ -1,4 +1,3 @@
-
 ######################################################################
 # Motion Detection Groupings:
 #     From Large areas to Small areas
@@ -6,7 +5,7 @@
 
 Open Area Motion:
   name: Motion in any open area
-  entities: 
+  entities:
     - binary_sensor.office_motion
     - binary_sensor.studio_motion
     - binary_sensor.dining_rm_motion
@@ -18,7 +17,7 @@ Open Area Motion:
 
 Floor 1-2 motion:
   name: First or Second Floor Motion
-  entities: 
+  entities:
     - binary_sensor.upstairs_motion
     - binary_sensor.dining_rm_motion
     - binary_sensor.kitchen_motion
@@ -28,7 +27,7 @@ Floor 1-2 motion:
 
 Floor 0-1 Motion:
   name: Basement or First Floor Motion
-  entities: 
+  entities:
     - binary_sensor.office_motion
     - binary_sensor.studio_motion
     - binary_sensor.dining_rm_motion
@@ -40,7 +39,7 @@ Floor 0-1 Motion:
 # By Floor
 Floor 2 Motion:
   name: Second Floor Motion
-  entities: 
+  entities:
     - binary_sensor.upstairs_motion
 
 Floor 1 Motion:
@@ -75,18 +74,34 @@ Family Rm TV On:
     - switch.family_room_hub_watch_htpc
 
 ######################################################################
-Exterior Perimeter Open:
-  name: Exterior Door or Window Open
+Perimeter Front Open:
+  name: Front Perimeter Door or Window Open
   entities:
     - binary_sensor.front_entry_sensor
     - binary_sensor.garage_door_sensor
+
+Perimeter Back Open:
+  name: Back Perimeter Door or Window Open
+  entities:
     - binary_sensor.sliding_door_sensor
     - binary_sensor.office_window_sensor
-    
+
 Any Perimeter Open:
-  name: Any Door or Window Open
+  name: Any Perimeter Door or Window Open
   entities:
-    - group.exterior_perimeter_open
+    - group.perimeter_front_open
+    - group.perimeter_back_open
+
+Any Door or Window Open:
+  name: Any Inside or Outside Door or Window Open
+  entities:
+    - group.any_perimeter_open
     - binary_sensor.garage_entry_sensor
+
+Airflow Door or Window Open:
+  name: Any Door or Window opened to allow cross-ventilation
+  entities:
+    - binary_sensor.front_entry_sensor
+    - binary_sensor.sliding_door_sensor
 
 ######################################################################
