@@ -53,7 +53,7 @@
       device_id: 004463f7dc98142da83bf46edb4a580c
       entity_id: binary_sensor.fam_rm_motion
       domain: binary_sensor
-    timeout: 00:01:00:00
+    timeout: 00:15:00
   - type: turn_off
     device_id: 62a9f350725fb1cc5f640c6273c6492f
     entity_id: light.track_light
