@@ -814,7 +814,7 @@
             entity_id: input_boolean.perimeter_back_open_ack
             state: 'off'
           sequence:
-          - service: notify.persistent_notification
+          - service: persistent_notification.create
             data:
               title: Something out back is open
               message: Back perimeter is open
@@ -838,7 +838,7 @@
           entity_id: group.perimeter_back_open
           to: 'off'
         timeout: 00:03:00
-  - service: notify.persistent_notification
+  - service: persistent_notification.create
     data:
       title: Back Perimeter is secure
       message: Back doors and windows are now closed.
@@ -873,7 +873,7 @@
             entity_id: input_boolean.perimeter_front_open_ack
             state: 'off'
           sequence:
-          - service: notify.persistent_notification
+          - service: persistent_notification.create
             data:
               title: Something out front is open
               message: Front perimeter is open
@@ -897,7 +897,7 @@
           entity_id: group.perimeter_front_open
           to: 'off'
         timeout: 00:03:00
-  - service: notify.persistent_notification
+  - service: persistent_notification.create
     data:
       title: Front Perimeter is secure
       message: Front doors and windows are now closed.
