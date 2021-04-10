@@ -1,5 +1,5 @@
 notify:
-
+  #
   ######################################################################
   # Text to speech
   tts:
@@ -18,6 +18,8 @@ notify:
   # target:  optional (platform dependent)
   # data:    optional (platform dependent)
 
+  ######################################################################
+  # Notifications
   notify:
     - name: announce_office
       platform: tts
@@ -59,6 +61,8 @@ notify:
       vapid_prv_key: !secret google_firebase_vapid_prv_key
       vapid_email: !secret google_firebase_vapid_email
 
+  ######################################################################
+  # Scriptsz.
   script:
     critial_everywhere:
       sequence:
