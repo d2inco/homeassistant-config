@@ -790,7 +790,7 @@
     domain: light
   mode: single
 - id: '1616881920814'
-  alias: xx-Perimeter Back open too long (v2)
+  alias: Notify, Voice - Perimeter Back open too long (v2)
   description: ''
   trigger:
   - platform: state
