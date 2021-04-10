@@ -128,16 +128,9 @@ bed_occupancy_package:
       alias: Bed-Occ Auto Reset When Minimal or Negative
       description: ''
       trigger:
-      - type: motion
-        platform: device
-        device_id: 004463f7dc98142da83bf46edb4a580c
-        entity_id: binary_sensor.fam_rm_motion
-        domain: binary_sensor
-        for:
-          hours: 0
-          minutes: 0
-          seconds: 30
-          milliseconds: 0
+      - platform: state
+        entity_id: group.floor_1_motion
+        for: 00:00:15
       - type: motion
         platform: device
         device_id: 0b2b40ee3db2b0715e441b4fff1aa87b
