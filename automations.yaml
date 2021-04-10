@@ -813,6 +813,7 @@
             data:
               title: Something out back is open
               message: Back perimeter is open
+              notification_id: back_perim_open
           - service: script.announce_everywhere
             data:
               message: "Attention. The following doors has been open for too long.\n\
@@ -836,13 +837,14 @@
     data:
       title: Back Perimeter is secure
       message: Back doors and windows are now closed.
+      notification_id: back_perim_closed
   - service: script.announce_everywhere
     data:
       message: Back doors and windows have been secured.
   mode: queued
   max: 2
 - id: '1616881920816'
-  alias: xx-Perimeter Front open too long (v2)
+  alias: Notify, Voice - Perimeter Front open too long (v2)
   description: ''
   trigger:
   - platform: state
@@ -870,6 +872,7 @@
             data:
               title: Something out front is open
               message: Front perimeter is open
+              notification_id: front_perim_open
           - service: script.announce_everywhere
             data:
               message: "Attention. The following doors have been open for too long.\n\
@@ -893,6 +896,7 @@
     data:
       title: Front Perimeter is secure
       message: Front doors and windows are now closed.
+      notification_id: front_perim_closed
   - service: script.announce_everywhere
     data:
       message: Front doors and windows have been secured.
@@ -961,11 +965,31 @@
       entity_id: climate.david_s_thermostat_nativezone
     data:
       hvac_mode: 'off'
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: auto
+    target:
+      entity_id: climate.david_s_thermostat_nativezone
+  mode: single
   - wait_for_trigger:
     - platform: state
+- id: '1618009658525'
+  alias: 00 Airflow Closed - Heating/Cooling ON
+  description: ''
+  trigger:
+  - platform: state
       entity_id: group.airflow_door_or_window_open
       to: 'off'
-    continue_on_timeout: false
+    for: 00:02:00
+  condition:
+  - condition: state
+    entity_id: climate.david_s_thermostat_nativezone
+    state: Auto
+    attribute: fan_mode
+  - condition: state
+    entity_id: climate.david_s_thermostat_nativezone
+    state: 'off'
+  action:
   - service: notify.persistent_notification
     data:
       title: Door Closed - turning HVAC on
@@ -978,4 +1002,9 @@
       entity_id: climate.david_s_thermostat_nativezone
     data:
       hvac_mode: auto
+  - service: climate.set_fan_mode
+    data:
+      fan_mode: circulate
+    target:
+      entity_id: climate.david_s_thermostat_nativezone
   mode: single
