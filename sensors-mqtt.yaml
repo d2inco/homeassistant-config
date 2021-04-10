@@ -26,9 +26,9 @@
     value_template: "{{ value }}"
     unit_of_measurement: "deg F"
   - platform: mqtt
-    name: "Bonus Room Temp"
-    state_topic: "room/bonus_room/temperature1"
-    unique_id: "room/bonus_room/temperature1"
+    name: "Loft Temp"
+    state_topic: "room/loft/temperature1"
+    unique_id: "room/loft/temperature1"
     value_template: "{{ value }}"
     unit_of_measurement: "deg F"
   - platform: mqtt
@@ -62,9 +62,9 @@
     value_template: "{{ value }}"
     unit_of_measurement: "% RH"
   - platform: mqtt
-    name: "Bonus Room Humidity"
-    state_topic: "room/bonus_room/humidity1"
-    unique_id: "room/bonus_room/humidity1"
+    name: "Loft Humidity"
+    state_topic: "room/loft/humidity1"
+    unique_id: "room/loft/humidity1"
     value_template: "{{ value }}"
     unit_of_measurement: "% RH"
   - platform: mqtt
@@ -73,3 +73,9 @@
     unique_id: "room/bedroom3/humidity1"
     value_template: "{{ value }}"
     unit_of_measurement: "% RH"
+  - platform: mqtt
+    name: "Kindle Fire HD8 Battery Level"
+    state_topic: "wallpanel/kfhd8/sensor/battery"
+    unique_id: "kfhd8-battery-level"
+    value_template: '{{ value_json["value"] | int }}'
+    unit_of_measurement: "%"
