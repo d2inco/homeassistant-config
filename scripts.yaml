@@ -3,7 +3,11 @@ bedtime_lights:
   sequence:
   - type: turn_off
     device_id: 17ee280aec38bda355534848e7f0d377
-    entity_id: light.wled_master
+    entity_id: light.wled_fam_master
+    domain: light
+  - type: turn_off
+    device_id: 096b8164b47a5fa128143e0d014f392e
+    entity_id: light.wled_kitchen
     domain: light
   - type: turn_on
     device_id: 2c9b8e6d9142854d19aa37d4b75b14fa
