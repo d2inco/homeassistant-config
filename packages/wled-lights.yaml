@@ -1,0 +1,62 @@
+wled_lights:
+
+  rest_command:
+    wled_kitchen_setup_segments:
+      url: !secret wled_kitchen_json_state
+      method: POST
+      content_type: 'application/json'
+      payload: '{
+            "seg": [
+                    { "id":0, "start":000, "stop":090 },
+                    { "id":1, "start":090, "stop":150 },
+                    { "id":2, "start":150, "stop":240 },
+            ]
+        }'
+
+    wled_kitchen_off:
+      url: !secret wled_kitchen_json_state
+      method: POST
+      content_type: 'application/json'
+      payload: '{ "on": false }'
+
+    wled_alert_front:
+      url: !secret wled_kitchen_json_state
+      method: POST
+      content_type: 'application/json'
+      payload: '{
+            "on": true,
+            "seg": [
+                    { "id":0, "on":true, "fx":28, "rev":true, "sx":240, "ix":64, "col": [ [255,192,0], [0,0,0] ] }
+            ]
+        }'
+
+    wled_alert_front_off:
+      url: !secret wled_kitchen_json_state
+      method: POST
+      content_type: 'application/json'
+      payload: '{
+            "seg": [
+                    { "id":0, "on":false }
+            ]
+        }'
+
+    wled_alert_rear:
+      url: !secret wled_kitchen_json_state
+      method: POST
+      content_type: 'application/json'
+      payload: '{
+            "on": true,
+            "seg": [
+                    { "id":1, "on":true, "fx":28, "rev":false, "sx":240, "ix":64, "col": [ [255,192,0], [0,0,0] ] }
+            ]
+        }'
+
+    wled_alert_rear_off:
+      url: !secret wled_kitchen_json_state
+      method: POST
+      content_type: 'application/json'
+      payload: '{
+            "seg": [
+                    { "id":1, "on":false, "start":121, "stop":240 }
+            ]
+        }'
