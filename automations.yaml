@@ -511,18 +511,14 @@
   condition:
   - condition: template
     value_template: '{{ ''supervisor_issue_pwned'' in trigger.event.data.service_data.notification_id
-      }}
-
-      '
+      }}'
   - condition: time
     after: 02:00
     before: '23:59'
   action:
   - service: persistent_notification.dismiss
     data:
-      notification_id: '{{ trigger.event.data.service_data.notification_id }}
-
-        '
+      notification_id: '{{ trigger.event.data.service_data.notification_id }}'
   mode: single
 - id: '1614898567897'
   alias: Lights - Kitchen-Breakfast - Evening - On/Off when motion (with script)
