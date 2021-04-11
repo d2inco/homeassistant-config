@@ -22,7 +22,7 @@
     - light.studio_light
     - light.track_light
     - light.wled_fam_master
-    - light.wled_kitchen
+    - light.wled_kitchen_master
 
 
 - platform: group
@@ -43,7 +43,7 @@
     - light.kitchen_light
     - light.track_light
     - light.wled_fam_master
-    - light.wled_kitchen
+    - light.wled_kitchen_master
 
 - platform: group
   name: Floor 2 Lights Group
