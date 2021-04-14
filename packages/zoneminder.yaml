@@ -2,7 +2,7 @@
 zoneminder_package:
 
   zoneminder:
-    - host: sec3.dsba.net
+    - host: !secret zm_hostname
       path: /zm/
       path_zms: /cgi-bin-zm/zms
       ssl: false
