@@ -426,9 +426,8 @@
     - fri
     - sat
     - sun
-  - condition: sun
-    after_offset: 01:30:00
-    after: sunrise
+  - condition: time
+    before: 08:30:00
   - condition: state
     entity_id: group.floor_1_motion
     state: 'off'
