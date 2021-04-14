@@ -20,4 +20,19 @@ sensor.octoprint_time_remaining:
   friendly_name: Time Remaining Secs
 binary_sensor.ezm_1_foyer_motion:
   friendly_name: EZM-1 Foyer Motion
-
+binary_sensor.loft_window_sensor:
+  device_class: window
+binary_sensor.bedroom_window_sensor:
+  device_class: window
+binary_sensor.kitchen_window_sensor:
+  device_class: window
+binary_sensor.sliding_door_sensor:
+  device_class: door
+binary_sensor.office_window_sensor:
+  device_class: window
+binary_sensor.garage_door_sensor:
+  device_class: garage_door
+binary_sensor.front_entry_sensor:
+  device_class: door
+binary_sensor.garage_entry_sensor:
+  device_class: door
