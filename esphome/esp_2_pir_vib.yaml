@@ -16,7 +16,7 @@ wifi:
   # Where to upload to
   use_address: 192.168.202.102
 
-  domain: .dsba.net
+  domain: !secret dot_internal_domain
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
