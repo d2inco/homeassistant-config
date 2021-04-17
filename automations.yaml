@@ -282,6 +282,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
+  - condition: state
+    entity_id: input_boolean.office_light_automations_enabled
+    state: 'on'
   - condition: time
     after: 04:30:00
     weekday:
