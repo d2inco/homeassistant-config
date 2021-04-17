@@ -91,17 +91,25 @@ Any Perimeter Open:
   entities:
     - group.perimeter_front_open
     - group.perimeter_back_open
+    - binary_sensor.kitchen_window_sensor
 
 Any Door or Window Open:
   name: Any Inside or Outside Door or Window Open
   entities:
     - group.any_perimeter_open
     - binary_sensor.garage_entry_sensor
+    - binary_sensor.bedroom_window_sensor
+    - binary_sensor.kitchen_window_sensor
+    - binary_sensor.loft_window_sensor
+
 
 Airflow Door or Window Open:
   name: Any Door or Window opened to allow cross-ventilation
   entities:
     - binary_sensor.front_entry_sensor
     - binary_sensor.sliding_door_sensor
+    - binary_sensor.bedroom_window_sensor
+    - binary_sensor.kitchen_window_sensor
+    - binary_sensor.loft_window_sensor
 
 ######################################################################
