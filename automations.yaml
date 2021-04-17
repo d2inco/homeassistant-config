@@ -201,7 +201,7 @@
   mode: queued
   max: 10
 - id: '1613396619724'
-  alias: 'zy-Housekeeping: Re-enable Light Automations after 1 hour'
+  alias: 'zy-Housekeeping: Re-enable Light Automations (House) after 1 hour'
   description: ''
   trigger:
   - platform: state
@@ -283,7 +283,7 @@
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
   - condition: state
-    entity_id: input_boolean.office_light_automations_enabled
+    entity_id: input_boolean.light_automations_office_enabled
     state: 'on'
   - condition: time
     after: 04:30:00
@@ -1056,4 +1056,27 @@
     data:
       title: ISY Reload Issued
       message: Stairs was marked unavailable for 3m so reloaded the devices.
+  mode: single
+- id: '1618685426781'
+  alias: 'zy-Housekeeping: Re-enable Light Automations (Office) after 1 hour'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_automations_office_enabled
+    to: 'off'
+    for: 01:00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.light_automations_office_enabled
+  - service: notify.persistent_notification
+    data:
+      title: Office Light Automations Re-enabled
+      message: Office Light Automations Re-enabled.
+  - service: script.announce_everywhere
+    data:
+      message: Office Light automations have been re-enabled.
   mode: single
