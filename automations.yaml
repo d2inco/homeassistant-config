@@ -275,7 +275,7 @@
     domain: binary_sensor
   - type: motion
     platform: device
-    device_id: 62f3b3209217ca23870264f8713efbe4
+    device_id: dcf0c85340207727cdda037e63bc5d18
     entity_id: binary_sensor.ezm_2_breakfast_room_motion
     domain: binary_sensor
   condition:
