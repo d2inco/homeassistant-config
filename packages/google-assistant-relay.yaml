@@ -1,20 +1,25 @@
 google_assistant_relay:
   rest_command:
+        #
+        # The "user" parameter here corresponds to the user identified on the Assistant-Relay page
+        # when you linked the JSON service key to a specific name.  It does NOT correspond to the
+        # Google username that is associcated with the JSON service key file.
+        #
     assistant_broadcast:
       url: http://192.168.200.77:3000/assistant
       method: POST
       content_type: 'application/json'
-      payload: '{"command":"{{ command }}", "user":"!secret google_assistant_username", "broadcast":true}'
-      
+      payload: '{"command":"{{ command }}", "user":"david", "broadcast":true}'
+
     assistant_converse:
       url: http://192.168.200.77:3000/assistant
       method: POST
       content_type: 'application/json'
-      payload: '{"command":"{{ command }}", "user":"!secret google_assistant_username", "converse":true}'
+      payload: '{"command":"{{ command }}", "user":"david", "converse":true}'
 
     assistant_relay:
       url: http://192.168.200.77:3000/assistant
       method: POST
       content_type: 'application/json'
-      payload: '{"command":"{{ command }}", "user":"!secret google_assistant_username"}'
+      payload: '{"command":"{{ command }}", "user":"david"}'
 
