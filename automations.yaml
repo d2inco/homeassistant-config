@@ -765,7 +765,7 @@
     device_id: 2876947463a17fcde130a8fac4ea5bfa
     entity_id: light.mbr_light
     domain: light
-    brightness_pct: 15
+    brightness_pct: 20
   - wait_for_trigger:
     - platform: state
       entity_id: binary_sensor.upstairs_motion
