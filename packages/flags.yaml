@@ -1,4 +1,3 @@
-
 flags:
   input_number:
     batt_threshold_display_cell:
@@ -21,7 +20,11 @@ flags:
       mode: box
       min: 40
       max: 100
-
+    batt_threshold_window_sensors:
+      name: Threshold of Window Sensor Batteries to Display
+      mode: box
+      min: 10
+      max: 100
 
   binary_sensor:
     - platform: template
@@ -52,6 +55,20 @@ flags:
               False
             {% endif %}
 
+        any_google_home_alarm_timer_set:
+          friendly_name: Any Google Home Alarms Set
+          value_template: >
+            {% if is_state('sensor.family_room_home_alarms','unavailable')
+              and is_state('sensor.family_room_home_timers','unavailable')
+              and is_state('sensor.bedroom_home_alarms','unavailable')
+              and is_state('sensor.bedroom_home_timers','unavailable')
+              and is_state('sensor.office_home_alarms','unavailable')
+              and is_state('sensor.office_home_timers','unavailable')
+            %}
+              False
+            {% else %}
+              True
+            {% endif %}
 
         tablet_battery_below_threshold:
           friendly_name: Tablet Battery Below Threshold
