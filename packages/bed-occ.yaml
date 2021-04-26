@@ -163,7 +163,7 @@ bed_occupancy_package:
         data:
           title: Bed OCC Reset
           message: Bed Occ RESET has been issued from {{ trigger.from_state.state }} -
-            {{ sensor.bedroom_bedocc }} - {{ states('sensor.bedroom_bedocc') | float }}
+            {{ sensor.bedroom_bedocc | float }} - {{ states('sensor.bedroom_bedocc') | float }}
       - delay:
           hours: 0
           minutes: 2
