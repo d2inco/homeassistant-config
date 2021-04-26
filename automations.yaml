@@ -810,6 +810,22 @@
               title: Back door or window open
               message: Back perimeter is open.
               notification_id: back_perim_open
+          - service: notify.mobile_app_davids_cell
+            data:
+              title: Back door or window open
+              message: Back perimeter is open for too long.
+              data:
+                ttl: 0
+                priority: high
+                channel: urgent
+                actions:
+                - action: do_nothing
+                  title: Dismiss
+                - action: ACKNOWLEDGE_BACK_PERIM
+                  title: ACK/Silence
+                - action: URI
+                  title: Open in App
+                  uri: /dsba-db/home
           - service: script.announce_everywhere
             data:
               message: "Attention. The following doors has been open for too long.\n\
@@ -869,6 +885,22 @@
               title: Front door or window open
               message: Front perimeter is open.
               notification_id: front_perim_open
+          - service: notify.mobile_app_davids_cell
+            data:
+              title: Front door or window open
+              message: Front perimeter is open for too long.
+              data:
+                ttl: 0
+                priority: high
+                channel: urgent
+                actions:
+                - action: do_nothing
+                  title: Dismiss
+                - action: ACKNOWLEDGE_FRONT_PERIM
+                  title: ACK/Silence
+                - action: URI
+                  title: Open in App
+                  uri: /dsba-db/home
           - service: script.announce_everywhere
             data:
               message: "Attention. The following doors have been open for too long.\n\
@@ -1070,4 +1102,38 @@
   - service: script.announce_everywhere
     data:
       message: Office Light automations have been re-enabled.
+  mode: single
+- id: '1619477154630'
+  alias: 'zx - APP  Event: Acknowledge Back Perimeter'
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: ACKNOWLEDGE_BACK_PERIM
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.perimeter_back_open_ack
+  - service: script.announce_everywhere
+    data:
+      message: Back Perimeter has been acknowledged.
+  mode: single
+- id: '1619477154629'
+  alias: 'zx - APP Event: Acknowledge Front Perimeter'
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: ACKNOWLEDGE_FRONT_PERIM
+  condition: []
+  action:
+  - service: input_boolean.turn_on
+    target:
+      entity_id: input_boolean.perimeter_front_open_ack
+  - service: script.announce_everywhere
+    data:
+      message: Front Perimeter has been acknowledged.
   mode: single
