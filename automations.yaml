@@ -814,8 +814,8 @@
           sequence:
           - service: persistent_notification.create
             data:
-              title: Something out back is open
-              message: Back perimeter is open
+              title: Back door or window open
+              message: Back perimeter is open.
               notification_id: back_perim_open
           - service: script.announce_everywhere
             data:
@@ -873,8 +873,8 @@
           sequence:
           - service: persistent_notification.create
             data:
-              title: Something out front is open
-              message: Front perimeter is open
+              title: Front door or window open
+              message: Front perimeter is open.
               notification_id: front_perim_open
           - service: script.announce_everywhere
             data:
@@ -924,12 +924,12 @@
   action:
   - service: notify.persistent_notification
     data:
-      title: Open Door - Turning off Heating and Cooling
-      message: Open Door or Window, so turning off Heating and Cooling
+      title: Open Door - Turning off HVAC
+      message: Open Door or Window, so turning off Heating and Cooling system.
   - service: script.announce_everywhere
     data:
-      message: Open window or door.  Turning off heating and cooling system.  Again,
-        the A C is off.
+      message: Open window or door.  Turning off the HVAC system.  Again, the A C
+        is off.
   - service: climate.set_hvac_mode
     target:
       entity_id: climate.david_s_thermostat_nativezone
@@ -1025,11 +1025,11 @@
   action:
   - service: notify.persistent_notification
     data:
-      title: Door Closed - turning HVAC on
-      message: Door or Window now closed, so turning HVAC to Auto mode.
+      title: Door Closed - turning on HVAC
+      message: Doors and windows now closed.  Turning HVAC to Auto mode.
   - service: script.announce_everywhere
     data:
-      message: Doors and windows closed.  Turning HVAC to Auto mode.
+      message: Doors and windows are now closed.  Turning HVAC to Auto mode.
   - service: climate.set_hvac_mode
     target:
       entity_id: climate.david_s_thermostat_nativezone
