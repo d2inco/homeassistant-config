@@ -1,5 +1,31 @@
 
 calendar_package:
+  input_datetime:
+    wakeup_alarm_workday_time:
+      name: "Wakeup Alarm (Workday)"
+      has_date: false
+      has_time: true
+
+  binary_sensor:
+    - platform: workday
+      country: US
+      province: CO
+      name: workday_today
+    - platform: workday
+      country: US
+      province: CO
+      name: workday_tomorrow
+      days_offset: +1
+    - platform: template
+      sensors:
+        workday_off_soon:
+          friendly_name: Workday Off Soon
+          value_template: >
+            {% if is_state('binary_sensor.workday_today','off')
+              and is_state('binary_sensor.workday_tomorrow','off')
+            %} on {% else %} off {% endif %}
+
+
   sensor:
     - platform: template
       sensors:
@@ -45,8 +71,6 @@ calendar_package:
         cal_work_location:
           friendly_name: "David Work Event Location"
           value_template: '{{ state_attr("calendar.david_work", "location") }}'
-
-
 
   automation:
     - id: '1612478619230'
