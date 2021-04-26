@@ -969,6 +969,8 @@
     - wed
     - thu
     - fri
+    - sat
+    - sun
   - condition: sun
     before: sunrise
     before_offset: 00:01:00
@@ -980,10 +982,6 @@
     - condition: state
       entity_id: light.kitchen_light
       state: 'off'
-  - condition: state
-    entity_id: group.floor_1_motion
-    state: 'off'
-    for: 01:00:00
   action:
   - service: script.lights_to_level_kitchen_breakfast
     data:
@@ -992,12 +990,12 @@
     - platform: state
       entity_id: group.floor_1_2_motion
       to: 'off'
-      for: 00:04:00
+      for: 00:06:00
     timeout: 00:20:00
   - service: script.lights_to_level_kitchen_breakfast
     data:
       to_brightness: 0
-  mode: queued
+  mode: restart
   max: 2
 - id: '1618009658525'
   alias: 00 Airflow Closed - Heating/Cooling ON
