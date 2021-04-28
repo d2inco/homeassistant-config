@@ -947,14 +947,13 @@
     entity_id: climate.david_s_thermostat_nativezone
     state: auto
   action:
-  - service: notify.persistent_notification
+  - service: script.notify_all_in_one
     data:
       title: Open Door - Turning off HVAC
-      message: Open Door or Window, so turning off Heating and Cooling system.
-  - service: script.announce_everywhere
-    data:
       message: Open window or door.  Turning off the HVAC system.  Again, the A C
         is off.
+      announce: 'yes'
+      inapp: 'yes'
   - service: climate.set_hvac_mode
     target:
       entity_id: climate.david_s_thermostat_nativezone
@@ -1046,13 +1045,12 @@
     entity_id: climate.david_s_thermostat_nativezone
     state: 'off'
   action:
-  - service: notify.persistent_notification
+  - service: script.notify_all_in_one
     data:
       title: Door Closed - turning on HVAC
-      message: Doors and windows now closed.  Turning HVAC to Auto mode.
-  - service: script.announce_everywhere
-    data:
       message: Doors and windows are now closed.  Turning HVAC to Auto mode.
+      announce: 'yes'
+      inapp: 'yes'
   - service: climate.set_hvac_mode
     target:
       entity_id: climate.david_s_thermostat_nativezone
