@@ -99,3 +99,107 @@ notify:
         message:
           description: Text to say out loud
           example: Dinner is ready
+
+    notify_all_in_one:
+      alias: All-in-one Notification Script
+      mode: queued
+      icon: mdi:bell-outline
+      max: 10
+      fields:
+        title:
+          description: Short Title to display
+          example: Important Notification
+          default: ""
+        message:
+          description: Longer text to display
+          example: This big thing happened
+          default: "Message Here"
+          required: true
+        notification_id:
+          description: "For replaceable/clearable notifications (default: '')"
+          example: ''
+          default: ''
+        tts:
+          description: Say message aloud on the phone
+          example: 'yes'
+          default: 'no'
+          required: 'no'
+        channel:
+          description: "Category for phone notfications (default, urgent, critical)"
+          example: default
+          default: default
+          required: false
+        importance:
+          description: "Priority for notification (high (sound+HUD), default (sound), low (no-sound), min (no-sound or status))"
+          example: default
+          default: default
+          required: false
+        inapp:
+          description: Display as in-app notification (yes, no).
+          example: 'yes'
+          default: 'yes'
+        announce:
+          description: Read the message aloud, in the house(yes, no)
+          example: 'no'
+          default: 'no'
+      sequence:
+        - delay:
+            hours: 0
+            minutes: 0
+            seconds: 0
+            milliseconds: 1
+        - alias: "if announce"
+          choose:
+            - conditions: "{{ announce == 'yes' }}"
+              sequence:
+                - service: script.announce_everywhere
+                  data:
+                    message: "{{ message }}"
+        - alias: "if in-app"
+          choose:
+            - conditions: "{{ inapp == 'yes' and (notification_id | default('')) == '' }}"
+              sequence:
+                - service: persistent_notification.create
+                  data:
+                    title: "{{ title }}"
+                    message: "{{ message }} [PC-1]"
+                - service: notify.mobile_app_davids_cell
+                  data:
+                    title: "{{ title }}"
+                    message: "{{ message }} [APP-1]"
+                    data:
+                      ttl: 0
+                      channel: "{{ channel | default('default') }}"
+                      importance: "{{ importance | default('default') }}"
+            - conditions: "{{ inapp == 'yes' and notification_id != '' }}"
+              sequence:
+                - service: persistent_notification.create
+                  data:
+                    title: "{{ title }} - id {{ notification_id }}"
+                    message: "{{ message }} [PC-2]"
+                    notification_id: "{{ notification_id | default('xx') }}"
+                - service: notify.mobile_app_davids_cell
+                  data:
+                    title: "{{ title }}"
+                    message: "{{ message }} [APP-2]"
+                    data:
+                      ttl: 0
+                      channel: "{{ channel | default('default') }}"
+                      importance: "{{ importance | default('default') }}"
+        - alias: "if tts-on-phone"
+          choose:
+            - conditions: "{{ tts == 'yes' }}"
+              sequence:
+                - repeat:
+                    count: 3
+                    sequence:
+                      - service: notify.mobile_app_davids_cell
+                        data:
+                          title: "{{ message }}"
+                          message: "TTS"
+                          data:
+                            channel: alarm_stream_max
+                      - delay:
+                          hours: 0
+                          minutes: 0
+                          seconds: 5
