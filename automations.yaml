@@ -931,7 +931,7 @@
   mode: queued
   max: 2
 - id: '1617576693129'
-  alias: 00 Airflow Opened long enough to turn Heating/Cooling OFF
+  alias: Airflow Opened too long - turn Heating/Cooling OFF
   description: ''
   trigger:
   - platform: state
@@ -1030,7 +1030,7 @@
   mode: restart
   max: 2
 - id: '1618009658525'
-  alias: 00 Airflow Closed - Heating/Cooling ON
+  alias: Airflow Closed - Heating/Cooling ON
   description: ''
   trigger:
   - platform: state
