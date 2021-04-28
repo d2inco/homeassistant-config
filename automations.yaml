@@ -1004,7 +1004,7 @@
     - sun
   - condition: sun
     before: sunrise
-    before_offset: 00:01:00
+    before_offset: 00:30:00
   - condition: and
     conditions:
     - condition: state
