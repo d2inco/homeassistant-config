@@ -79,7 +79,7 @@ notify:
 
     announce_everywhere:
       alias: Announce Everywhere
-      mode: single
+      mode: queued
       icon: mdi:volume-high
       sequence:
         - service: tts.google_translate_say
