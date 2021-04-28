@@ -155,15 +155,14 @@ bed_occupancy_package:
         after: '06:00:00'
         before: '20:00:00'
       action:
+      - service: notify.persistent_notification
+        data:
+          title: Bed OCC Reset 1
+          message: "Bed Occ RESET Issued. Prev Value: {{ states('sensor.bedroom_bedocc') | float }}"
       - service: mqtt.publish
         data:
           topic: room/bedroom/bed/reset
           payload: '1'
-      - service: notify.persistent_notification
-        data:
-          title: Bed OCC Reset
-          message: Bed Occ RESET has been issued from {{ trigger.from_state.state }} -
-            {{ sensor.bedroom_bedocc | float }} - {{ states('sensor.bedroom_bedocc') | float }}
       - delay:
           hours: 0
           minutes: 2
