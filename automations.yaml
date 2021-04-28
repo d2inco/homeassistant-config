@@ -505,7 +505,7 @@
       service: create
   condition:
   - condition: template
-    value_template: '{{ ''supervisor_issue_pwned'' in (trigger.event.data.service_data.notification_id
+    value_template: '{{ ''supervisor_issue_pwned_core_samba'' in (trigger.event.data.service_data.notification_id
       | default('''')) }}'
   - condition: time
     after: 02:00
