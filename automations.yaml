@@ -751,7 +751,7 @@
     - fri
     - sat
     - sun
-    after: 01:00:00
+    after: 00:00:00
   - condition: sun
     before: sunrise
     before_offset: +00:15:00
@@ -768,7 +768,7 @@
     device_id: 2876947463a17fcde130a8fac4ea5bfa
     entity_id: light.mbr_light
     domain: light
-    brightness_pct: 20
+    brightness_pct: 17
   - wait_for_trigger:
     - platform: state
       entity_id: binary_sensor.upstairs_motion
