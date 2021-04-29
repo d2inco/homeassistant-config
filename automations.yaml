@@ -114,8 +114,8 @@
       message: TTS Cache has been cleared
       title: TTS Cache Clear
   mode: single
-- id: '1612743069476'
-  alias: Lights - Kitchen-Breakfast - Dusk - On/Off when motion (w/ script)
+- id: '1612743069477'
+  alias: Lights - Kitchen-Breakfast - Dusk - On/Off when motion (w/ script) [new]
   description: ''
   trigger:
   - platform: state
@@ -127,7 +127,7 @@
     state: 'on'
   - condition: sun
     after: sunset
-    after_offset: -00:30:00
+    after_offset: -03:00:00
   - condition: sun
     before: sunset
     before_offset: 00:04:00
@@ -139,6 +139,9 @@
     - condition: state
       entity_id: light.kitchen_light
       state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.ezm_2_breakfast_room_illuminance
+    below: '25'
   action:
   - service: script.lights_to_level_kitchen_breakfast
     data:
