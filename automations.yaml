@@ -1138,3 +1138,34 @@
     data:
       message: Front Perimeter has been acknowledged.
   mode: single
+- id: '1619568005949'
+  alias: Notify, Voice - Garage Door Up - David is Away [Urgent]
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: device_tracker.davids_cell
+    to: not_home
+    for: 00:00:15
+  - platform: state
+    entity_id: person.david
+    to: away
+    for: 00:00:15
+  - platform: state
+    entity_id: device_tracker.davids_bt_cell
+    to: not_home
+    for: 00:00:15
+  condition:
+  - condition: state
+    entity_id: binary_sensor.garage_door_sensor
+    state: 'on'
+  action:
+  - service: script.notify_all_in_one
+    data:
+      title: Garage Door Left Open
+      message: Garage Door Open and You're Not Home!
+      tts: 'yes'
+      channel: critical
+      importance: high
+      inapp: 'yes'
+      announce: 'no'
+  mode: single
