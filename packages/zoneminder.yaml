@@ -1,6 +1,9 @@
 
 zoneminder_package:
 
+  # Note that the list of available cameras is controlled within ZoneMinder
+  # by managing what cameras the <username> has access to.
+
   zoneminder:
     - host: !secret zm_hostname
       path: /zm/
