@@ -84,6 +84,12 @@ google_assistant:
       expose: false
     switch.wled_kitchen_sync_receive:
       expose: false
+    light.wled_kitchen: # (segment 0)
+      expose: false
+    light.wled_kitchen_segment_1:
+      expose: false
+    light.wled_kitchen_segment_2:
+      expose: false
 
 ########################################
 # Google Calendar subscribe:
