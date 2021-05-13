@@ -398,22 +398,12 @@
   trigger:
   - type: motion
     platform: device
-    device_id: 0b2b40ee3db2b0715e441b4fff1aa87b
-    entity_id: binary_sensor.upstairs_motion
-    domain: binary_sensor
-  - type: motion
-    platform: device
     device_id: 004463f7dc98142da83bf46edb4a580c
     entity_id: binary_sensor.fam_rm_motion
     domain: binary_sensor
   - platform: state
     entity_id: group.kitchen_breakfast_motion
     to: 'on'
-  - type: motion
-    platform: device
-    device_id: bcd0dc9033fbd84484ed1f97a555cf76
-    entity_id: binary_sensor.studio_motion
-    domain: binary_sensor
   condition:
   - condition: time
     after: 04:00:00
