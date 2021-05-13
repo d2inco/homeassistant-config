@@ -635,16 +635,18 @@
   mode: parallel
   max: 10
 - id: '1615410820791'
-  alias: 'zy-Housekeeping: Un-Ack Front Perimeter Ack after 1 Hour'
+  alias: 'zy-Housekeeping: Un-Ack Front Perimeter Ack after <Unack Minutes>'
   description: ''
   trigger:
   - platform: state
     entity_id: input_boolean.perimeter_front_open_ack
     to: 'on'
-    for: 01:00:00
+    for: 0:{{ states('input_number.perim_front_open_unack_mins')  | round(0) }}:00
   - platform: state
     entity_id: group.perimeter_front_open
     to: 'off'
+  - platform: state
+    entity_id: input_number.perim_front_open_unack_mins
   condition:
   - condition: state
     entity_id: input_boolean.perimeter_front_open_ack
@@ -659,16 +661,18 @@
       message: Front Perimeter Open-ACK now Unacked
   mode: single
 - id: '1615410882193'
-  alias: 'zy-Housekeeping: Un-Ack Back Perimeter Ack after 3 Hour'
+  alias: 'zy-Housekeeping: Un-Ack Back Perimeter Ack after <Unack Minutes>'
   description: ''
   trigger:
   - platform: state
     entity_id: input_boolean.perimeter_back_open_ack
     to: 'on'
-    for: 03:00:00
+    for: 0:{{ states('input_number.perim_back_open_unack_mins') | round(0) }}:00
   - platform: state
     entity_id: group.perimeter_back_open
     to: 'off'
+  - platform: state
+    entity_id: input_number.perim_back_open_unack_mins
   condition:
   - condition: state
     entity_id: input_boolean.perimeter_back_open_ack
@@ -1149,13 +1153,65 @@
     entity_id: binary_sensor.garage_door_sensor
     state: 'on'
   action:
+  - repeat:
+      while:
+      - condition: state
+        entity_id: binary_sensor.garage_door_sensor
+        state: 'on'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.garage_open_ack
+            state: 'off'
+          sequence:
+          - service: script.notify_all_in_one
+            data:
+              title: Garage Door Left Open
+              message: Garage Door Open and You're Not Home!
+              tts: 'yes'
+              channel: critical
+              importance: high
+              inapp: 'yes'
+              announce: 'no'
+        default: []
+      - wait_for_trigger:
+        - platform: state
+          entity_id: binary_sensor.garage_door_sensor
+          to: 'off'
+        timeout: 00:01:30
   - service: script.notify_all_in_one
     data:
-      title: Garage Door Left Open
-      message: Garage Door Open and You're Not Home!
+      title: Garage Door Now Closed
+      message: Garage Door has been Closed.
       tts: 'yes'
-      channel: critical
+      channel: urgent
       importance: high
       inapp: 'yes'
       announce: 'no'
+  mode: single
+- id: '1619809477000'
+  alias: 'zy-Housekeeping: Un-Ack Garage Door Ack after 1 Hour'
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.garage_open_ack
+    to: 'on'
+    for: 01:00:00
+  - platform: state
+    entity_id: group.perimeter_front_open
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.garage_open_ack
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.garage_open_ack
+  - service: notify.persistent_notification
+    data:
+      title: Garage Door Open-ACK now Unacked
+      message: Garage Door Open-ACK now Unacked
   mode: single
