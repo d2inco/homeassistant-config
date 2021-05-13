@@ -65,6 +65,7 @@ notify:
   # Scripts
   script:
     critial_everywhere:
+      mode: queued
       sequence:
         - service: notify.david_cell_app
           data_template:
@@ -86,14 +87,26 @@ notify:
           data_template:
             entity_id: media_player.family_room_home
             message: "{{ message }}"
+        - delay:
+            hours: 0
+            minutes: 0
+            seconds: 3
         - service: tts.google_translate_say
           data_template:
             entity_id: media_player.office_home
             message: "{{ message }}"
+        - delay:
+            hours: 0
+            minutes: 0
+            seconds: 3
         - service: tts.google_translate_say
           data_template:
             entity_id: media_player.bedroom_home
             message: "{{ message }}"
+        - delay:
+            hours: 0
+            minutes: 0
+            seconds: 3
       description: Make a voice-announcement on all Google Home devices
       fields:
         message:
