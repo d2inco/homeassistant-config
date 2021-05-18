@@ -1214,3 +1214,73 @@
       title: Garage Door Open-ACK now Unacked
       message: Garage Door Open-ACK now Unacked
   mode: single
+- id: '1620964725197'
+  alias: 00 - Lights - WLED Kitchen On
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.floor_1_motion
+    for: 00:00:20
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: and
+    conditions:
+    - condition: sun
+      after: sunset
+      after_offset: -02:00:00
+    - condition: numeric_state
+      entity_id: sensor.ezm_2_breakfast_room_illuminance
+      below: '20'
+  - condition: state
+    entity_id: light.wled_kitchen_master
+    state: 'off'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.wled_kitchen_master
+  mode: single
+- id: '1621027622686'
+  alias: 00 - Lights - WLED Kitchen Off
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: group.floor_1_motion
+    for: 00:10:00
+    to: 'off'
+  - platform: state
+    entity_id: binary_sensor.harmony_family_room_off
+    for: 00:10:00
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: sun
+      before: sunrise
+      before_offset: 01:00:00
+    - condition: sun
+      after: sunset
+      after_offset: -02:00:00
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.harmony_family_room_off
+      state: 'on'
+      for: 00:09:58
+    - condition: state
+      entity_id: group.floor_1_motion
+      state: 'off'
+      for: 00:09:58
+  - condition: state
+    entity_id: light.wled_kitchen_master
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.wled_kitchen_master
+  mode: single
