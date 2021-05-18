@@ -393,7 +393,7 @@
     entity_id: input_text.bedocc_status_4
   mode: single
 - id: '1614216935760'
-  alias: Notify, Voice - Say "Good morning" when upstairs motion (wake up)
+  alias: 'Notify, Voice - Say "Good morning" when first 1st Floor Motion '
   description: ''
   trigger:
   - type: motion
@@ -417,10 +417,9 @@
     - sun
   - condition: time
     before: 08:30:00
-  - condition: state
-    entity_id: group.floor_1_motion
-    state: 'off'
-    for: 02:00:00
+  - condition: template
+    value_template: '{{ as_timestamp(now()) - (as_timestamp(state_attr("automation.announce_good_morning",
+      "last_triggered")) or 0) > (3600*3) }}'
   action:
   - service: tts.google_translate_say
     data:
