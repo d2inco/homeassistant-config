@@ -28,6 +28,15 @@ harmony_remote_package:
               and (not is_state('switch.family_room_hub_listen_to_sonos', 'unavailable'))
             %} False {% else %} True {% endif %}
           device_class: problem
+        bedroom_hub_problem:
+          friendly_name: 'Bedroom Hub Problem?'
+          value_template: >
+            {% if (not is_state('remote.bedroom_hub', 'unavailable'))
+              and (not is_state('switch.bedroom_hub_watch_tivo', 'unavailable'))
+              and (not is_state('switch.bedroom_hub_watch_chromecast', 'unavailable'))
+              and (not is_state('switch.bedroom_hub_listen_to_sonos', 'unavailable'))
+            %} False {% else %} True {% endif %}
+          device_class: problem
 
     #    harmony_family_room_tivo:
     #      friendly_name: 'Is Watching TiVo'
