@@ -291,7 +291,7 @@
     - fri
   - condition: sun
     before: sunrise
-    before_offset: 00:01:00
+    before_offset: 01:00:00
   action:
   - scene: scene.basement_light_low
   - wait_for_trigger:
@@ -325,7 +325,7 @@
     - fri
   - condition: sun
     before: sunrise
-    before_offset: 00:05:00
+    before_offset: 01:00:00
   - condition: or
     conditions:
     - condition: state
@@ -1001,7 +1001,7 @@
     - sun
   - condition: sun
     before: sunrise
-    before_offset: 00:30:00
+    before_offset: 01:00:00
   - condition: and
     conditions:
     - condition: state
