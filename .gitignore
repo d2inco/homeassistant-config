@@ -379,3 +379,5 @@ esphome/*/
 www/community
 zigbee.db
 image/
+node-red/*.json.backup
+node-red/flows_cred.json
