@@ -370,7 +370,7 @@ harmony*conf
 nexia*conf
 options.xml
 *jic*
-home-assistant*.db
+home-assistant*.db*
 
 custom_components/
 google_calendars.yaml
