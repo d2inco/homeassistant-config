@@ -151,4 +151,3 @@ calendar_package:
           message: '"You have a work meeting starting soon, titled {{ state_attr("calendar.david_work",
             "message") }}"'
       mode: single
-
