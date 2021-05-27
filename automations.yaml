@@ -29,9 +29,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: sun
-    after: sunset
-    after_offset: -00:30
+  - condition: state
+    entity_id: binary_sensor.is_evening_sunset_or_dusk_or_dark
+    state: 'on'
   - condition: state
     entity_id: switch.family_room_hub_watch_tivo
     state: 'off'
@@ -125,12 +125,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: sun
-    after: sunset
-    after_offset: -03:00:00
-  - condition: sun
-    before: sunset
-    before_offset: 00:04:00
+  - condition: state
+    entity_id: binary_sensor.is_evening_before_sunset
+    state: 'on'
   - condition: and
     conditions:
     - condition: state
@@ -282,16 +279,15 @@
     entity_id: input_boolean.light_automations_office_enabled
     state: 'on'
   - condition: time
-    after: 04:30:00
     weekday:
     - mon
     - tue
     - wed
     - thu
     - fri
-  - condition: sun
-    before: sunrise
-    before_offset: 01:00:00
+  - condition: state
+    entity_id: binary_sensor.is_morning_dark_or_dawn_or_sunrise
+    state: 'on'
   action:
   - scene: scene.basement_light_low
   - wait_for_trigger:
@@ -315,17 +311,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: time
-    after: 04:30:00
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-  - condition: sun
-    before: sunrise
-    before_offset: 01:00:00
+  - condition: state
+    entity_id: binary_sensor.is_morning_dark_or_dawn_or_sunrise
+    state: 'on'
   - condition: or
     conditions:
     - condition: state
@@ -518,9 +506,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: sun
-    after: sunset
-    after_offset: 00:04:00
+  - condition: state
+    entity_id: binary_sensor.is_evening_dark
+    state: 'on'
   - condition: and
     conditions:
     - condition: state
@@ -988,19 +976,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: time
-    after: 04:30:00
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
-    - sat
-    - sun
-  - condition: sun
-    before: sunrise
-    before_offset: 01:00:00
+  - condition: state
+    entity_id: binary_sensor.is_morning_dark_or_dawn_or_sunrise
+    state: 'on'
   - condition: and
     conditions:
     - condition: state
@@ -1226,14 +1204,12 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: and
-    conditions:
-    - condition: sun
-      after: sunset
-      after_offset: -02:00:00
-    - condition: numeric_state
-      entity_id: sensor.ezm_2_breakfast_room_illuminance
-      below: '20'
+  - condition: state
+    entity_id: binary_sensor.is_evening_sunset_or_dusk_or_dark
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.ezm_2_breakfast_room_illuminance
+    below: '24'
   - condition: state
     entity_id: light.wled_kitchen_master
     state: 'off'
@@ -1258,14 +1234,9 @@
   - condition: state
     entity_id: input_boolean.light_automations_enabled
     state: 'on'
-  - condition: or
-    conditions:
-    - condition: sun
-      before: sunrise
-      before_offset: 01:00:00
-    - condition: sun
-      after: sunset
-      after_offset: -02:00:00
+  - condition: state
+    entity_id: binary_sensor.is_evening_sunset_or_dusk_or_dark
+    state: 'on'
   - condition: and
     conditions:
     - condition: state

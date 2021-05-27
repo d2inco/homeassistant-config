@@ -41,6 +41,10 @@ flags:
       name: "Morning Automations After"
       has_date: false
       has_time: true
+    evening_automations_until:
+      name: "Evening Automations Until"
+      has_date: false
+      has_time: true
 
   binary_sensor:
     - platform: template
@@ -119,55 +123,64 @@ flags:
               False
             {% endif %}
 
+
+
+        #
+        # Order in the day:
+        #     Dawn, then Rising
+        #     Setting, then Dusk
+        #
         is_morning_dark:
-          friendly_name: Is Before Dawn
+          friendly_name: Is Dark thru Dawn to Sunrise
           value_template: >
             {% if
-                ( (state_attr('sun.sun','next_dawn') | as_timestamp() ) < (state_attr('sun.sun','next_midnight') | as_timestamp() ) )
+                ( (state_attr('sun.sun','next_rising') | as_timestamp() ) < (state_attr('sun.sun','next_midnight') | as_timestamp() ) )
               and
                 ( now().strftime("%H:%M:%S") >= states('input_datetime.morning_automations_after') )
               and
-                ( (now() | as_timestamp()) <= (state_attr('sun.sun','next_dawn') | as_timestamp()) )
+                ( (now() | as_timestamp()) <= (state_attr('sun.sun','next_rising') | as_timestamp()) )
             %}
                 True
             {% else %}
                 False
             {% endif %}
 
-        is_morning_dawn:
-          friendly_name: Is Dawn
+        is_morning_after_sunrise:
+          friendly_name: Is Just after Sunrise
           value_template: >
             {% if
-                ( (state_attr('sun.sun','next_dusk') | as_timestamp() ) < (state_attr('sun.sun','next_midnight') | as_timestamp() ) )
+                ( (state_attr('sun.sun','next_setting') | as_timestamp() ) < (state_attr('sun.sun','next_midnight') | as_timestamp() ) )
               and
-                ( (now() | as_timestamp()) >= (state_attr('sun.sun','next_dawn') | as_timestamp()) )
+                ( (state_attr('sun.sun','next_rising') | as_timestamp())
+                > (state_attr('sun.sun','next_midnight') | as_timestamp() )
+                )
               and
-                ( (now() | as_timestamp()) <= ((state_attr('sun.sun','next_rising')  | as_timestamp() | int) + (states('input_number.dawn_shift_minutes')|int * 60)) )
+                ( (now() | as_timestamp()) <= ((state_attr('sun.sun','next_rising')  | as_timestamp() | int) - 86400 + (states('input_number.dawn_shift_minutes')|int * 60)) )
             %}
                 True
             {% else %}
                 False
             {% endif %}
 
-        is_morning_dark_or_dawn:
-          friendly_name: Is Sunrise or after (Dark + Dawn)
+        is_morning_dark_or_dawn_or_sunrise:
+          friendly_name: Is Dark thru Just after Sunrise
           value_template: >
-            {% if is_state('binary_sensor.is_morning_dark','on') or is_state('binary_sensor.is_morning_dawn','on') %}
+            {% if is_state('binary_sensor.is_morning_dark','on') or is_state('binary_sensor.is_morning_after_sunrise','on') %}
                 True
             {% else %}
                 False
             {% endif %}
 
 
-        is_evening_dusk:
-          friendly_name: Is Dusk
+        is_evening_before_sunset:
+          friendly_name: Is Just before Sunset
           value_template: >
             {% if
                 ( (state_attr('sun.sun','next_dusk') | as_timestamp() ) < (state_attr('sun.sun','next_midnight') | as_timestamp() ))
               and
                 ( (now() | as_timestamp()) >= ((state_attr('sun.sun','next_setting') | as_timestamp() | int) - (states('input_number.dusk_shift_minutes')|int * 60)) )
               and
-                ( (now() | as_timestamp()) <= (state_attr('sun.sun','next_dusk') | as_timestamp()) )
+                ( (now() | as_timestamp()) <= (state_attr('sun.sun','next_setting') | as_timestamp()) )
             %}
                 True
             {% else %}
@@ -175,22 +188,23 @@ flags:
             {% endif %}
 
         is_evening_dark:
-          friendly_name: Is After Dusk/Dark
+          friendly_name: Is Sunset thru Dusk to Dark
+                # ( (now() | as_timestamp()) <= (state_attr('sun.sun','next_dusk') | as_timestamp()) )
           value_template: >
             {% if
-                ( (state_attr('sun.sun','next_dusk') | as_timestamp() ) > (state_attr('sun.sun','next_midnight') | as_timestamp() ) )
+                ( (state_attr('sun.sun','next_setting') | as_timestamp() ) > (state_attr('sun.sun','next_midnight') | as_timestamp() ) )
               and
-                ( (now() | as_timestamp()) >= (state_attr('sun.sun','next_dusk') | as_timestamp()) )
+                ( now().strftime("%H:%M:%S") < states('input_datetime.evening_automations_until') )
             %}
                 True
             {% else %}
                 False
             {% endif %}
 
-        is_evening_dusk_or_dark:
+        is_evening_sunset_or_dusk_or_dark:
           friendly_name: Is Sunset or after (Dusk + Dark)
           value_template: >
-            {% if is_state('binary_sensor.is_evening_dusk','on') or is_state('binary_sensor.is_evening_dark','on') %}
+            {% if is_state('binary_sensor.is_evening_before_sunset','on') or is_state('binary_sensor.is_evening_dark','on') %}
                 True
             {% else %}
                 False
