@@ -115,7 +115,7 @@
       title: TTS Cache Clear
   mode: single
 - id: '1612743069477'
-  alias: Lights - Kitchen-Breakfast - Dusk - On/Off when motion (w/ script) [new]
+  alias: Lights - Kitchen-Breakfast - Dusk - On/Off when motion (w/ script)
   description: ''
   trigger:
   - platform: state
@@ -1156,6 +1156,9 @@
         - platform: state
           entity_id: binary_sensor.garage_door_sensor
           to: 'off'
+        - platform: state
+          entity_id: device_tracker.davids_cell
+          to: home
         timeout: 00:01:30
   - service: script.notify_all_in_one
     data:
@@ -1198,8 +1201,8 @@
   trigger:
   - platform: state
     entity_id: group.floor_1_motion
-    for: 00:00:20
     to: 'on'
+    for: 00:00:10
   condition:
   - condition: state
     entity_id: input_boolean.light_automations_enabled
