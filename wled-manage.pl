@@ -144,7 +144,7 @@ my $strip = "";
 
 my $client;
 
-my $strip = "kitchen";		# default to kitchen
+my $strip = "kitchen";          # default to kitchen
 my @actions = ();
 
 # }}}1
@@ -182,8 +182,8 @@ sub usage() {                           # {{{2
     print  "Actions:";
     my $n = 0;
     foreach my $k (sort keys %wled_commands) {
-	print "\n    "	if ( $n++ % 4 == 0 );
-	printf "%-14s  ", $k;
+        print "\n    "  if ( $n++ % 4 == 0 );
+        printf "%-14s  ", $k;
     }
     print "\n\n";
 }                                               # }}}2
@@ -217,19 +217,19 @@ sub restore_state($$$) {                          # {{{2
     my $state_file = get_state_file($strip, $seg, $key);
     printf "State File: %s\n", $state_file;
     if ( -r ${state_file} ) {
-	open RESTORE, "< $state_file" or die "Could not save state in $state_file: $!\n ";
-	my $text = <RESTORE>;
-	printf "Restored text: '%s'\n", $text		if ( $verbose >= 1 );
-	close RESTORE;
-	chomp $text;
+        open RESTORE, "< $state_file" or die "Could not save state in $state_file: $!\n ";
+        my $text = <RESTORE>;
+        printf "Restored text: '%s'\n", $text           if ( $verbose >= 1 );
+        close RESTORE;
+        chomp $text;
 
-	unlink $state_file;
+        unlink $state_file;
 
-	# return decode_json($text);
-	return $text;
+        # return decode_json($text);
+        return $text;
     } else {
-	printf "Restored text: empty.\n"		if ( $verbose >= 0 );
-	return undef;
+        printf "Restored text: empty.\n"                if ( $verbose >= 0 );
+        return undef;
     }
 
 }                                               # }}}2
@@ -241,14 +241,14 @@ sub wled_execute($$) {                          # {{{2
     if ( $command eq "get" ) {
         $client->GET('/json/state');
     } elsif ( $command =~ /^cmd:(.*)$/ ) {
-	my $cmd = $1;
-        print "     cmd: " . $cmd . "\n"		if ( $verbose );
+        my $cmd = $1;
+        print "     cmd: " . $cmd . "\n"                if ( $verbose );
 
         $client->POST('/json/state', $cmd);
     } elsif ( ! defined($wled_commands{$command}) ) {
-	printf " Unknown Command: '%s': \n", $command;
+        printf " Unknown Command: '%s': \n", $command;
     } else {
-	printf " command: '%s': \n", $command;
+        printf " command: '%s': \n", $command;
         my $cmd = $wled_commands{$command};
 
         print "     cmd: " . encode_json($cmd) . "\n";
@@ -257,9 +257,9 @@ sub wled_execute($$) {                          # {{{2
     }
 
     if( $client->responseCode() eq '200' ){
-	if ( ! $quiet ) {
-	    printf "Received: %s\n", $client->responseContent();
-	}
+        if ( ! $quiet ) {
+            printf "Received: %s\n", $client->responseContent();
+        }
     } else {
         printf "   Error: %s\n", $client->responseCode();
         exit(1);
@@ -283,7 +283,7 @@ $OUTPUT_AUTOFLUSH = 1;
 Getopt::Long::Configure('bundling');
 
 if (! GetOptions(
-		    "light|led|l:s"	=> \$strip,
+                    "light|led|l:s"     => \$strip,
                     "verbose|v+"        => \$verbose,
                     "debug|x+"          => \$debug,
                     "silent|s"          => \$silent,
@@ -380,68 +380,68 @@ foreach my $action (@actions) {
         wled_execute($action . "_" . $strip, 0);
     } elsif ( $action =~ /^alert_(left|right)$/ ) {
         my $state = wled_execute("get", 1);
-	printf "Strip Power: '%s'  ", $state->{'on'} ? "On" : "Off";
-	printf "Segment 0: '%s'  ", $state->{'seg'}->[0]->{'on'}  ? "On" : "Off";
-	printf "Segment 1: '%s'  ", $state->{'seg'}->[1]->{'on'}  ? "On" : "Off";
-	printf "Segment 2: '%s'  ", $state->{'seg'}->[2]->{'on'}  ? "On" : "Off";
-	print "\n";
+        printf "Strip Power: '%s'  ", $state->{'on'} ? "On" : "Off";
+        printf "Segment 0: '%s'  ", $state->{'seg'}->[0]->{'on'}  ? "On" : "Off";
+        printf "Segment 1: '%s'  ", $state->{'seg'}->[1]->{'on'}  ? "On" : "Off";
+        printf "Segment 2: '%s'  ", $state->{'seg'}->[2]->{'on'}  ? "On" : "Off";
+        print "\n";
 
-	if ( ! $state->{'on'} ) {
-	    if ( $action eq "alert_left" ) {
-		wled_execute("off=0",0);
-		wled_execute("off=1",0);
-		wled_execute("on=2",0);
-	    } else {
-		wled_execute("on=0",0);
-		wled_execute("off=1",0);
-		wled_execute("off=2",0);
-	    }
-	}
+        if ( ! $state->{'on'} ) {
+            if ( $action eq "alert_left" ) {
+                wled_execute("off=0",0);
+                wled_execute("off=1",0);
+                wled_execute("on=2",0);
+            } else {
+                wled_execute("on=0",0);
+                wled_execute("off=1",0);
+                wled_execute("off=2",0);
+            }
+        }
 
-	if ( $action eq "alert_left" ) {
-	    save_state($state->{'seg'}->[2], $strip, "seg2", $action);
-	} else {
-	    save_state($state->{'seg'}->[0], $strip, "seg0", $action);
-	}
+        if ( $action eq "alert_left" ) {
+            save_state($state->{'seg'}->[2], $strip, "seg2", $action);
+        } else {
+            save_state($state->{'seg'}->[0], $strip, "seg0", $action);
+        }
 
-	wled_execute("fon",0);
-	wled_execute($action,0);
+        wled_execute("fon",0);
+        wled_execute($action,0);
 
     } elsif ( $action =~ /^alert_(left|right)_off$/ ) {
         my $state = wled_execute("get", 1);
-	printf "Strip Power: '%s'  ", $state->{'on'} ? "On" : "Off";
-	printf "Segment 0: '%s'  ", $state->{'seg'}->[0]->{'on'}  ? "On" : "Off";
-	printf "Segment 1: '%s'  ", $state->{'seg'}->[1]->{'on'}  ? "On" : "Off";
-	printf "Segment 2: '%s'  ", $state->{'seg'}->[2]->{'on'}  ? "On" : "Off";
-	print "\n";
+        printf "Strip Power: '%s'  ", $state->{'on'} ? "On" : "Off";
+        printf "Segment 0: '%s'  ", $state->{'seg'}->[0]->{'on'}  ? "On" : "Off";
+        printf "Segment 1: '%s'  ", $state->{'seg'}->[1]->{'on'}  ? "On" : "Off";
+        printf "Segment 2: '%s'  ", $state->{'seg'}->[2]->{'on'}  ? "On" : "Off";
+        print "\n";
 
-	if ( $action eq "alert_left_off" ) {
-	    if ( ! $state->{'seg'}->[0]->{'on'} && ! $state->{'seg'}->[1]->{'on'} ) {
-		printf "Seg 0 and 1 were off, turning everything off\n";
-		wled_execute('foff',1);
-		wled_execute('on=0',1);
-		wled_execute('on=1',1);
-	    } else {
-		printf "Seg 0 OR 1 were on, Leaving things on\n";
-	    }
+        if ( $action eq "alert_left_off" ) {
+            if ( ! $state->{'seg'}->[0]->{'on'} && ! $state->{'seg'}->[1]->{'on'} ) {
+                printf "Seg 0 and 1 were off, turning everything off\n";
+                wled_execute('foff',1);
+                wled_execute('on=0',1);
+                wled_execute('on=1',1);
+            } else {
+                printf "Seg 0 OR 1 were on, Leaving things on\n";
+            }
 
-	    my $seg = restore_state($strip, "seg2", $action);
-	    wled_execute("cmd:{\"seg\":" . $seg . "}",1)	if ( defined($seg) );
+            my $seg = restore_state($strip, "seg2", $action);
+            wled_execute("cmd:{\"seg\":" . $seg . "}",1)        if ( defined($seg) );
 
-	} else {
-	    if ( ! $state->{'seg'}->[1]->{'on'} && ! $state->{'seg'}->[2]->{'on'} ) {
-		printf "Seg 1 and 2 were off, turning everything off\n";
-		wled_execute('foff',1);
-		wled_execute('on=1',1);
-		wled_execute('on=2',1);
-	    } else {
-		printf "Seg 1 OR 2 were on, Leaving things on\n";
-	    }
+        } else {
+            if ( ! $state->{'seg'}->[1]->{'on'} && ! $state->{'seg'}->[2]->{'on'} ) {
+                printf "Seg 1 and 2 were off, turning everything off\n";
+                wled_execute('foff',1);
+                wled_execute('on=1',1);
+                wled_execute('on=2',1);
+            } else {
+                printf "Seg 1 OR 2 were on, Leaving things on\n";
+            }
 
-	    my $seg = restore_state($strip, "seg0", $action);
-	    wled_execute("cmd:{\"seg\":" . $seg . "}",1)	if ( defined($seg) );
+            my $seg = restore_state($strip, "seg0", $action);
+            wled_execute("cmd:{\"seg\":" . $seg . "}",1)        if ( defined($seg) );
 
-	}
+        }
 
 
 
