@@ -803,6 +803,7 @@
               message: Back perimeter is open for too long.
               data:
                 ttl: 0
+                tag: back-door-open-long
                 priority: high
                 channel: urgent
                 actions:
@@ -878,6 +879,7 @@
               message: Front perimeter is open for too long.
               data:
                 ttl: 0
+                tag: front-door-open-long
                 priority: high
                 channel: urgent
                 actions:
