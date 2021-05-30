@@ -546,10 +546,6 @@
       - service: script.lights_to_level_kitchen_breakfast
         data:
           to_brightness: 20
-      - service: notify.persistent_notification
-        data:
-          title: Option 2 - Tv is On
-          message: TV is on, Lights to Low
     default: []
   - wait_for_trigger:
     - platform: state
