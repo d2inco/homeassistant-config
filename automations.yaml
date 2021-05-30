@@ -1263,3 +1263,81 @@
     target:
       entity_id: light.wled_kitchen_master
   mode: single
+- id: '1622342258215'
+  alias: Notify, Tone - Perimeter Door Opens
+  description: ''
+  trigger:
+  - type: opened
+    platform: device
+    device_id: 86eb4872a765c015474ca15f5c2203cc
+    entity_id: binary_sensor.front_entry_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: b98300a0980cf750310cc365962ece2c
+    entity_id: binary_sensor.garage_door_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: 0fd509393343f922212c5080c65efb1d
+    entity_id: binary_sensor.sliding_door_sensor
+    domain: binary_sensor
+  - type: opened
+    platform: device
+    device_id: e7c2c0d34f36d22dc905683e207d3fb6
+    entity_id: binary_sensor.garage_entry_sensor
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.announcements_enabled
+    state: 'on'
+  action:
+  - service: media_player.play_media
+    target:
+      entity_id:
+      - media_player.family_room_home
+      - media_player.office_home
+      - media_player.bedroom_home
+    data:
+      media_content_id: http://192.168.200.77:8123/local/media/chime-up.mp3
+      media_content_type: audio/mp3
+  mode: single
+- id: '1622342440244'
+  alias: Notify, Tone - Perimeter Door Closes
+  description: ''
+  trigger:
+  - type: not_opened
+    platform: device
+    device_id: 86eb4872a765c015474ca15f5c2203cc
+    entity_id: binary_sensor.front_entry_sensor
+    domain: binary_sensor
+  - type: not_opened
+    platform: device
+    device_id: b98300a0980cf750310cc365962ece2c
+    entity_id: binary_sensor.garage_door_sensor
+    domain: binary_sensor
+  - type: not_opened
+    platform: device
+    device_id: 0fd509393343f922212c5080c65efb1d
+    entity_id: binary_sensor.sliding_door_sensor
+    domain: binary_sensor
+  - type: not_opened
+    platform: device
+    device_id: e7c2c0d34f36d22dc905683e207d3fb6
+    entity_id: binary_sensor.garage_entry_sensor
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.announcements_enabled
+    state: 'on'
+  action:
+  - service: media_player.play_media
+    target:
+      entity_id:
+      - media_player.family_room_home
+      - media_player.office_home
+      - media_player.bedroom_home
+    data:
+      media_content_id: http://192.168.200.77:8123/local/media/chime-down.mp3
+      media_content_type: audio/mp3
+  mode: single
