@@ -1201,7 +1201,7 @@
       message: Garage Door Open-ACK now Unacked
   mode: single
 - id: '1620964725197'
-  alias: 00 - Lights - WLED Kitchen On
+  alias: Lights - WLED Kitchen - Evening - On
   description: ''
   trigger:
   - platform: state
@@ -1227,7 +1227,7 @@
       entity_id: light.wled_kitchen_master
   mode: single
 - id: '1621027622686'
-  alias: 00 - Lights - WLED Kitchen Off
+  alias: Lights - WLED Kitchen - Evening - Off (unless TV is on)
   description: ''
   trigger:
   - platform: state
