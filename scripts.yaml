@@ -1,6 +1,15 @@
 bedtime_lights:
-  alias: Bedtime Lights Script
+  alias: Bedtime Lights and Security
   sequence:
+  - service: input_boolean.turn_off
+    target:
+      entity_id:
+      - input_boolean.perimeter_front_open_ack
+      - input_boolean.perimeter_front_open_ack
+      - input_boolean.garage_open_ack
+  - service: lock.lock
+    target:
+      entity_id: lock.front_door_lock
   - type: turn_off
     device_id: 17ee280aec38bda355534848e7f0d377
     entity_id: light.wled_fam_master
@@ -19,6 +28,30 @@ bedtime_lights:
     entity_id: light.stairs_light
     domain: light
     brightness_pct: 50
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 31
+      milliseconds: 0
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: group.any_perimeter_open
+        state: 'on'
+      sequence:
+      - service: script.announce_everywhere
+        data:
+          message: 'Attention. The following doors or windows are still open:  {%
+            if is_state(''binary_sensor.front_entry_sensor'',''on'') %}Front Entry,
+            {% endif %} {% if is_state(''binary_sensor.garage_door_sensor'',''on'')
+            %}Garage Door, {% endif %} {% if is_state(''binary_sensor.garage_entry_sensor'',''on'')
+            %}Garage Entry, {% endif %} {% if is_state(''binary_sensor.sliding_door_sensor'',''on'')
+            %}Sliding Door, {% endif %} {% if is_state(''binary_sensor.office_window_sensor'',''on'')
+            %}Office Window, {% endif %} . Please close.'
+    default:
+    - service: script.announce_everywhere
+      data:
+        message: Perimeter is secure.
   - type: turn_on
     device_id: 2876947463a17fcde130a8fac4ea5bfa
     entity_id: light.mbr_light
