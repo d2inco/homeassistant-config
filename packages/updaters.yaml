@@ -1,0 +1,48 @@
+
+updaters_package:
+
+  sensor:
+    # Sensor to track available updates for supervisor & addons
+    - platform: command_line
+      name: Supervisor updates
+      command: 'curl -s http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version,"update_available":.data.update_available,"addons":[.data.addons[] | select(.update_available)]}'''
+      value_template: "{{ value_json.addons | length }}"
+      unit_of_measurement: pending update(s)
+      json_attributes:
+      - update_available
+      - newest_version
+      - current_version
+      - addons
+
+      # True if there's updates available for any HACS components or Addons
+  binary_sensor:
+    - platform: threshold
+      name: Updater HACS
+      entity_id: sensor.hacs
+      upper: 0.5
+
+    - platform: threshold
+      name: Updater Addons
+      entity_id: sensor.supervisor_updates
+      upper: 0.5
+
+    - platform: template
+      sensors:
+        # True if there's an update available for supervisor
+        updater_supervisor:
+          friendly_name: 'Updater Supervisor'
+          device_class: problem
+          value_template: "{{ state_attr('sensor.supervisor_updates', 'update_available') }}"
+          availability_template: "{{ states('sensor.supervisor_updates') | int(-1) > -1 }}"
+
+        updater_any:
+          friendly_name: 'Updater - Anything'
+          device_class: problem
+          value_template: >-
+            {{ is_state("binary_sensor.updater", "on") or
+            is_state("binary_sensor.updater_supervisor", "on") or
+            is_state("binary_sensor.updater_addons", "on") or
+            is_state("binary_sensor.updater_hacs", "on")
+            }}
+
+
