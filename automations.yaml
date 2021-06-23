@@ -83,7 +83,10 @@
   trigger:
   - platform: homeassistant
     event: start
-  condition: []
+  condition:
+  - condition: state
+    entity_id: input_boolean.announcements_enabled
+    state: 'ON'
   action:
   - wait_for_trigger:
     - platform: device
@@ -691,13 +694,13 @@
       transition: 2
   mode: single
 - id: '1616130801284'
-  alias: 'zy-Housekeeping: Re-enable Announcements after 1 hour'
+  alias: 'zy-Housekeeping: Re-enable Announcements after 2 hour'
   description: ''
   trigger:
   - platform: state
     entity_id: input_boolean.announcements_enabled
     to: 'off'
-    for: 01:00:00
+    for: 02:00:00
   condition: []
   action:
   - service: input_boolean.turn_on
@@ -735,6 +738,9 @@
   - condition: sun
     before: sunrise
     before_offset: +00:15:00
+  - condition: state
+    entity_id: input_boolean.light_automations_enabled
+    state: 'on'
   action:
   - service: notify.notify
     data:
@@ -1054,13 +1060,13 @@
       message: Stairs was marked unavailable for 3m so reloaded the devices.
   mode: single
 - id: '1618685426781'
-  alias: 'zy-Housekeeping: Re-enable Light Automations (Office) after 1 hour'
+  alias: 'zy-Housekeeping: Re-enable Light Automations (Office) after 2 hour'
   description: ''
   trigger:
   - platform: state
     entity_id: input_boolean.light_automations_office_enabled
     to: 'off'
-    for: 01:00:00
+    for: 02:00:00
   condition: []
   action:
   - service: input_boolean.turn_on
