@@ -30,7 +30,6 @@ web_server:
   auth:
     username: !secret esp_web_username
     password: !secret esp_web_password
-    
 
 # Enable logging
 # VERY_VERBOSE, VERBOSE, DEBUG, INFO, WARN, ERROR, NONE
@@ -59,7 +58,7 @@ mqtt:
   discovery: True
   discovery_retain: True
   topic_prefix: iot/laun_pir_vib
-  # let these use defaults for availability:  
+  # let these use defaults for availability:
   # birth_message:
   #   topic: iot/laun_pir_vib/birth
   #   payload: "Birth Message"
@@ -72,7 +71,7 @@ mqtt:
   log_topic: iot-log/log/laun_pir_vib
 
   reboot_timeout: 8min
-  
+
 # time:
 #   - platform: homeassistant
 #     on_time:
@@ -82,11 +81,11 @@ mqtt:
 #           # - logger.log: "Time Log"
 #           - mqtt.publish:
 #               topic: iot/laun_pir_vib/hb
-#               payload: "heartbeat"  
-            
+#               payload: "heartbeat"
+
 binary_sensor:
   - platform: gpio
-    pin: 
+    pin:
       number: D4
       # mode: INPUT_PULLUP
     name: Laundry Motion
@@ -114,4 +113,4 @@ switch:
 #      - mqtt.publish:
 #        topic: iot/esp1/test
 #        payload: "this is payload"
-  
+
