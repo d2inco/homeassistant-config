@@ -61,6 +61,19 @@ notifications:
       vapid_prv_key: !secret google_firebase_vapid_prv_key
       vapid_email: !secret google_firebase_vapid_email
 
+    - name: david_email
+      platform: smtp
+      server: smtp.fastmail.com
+      port: 587
+      timeout: 20
+      encryption: starttls
+      username: !secret email_userid
+      password: !secret email_password
+      sender: !secret email_sender_address
+      sender_name: !secret email_sender_name
+      recipient:
+        - !secret email_send_to
+
   ######################################################################
   # Scripts
   script:
