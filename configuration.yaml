@@ -4,6 +4,15 @@ default_config:
 discovery:
 
 ######################################################################
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 192.168.200.0/29
+  ip_ban_enabled: false
+  login_attempts_threshold: 10
+
+
+######################################################################
 homeassistant:
   external_url: !secret external_hass_url
   # TTS announcements break when 'internal' is DNS address, since the Google-Home's internal address
