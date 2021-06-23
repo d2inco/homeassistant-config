@@ -36,3 +36,10 @@ binary_sensor.front_entry_sensor:
   device_class: door
 binary_sensor.garage_entry_sensor:
   device_class: door
+binary_sensor.updater_hacs:
+  device_class: problem
+binary_sensor.updater_addons:
+  device_class: problem
+binary_sensor.updater:
+  device_class: problem
+  friendly_name: Updater HASS
