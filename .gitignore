@@ -369,7 +369,7 @@ find-text.sh
 harmony*conf
 nexia*conf
 options.xml
-*jic*
+*[jJ][iI][cC]*
 home-assistant*.db*
 
 custom_components/
@@ -382,3 +382,4 @@ image/
 #node-red/*.json.backup
 #node-red/flows_cred.json
 node-red/
+html5_push_registrations.conf
