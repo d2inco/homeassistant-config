@@ -1142,6 +1142,9 @@
       - condition: state
         entity_id: binary_sensor.garage_door_sensor
         state: 'on'
+      - condition: state
+        entity_id: person.david
+        state: away
       sequence:
       - choose:
         - conditions:
@@ -1164,13 +1167,13 @@
           entity_id: binary_sensor.garage_door_sensor
           to: 'off'
         - platform: state
-          entity_id: device_tracker.davids_cell
+          entity_id: person.david
           to: home
         timeout: 00:01:30
   - service: script.notify_all_in_one
     data:
-      title: Garage Door Now Closed
-      message: Garage Door has been Closed.
+      title: Garage Door Now Closed, or David is back home.
+      message: Garage Door has been Closed, or, David is back at home.
       tts: 'yes'
       channel: urgent
       importance: high
@@ -1336,7 +1339,7 @@
   mode: queued
   max: 10
 - id: '1622385640477'
-  alias: 00 - test - keep google home alive
+  alias: 'zy-Housekeeping: Keep Google Home audio-channel alive'
   description: ''
   trigger:
   - platform: time_pattern
