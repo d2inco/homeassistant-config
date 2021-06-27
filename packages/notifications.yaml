@@ -91,6 +91,58 @@ notifications:
           data_template:
             message: "{{ message }}"
 
+    announce_to_closest_speaker:
+      alias: Announce to Closest Speaker
+      description: Make a voice-announcement on a targeted speaker
+      fields:
+        message:
+          description: Text to say out loud
+          example: Dinner is ready
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_text.closest_speaker
+            state: bedroom_home
+          sequence:
+          - service: tts.google_translate_say
+            data:
+              entity_id: media_player.bedroom_home
+              message: '{{ message }}'
+        - conditions:
+          - condition: state
+            entity_id: input_text.closest_speaker
+            state: family_room_home
+          sequence:
+          - service: tts.google_translate_say
+            data:
+              entity_id: media_player.family_room_home
+              message: '{{ message }}'
+        - conditions:
+          - condition: state
+            entity_id: input_text.closest_speaker
+            state: office_home
+          sequence:
+          - service: tts.google_translate_say
+            data:
+              entity_id: media_player.office_home
+              message: '{{ message }}'
+        - conditions:
+          - condition: state
+            entity_id: input_text.closest_speaker
+            state: all_speakers
+          sequence:
+          - service: tts.google_translate_say
+            data:
+              entity_id: media_player.all_speakers
+              message: '{{ message }}'
+        default:
+        - service: tts.google_translate_say
+          data:
+            entity_id: media_player.all_speakers
+            message: '{{ message }}'
+      mode: single
+
     announce_everywhere:
       alias: Announce Everywhere
       mode: queued

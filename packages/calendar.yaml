@@ -88,7 +88,7 @@ calendar_package:
         entity_id: input_boolean.announcements_enabled
         state: 'on'
       action:
-      - service: script.announce_everywhere
+      - service: script.announce_closest
         data:
           message: You have a personal appointment starting now.
       mode: single
@@ -107,7 +107,7 @@ calendar_package:
         entity_id: input_boolean.announcements_enabled
         state: 'on'
       action:
-      - service: script.announce_everywhere
+      - service: script.announce_closest
         data:
           message: You have a work meeting starting now.
       mode: single
@@ -126,7 +126,7 @@ calendar_package:
         entity_id: input_boolean.announcements_enabled
         state: 'on'
       action:
-      - service: script.announce_everywhere
+      - service: script.announce_closest
         data:
           message: '"You have a personal appointment starting soon, titled {{ state_attr("calendar.david_pers",
             "message") }}"'
@@ -146,7 +146,7 @@ calendar_package:
         entity_id: input_boolean.announcements_enabled
         state: 'on'
       action:
-      - service: script.announce_everywhere
+      - service: script.announce_closest
         data:
           message: '"You have a work meeting starting soon, titled {{ state_attr("calendar.david_work",
             "message") }}"'

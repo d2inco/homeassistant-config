@@ -46,7 +46,7 @@ bedtime_lights:
         entity_id: group.any_perimeter_open
         state: 'on'
       sequence:
-      - service: script.announce_everywhere
+      - service: script.announce_closest
         data:
           message: 'Attention. The following doors or windows are still open:  {%
             if is_state(''binary_sensor.front_entry_sensor'',''on'') %}Front Entry,
@@ -56,7 +56,7 @@ bedtime_lights:
             %}Sliding Door, {% endif %} {% if is_state(''binary_sensor.office_window_sensor'',''on'')
             %}Office Window, {% endif %} . Please close.'
     default:
-    - service: script.announce_everywhere
+    - service: script.announce_closest
       data:
         message: Perimeter is secure.
   - wait_for_trigger:

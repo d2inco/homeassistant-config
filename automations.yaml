@@ -213,7 +213,7 @@
     data:
       title: Light Automations Re-enabled
       message: Light Automations Re-enabled.
-  - service: script.announce_everywhere
+  - service: script.announce_closest
     data:
       message: Light automations have been re-enabled.
   mode: single
@@ -229,7 +229,7 @@
     entity_id: sensor.davids_cell_do_not_disturb_sensor
     state: 'off'
   action:
-  - service: script.announce_everywhere
+  - service: script.announce_closest
     data:
       message: '"Your 3D Printing Job has started"'
   mode: single
@@ -245,7 +245,7 @@
     entity_id: sensor.davids_cell_do_not_disturb_sensor
     state: 'off'
   action:
-  - service: script.announce_everywhere
+  - service: script.announce_closest
     data:
       message: '"Your 3D Printing Job is now completed"'
   mode: single
@@ -711,7 +711,7 @@
     data:
       title: Announcements Re-enabled
       message: Announcements Re-enabled.
-  - service: script.announce_everywhere
+  - service: script.announce_closest
     data:
       message: Announcements have been re-enabled.
   mode: single
@@ -1078,7 +1078,7 @@
     data:
       title: Office Light Automations Re-enabled
       message: Office Light Automations Re-enabled.
-  - service: script.announce_everywhere
+  - service: script.announce_closest
     data:
       message: Office Light automations have been re-enabled.
   mode: single
@@ -1404,7 +1404,7 @@
       - light.basement_lights_group
       - light.floor_1_lights_group
       - light.floor_2_lights_group
-  - service: script.announce_everywhere
+  - service: script.announce_closest
     data:
       message: Good Night David; add more stuff to the in-bed routine
   - service: automation.turn_off
