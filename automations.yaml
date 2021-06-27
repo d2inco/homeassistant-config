@@ -1411,6 +1411,26 @@
     target:
       entity_id: automation.in_bed_secure_house
   mode: single
+- id: '1623212664528'
+  alias: 'zy-Housekeeping: Reset 1x Daily Items'
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:05:00
+  condition: []
+  action:
+  - service: automation.turn_on
+    target:
+      entity_id: automation.in_bed_secure_house
+  - service: input_boolean.turn_on
+    target:
+      entity_id:
+      - input_boolean.light_automations_office_enabled
+      - input_boolean.light_automations_enabled
+      - input_boolean.announcements_enabled
+      - input_boolean.perimeter_chimes_enabled
+      - input_boolean.light_automations_enabled
+  mode: single
 - id: '1624410359427'
   alias: Notify, Chime - Garage Door Closes
   description: ''
