@@ -356,7 +356,7 @@
     data:
       value: '{{ trigger.from_state.state }}'
     entity_id: input_text.bedocc_status_2
-  mode: single
+  mode: queued
 - id: '1614100390000'
   alias: zz-Bed Occ - copy previous status 2 to status 3
   description: ''
@@ -369,7 +369,7 @@
     data:
       value: '{{ trigger.from_state.state }}'
     entity_id: input_text.bedocc_status_3
-  mode: single
+  mode: queued
 - id: '1614100603791'
   alias: zz-Bed Occ - copy previous status 3 to status 4
   description: ''
@@ -382,7 +382,7 @@
     data:
       value: '{{ trigger.from_state.state }}'
     entity_id: input_text.bedocc_status_4
-  mode: single
+  mode: queued
 - id: '1614216935760'
   alias: 'Notify, Voice - Say "Good morning" when first 1st Floor Motion '
   description: ''
