@@ -1,7 +1,7 @@
 - id: '1611617681037'
   name: 1st Floor Light Off
   entities:
-    light.dining_rm_light:
+    light.dining_room_light:
       ramp_rate: '29'
       on_level: '229'
       last_brightness: 214
@@ -24,14 +24,14 @@
       friendly_name: Kitchen Light
       supported_features: 1
       state: 'off'
-    light.breakfast_rm_light:
+    light.breakfast_room_light:
       ramp_rate: '31'
       on_level: '229'
       last_brightness: 229
       friendly_name: Breakfast Room Light
       supported_features: 1
       state: 'off'
-    light.family_rm_light:
+    light.family_room_light:
       device_communication_errors: '0'
       ramp_rate: '28'
       on_level: '229'
@@ -56,7 +56,7 @@
 - id: '1611617873783'
   name: 1st Floor Light On
   entities:
-    light.dining_rm_light:
+    light.dining_room_light:
       brightness: 214
       last_brightness: 214
       ramp_rate: '29'
@@ -80,7 +80,7 @@
       friendly_name: Kitchen 2nd Switch
       supported_features: 1
       state: 'on'
-    light.breakfast_rm_light:
+    light.breakfast_room_light:
       brightness: 229
       last_brightness: 229
       ramp_rate: '31'
@@ -88,7 +88,7 @@
       friendly_name: Breakfast Rm Light
       supported_features: 1
       state: 'on'
-    light.family_rm_light:
+    light.family_room_light:
       brightness: 219
       last_brightness: 219
       ramp_rate: '28'
@@ -237,7 +237,7 @@
       friendly_name: Kitchen Light
       supported_features: 1
       state: 'off'
-    light.breakfast_rm_light:
+    light.breakfast_room_light:
       last_brightness: 3
       ramp_rate: '31'
       on_level: '229'
@@ -270,7 +270,7 @@
       friendly_name: Kitchen Light
       supported_features: 1
       state: 'on'
-    light.breakfast_rm_light:
+    light.breakfast_room_light:
       brightness: 219
       last_brightness: 219
       ramp_rate: '31'
@@ -304,7 +304,7 @@
       friendly_name: Kitchen Light
       supported_features: 1
       state: 'on'
-    light.breakfast_rm_light:
+    light.breakfast_room_light:
       brightness: 43
       last_brightness: 43
       ramp_rate: '31'

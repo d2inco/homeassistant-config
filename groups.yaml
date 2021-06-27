@@ -8,9 +8,9 @@ Open Area Motion:
   entities:
     - binary_sensor.office_motion
     - binary_sensor.studio_motion
-    - binary_sensor.dining_rm_motion
+    - binary_sensor.dining_room_motion
     - binary_sensor.kitchen_motion
-    - binary_sensor.fam_rm_motion
+    - binary_sensor.family_room_motion
     - binary_sensor.upstairs_motion
     - binary_sensor.ezm_1_foyer_motion
     - binary_sensor.ezm_2_breakfast_room_motion
@@ -19,9 +19,9 @@ Floor 1-2 motion:
   name: First or Second Floor Motion
   entities:
     - binary_sensor.upstairs_motion
-    - binary_sensor.dining_rm_motion
+    - binary_sensor.dining_room_motion
     - binary_sensor.kitchen_motion
-    - binary_sensor.fam_rm_motion
+    - binary_sensor.family_room_motion
     - binary_sensor.ezm_1_foyer_motion
     - binary_sensor.ezm_2_breakfast_room_motion
 
@@ -30,9 +30,9 @@ Floor 0-1 Motion:
   entities:
     - binary_sensor.office_motion
     - binary_sensor.studio_motion
-    - binary_sensor.dining_rm_motion
+    - binary_sensor.dining_room_motion
     - binary_sensor.kitchen_motion
-    - binary_sensor.fam_rm_motion
+    - binary_sensor.family_room_motion
     - binary_sensor.ezm_1_foyer_motion
     - binary_sensor.ezm_2_breakfast_room_motion
 
@@ -45,9 +45,9 @@ Floor 2 Motion:
 Floor 1 Motion:
   name: Main Floor Motion
   entities:
-    - binary_sensor.dining_rm_motion
+    - binary_sensor.dining_room_motion
     - binary_sensor.kitchen_motion
-    - binary_sensor.fam_rm_motion
+    - binary_sensor.family_room_motion
     - binary_sensor.ezm_1_foyer_motion
     - binary_sensor.ezm_2_breakfast_room_motion
 

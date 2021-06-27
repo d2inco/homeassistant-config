@@ -6,9 +6,9 @@
   name: All Lights Group
   entities:
     - light.br3_light
-    - light.breakfast_rm_light
-    - light.dining_rm_light
-    - light.family_rm_light
+    - light.breakfast_room_light
+    - light.dining_room_light
+    - light.family_room_light
     - light.family_room_led
     - light.foyer_light
     - light.front_light
@@ -34,9 +34,9 @@
 - platform: group
   name: Floor 1 Lights Group
   entities:
-    - light.breakfast_rm_light
-    - light.dining_rm_light
-    - light.family_rm_light
+    - light.breakfast_room_light
+    - light.dining_room_light
+    - light.family_room_light
     - light.family_room_led
     - light.foyer_light
     - light.kitchen_2nd_switch
@@ -48,7 +48,7 @@
 - platform: group
   name: Kitchen/Breakfast Lights Group
   entities:
-    - light.breakfast_rm_light
+    - light.breakfast_room_light
     - light.kitchen_2nd_switch
     - light.kitchen_light
 

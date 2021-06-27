@@ -85,7 +85,7 @@ lights_to_level_kitchen_breakfast:
       - service: light.turn_on
         target:
           entity_id:
-          - light.breakfast_rm_light
+          - light.breakfast_room_light
           - light.kitchen_light
         data_template:
           brightness_pct: '{{ to_brightness }}'
@@ -93,7 +93,7 @@ lights_to_level_kitchen_breakfast:
     - service: light.turn_off
       target:
         entity_id:
-        - light.breakfast_rm_light
+        - light.breakfast_room_light
         - light.kitchen_light
   mode: single
   icon: mdi:lightbulb-outline

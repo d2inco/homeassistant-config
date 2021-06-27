@@ -71,7 +71,7 @@ google_assistant:
     - script
   entity_config:
     # These first ones are name-changes:
-    light.family_rm_light:
+    light.family_room_light:
       name: Family Room
     input_boolean.perimeter_back_open_ack:
       name: Acknowledge Back

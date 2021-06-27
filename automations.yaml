@@ -23,7 +23,7 @@
   - type: motion
     platform: device
     device_id: 004463f7dc98142da83bf46edb4a580c
-    entity_id: binary_sensor.fam_rm_motion
+    entity_id: binary_sensor.family_room_motion
     domain: binary_sensor
   condition:
   - condition: state
@@ -51,7 +51,7 @@
     - type: no_motion
       platform: device
       device_id: 004463f7dc98142da83bf46edb4a580c
-      entity_id: binary_sensor.fam_rm_motion
+      entity_id: binary_sensor.family_room_motion
       domain: binary_sensor
     timeout: 00:15:00
   - type: turn_off
@@ -134,7 +134,7 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: light.breakfast_rm_light
+      entity_id: light.breakfast_room_light
       state: 'off'
     - condition: state
       entity_id: light.kitchen_light
@@ -257,7 +257,7 @@
   - type: motion
     platform: device
     device_id: 004463f7dc98142da83bf46edb4a580c
-    entity_id: binary_sensor.fam_rm_motion
+    entity_id: binary_sensor.family_room_motion
     domain: binary_sensor
   - type: motion
     platform: device
@@ -326,19 +326,19 @@
       entity_id: light.stairs_light
       state: 'on'
     - condition: state
-      entity_id: light.family_rm_light
+      entity_id: light.family_room_light
       state: 'on'
     - condition: state
       entity_id: light.track_light
       state: 'on'
     - condition: state
-      entity_id: light.breakfast_rm_light
+      entity_id: light.breakfast_room_light
       state: 'on'
     - condition: state
       entity_id: light.kitchen_light
       state: 'on'
     - condition: state
-      entity_id: light.dining_rm_light
+      entity_id: light.dining_room_light
       state: 'on'
   action:
   - scene: scene.1st_floor_light_off
@@ -390,7 +390,7 @@
   - type: motion
     platform: device
     device_id: 004463f7dc98142da83bf46edb4a580c
-    entity_id: binary_sensor.fam_rm_motion
+    entity_id: binary_sensor.family_room_motion
     domain: binary_sensor
   - platform: state
     entity_id: group.kitchen_breakfast_motion
@@ -518,7 +518,7 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: light.breakfast_rm_light
+      entity_id: light.breakfast_room_light
       state: 'off'
     - condition: state
       entity_id: light.kitchen_light
@@ -529,10 +529,10 @@
       - condition: or
         conditions:
         - condition: state
-          entity_id: group.family_rm_tv_on
+          entity_id: group.family_room_tv_on
           state: 'off'
         - condition: state
-          entity_id: light.family_rm_light
+          entity_id: light.family_room_light
           state: 'on'
         - condition: state
           entity_id: light.track_light
@@ -543,7 +543,7 @@
           to_brightness: 90
     - conditions:
       - condition: state
-        entity_id: group.family_rm_tv_on
+        entity_id: group.family_room_tv_on
         state: 'on'
       sequence:
       - service: script.lights_to_level_kitchen_breakfast
@@ -969,7 +969,7 @@
   - type: motion
     platform: device
     device_id: 004463f7dc98142da83bf46edb4a580c
-    entity_id: binary_sensor.fam_rm_motion
+    entity_id: binary_sensor.family_room_motion
     domain: binary_sensor
   - platform: state
     entity_id: group.kitchen_breakfast_motion
@@ -989,7 +989,7 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: light.breakfast_rm_light
+      entity_id: light.breakfast_room_light
       state: 'off'
     - condition: state
       entity_id: light.kitchen_light
