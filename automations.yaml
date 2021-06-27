@@ -86,7 +86,7 @@
   condition:
   - condition: state
     entity_id: input_boolean.announcements_enabled
-    state: 'ON'
+    state: 'on'
   action:
   - wait_for_trigger:
     - platform: device
@@ -1395,7 +1395,7 @@
   - condition: state
     entity_id: group.open_area_motion
     state: 'off'
-    for: 00:02:00
+    for: 00:01:30
   action:
   - service: light.turn_off
     target:

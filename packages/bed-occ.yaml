@@ -130,7 +130,7 @@ bed_occupancy_package:
       trigger:
       - platform: state
         entity_id: group.floor_1_motion
-        for: 00:00:15
+        for: 00:00:45
       - type: motion
         platform: device
         device_id: 0b2b40ee3db2b0715e441b4fff1aa87b
@@ -168,4 +168,4 @@ bed_occupancy_package:
           minutes: 2
           seconds: 0
           milliseconds: 0
-      mode: single
+      mode: restart
