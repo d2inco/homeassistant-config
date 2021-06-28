@@ -1499,6 +1499,7 @@
     to: 'on'
   - platform: state
     entity_id: binary_sensor.bed_occupied
+    to: 'on'
   - platform: state
     entity_id: sensor.harmony_bedroom_status, sensor.harmony_family_room_status
   condition: []
