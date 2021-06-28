@@ -123,6 +123,15 @@ flags:
               False
             {% endif %}
 
+        flex_probably_on:
+          friendly_name: Flex Probably On
+          value_template: >
+            {% if states("sensor.neo_blue_3_hf_radio_electric_consumed_w") | float > 25 %}
+              True
+            {% else %}
+              False
+            {% endif %}
+
 
 
         #
