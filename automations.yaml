@@ -1481,8 +1481,8 @@
       media_content_type: audio/mp3
   mode: queued
   max: 10
-- id: '1624748008300'
-  alias: Persist the Room Presence Items
+- id: '1624843465888'
+  alias: Persist the Room-Presence Items
   description: ''
   trigger:
   - platform: state
