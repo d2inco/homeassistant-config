@@ -7,9 +7,16 @@ bedtime_lights:
       - input_boolean.perimeter_front_open_ack
       - input_boolean.perimeter_front_open_ack
       - input_boolean.garage_open_ack
-  - service: lock.lock
-    target:
-      entity_id: lock.front_door_lock
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: lock.front_door_lock
+        state: unlocked
+      sequence:
+      - service: lock.lock
+        target:
+          entity_id: lock.front_door_lock
+    default: []
   - service: remote.turn_on
     target:
       entity_id: remote.bedroom_hub
