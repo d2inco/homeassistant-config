@@ -1142,9 +1142,17 @@
       - condition: state
         entity_id: binary_sensor.garage_door_sensor
         state: 'on'
-      - condition: state
-        entity_id: person.david
-        state: away
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.david
+          state: away
+        - condition: state
+          entity_id: device_tracker.davids_cell
+          state: not_home
+        - condition: state
+          entity_id: device_tracker.davids_bt_cell
+          state: not_home
       sequence:
       - choose:
         - conditions:
