@@ -1438,6 +1438,11 @@
       - input_boolean.announcements_enabled
       - input_boolean.perimeter_chimes_enabled
       - input_boolean.light_automations_enabled
+  - service: remote.turn_on
+    target:
+      entity_id: remote.bedroom_hub
+    data:
+      activity: PowerOff
   mode: single
 - id: '1624410359427'
   alias: Notify, Chime - Garage Door Closes

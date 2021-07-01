@@ -10,6 +10,11 @@ bedtime_lights:
   - service: lock.lock
     target:
       entity_id: lock.front_door_lock
+  - service: remote.turn_on
+    target:
+      entity_id: remote.bedroom_hub
+    data:
+      activity: Watch Chromecast
   - type: turn_off
     device_id: 17ee280aec38bda355534848e7f0d377
     entity_id: light.wled_fam_master
